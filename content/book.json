@@ -7,7 +7,7 @@
     "year": "۱۴۰۵",
     "lang": "fa",
     "defaultPalette": "sepia",
-    "description": "راهنمای عملی امنیت و حریم خصوصی دیجیتال: از رمز عبور و احراز هویت دو مرحله‌ای تا فیشینگ، وای‌فای عمومی و هوش مصنوعی."
+    "description": "راهنمای عملی امنیت و حریم خصوصی دیجیتال: از امن‌کردن ایمیل و رمز عبور تا فیشینگ، وای‌فای عمومی، بک‌اپ و هوش مصنوعی."
   },
   "parts": [
     {
@@ -37,9 +37,17 @@
       "file": "chapters/01-moghadame.html"
     },
     {
-      "id": "02-hesab",
+      "id": "02-imail",
       "part": "core",
       "label": "۲",
+      "title": "ایمیل امن — کلیدِ همهٔ حساب‌ها",
+      "running": "ایمیل امن",
+      "file": "chapters/02-imail.html"
+    },
+    {
+      "id": "02-hesab",
+      "part": "core",
+      "label": "۳",
       "title": "کلیدهای ورود — امنیت حساب‌های کاربری",
       "running": "کلیدهای ورود",
       "file": "chapters/02-hesab.html"
@@ -47,7 +55,7 @@
     {
       "id": "03-morur",
       "part": "core",
-      "label": "۳",
+      "label": "۴",
       "title": "مرور امن اینترنت",
       "running": "مرور امن",
       "file": "chapters/03-morur.html"
@@ -55,7 +63,7 @@
     {
       "id": "04-dade",
       "part": "guard",
-      "label": "۴",
+      "label": "۵",
       "title": "حفاظت از داده‌ها و فایل‌ها",
       "running": "حفاظت از داده",
       "file": "chapters/04-dade.html"
@@ -63,7 +71,7 @@
     {
       "id": "05-tahdid",
       "part": "guard",
-      "label": "۵",
+      "label": "۶",
       "title": "تهدیدات و دام‌ها",
       "running": "تهدیدات و دام‌ها",
       "file": "chapters/05-tahdid.html"
@@ -71,7 +79,7 @@
     {
       "id": "06-harim",
       "part": "guard",
-      "label": "۶",
+      "label": "۷",
       "title": "حریم خصوصی در فضای مجازی",
       "running": "حریم خصوصی",
       "file": "chapters/06-harim.html"
@@ -79,7 +87,7 @@
     {
       "id": "07-jam",
       "part": "end",
-      "label": "۷",
+      "label": "۸",
       "title": "جمع‌بندی",
       "running": "جمع‌بندی",
       "file": "chapters/07-jam.html"
