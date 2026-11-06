@@ -1,0 +1,360 @@
+/* ==========================================================================
+   ui.css — رابط کاربری: نوار ابزار، مودال‌ها، جست‌وجو، توست
+   ========================================================================== */
+
+/* ---------- نوار ابزار شناور ---------- */
+.book-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding-inline: var(--space-1);
+}
+
+.book-toolbar__group {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.book-toolbar__title {
+  font-size: 13px;
+  letter-spacing: 0.02em;
+  color: var(--ink-faint);
+}
+
+.tool-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  height: 40px;
+  padding: 0 14px;
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  background: rgb(255 255 255 / 35%);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-pill);
+  backdrop-filter: blur(6px);
+  transition:
+    color var(--dur-fast) ease,
+    background-color var(--dur-fast) ease,
+    border-color var(--dur-fast) ease,
+    transform 120ms ease;
+}
+
+html[data-theme="dark"] .tool-btn {
+  background: rgb(255 255 255 / 5%);
+}
+
+.tool-btn:hover {
+  color: var(--ink);
+  background: var(--accent-soft);
+  border-color: var(--accent);
+}
+
+.tool-btn:active {
+  transform: scale(0.97);
+}
+
+.tool-btn svg {
+  flex: none;
+  width: 17px;
+  height: 17px;
+}
+
+.tool-btn--icon {
+  justify-content: center;
+  width: 40px;
+  padding: 0;
+}
+
+/* در حالت مطالعه نوار ابزار جمع‌وجور و کم‌رنگ می‌شود */
+body.is-zen .book-toolbar {
+  position: fixed;
+  top: 14px;
+  left: 50%;
+  z-index: 20;
+  width: auto;
+  padding: 5px 8px;
+  transform: translateX(-50%);
+  background: color-mix(in srgb, var(--paper) 78%, transparent);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-pill);
+  backdrop-filter: blur(10px);
+  opacity: 0.28;
+  transition: opacity var(--dur-fast) ease;
+}
+
+body.is-zen .book-toolbar:hover,
+body.is-zen .book-toolbar:focus-within {
+  opacity: 1;
+}
+
+body.is-zen .book-toolbar__group:first-child {
+  display: none;
+}
+
+/* ---------- مودال ---------- */
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: none;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 12vh 18px 18px;
+  background: rgb(12 12 14 / 42%);
+  backdrop-filter: blur(4px);
+}
+
+.modal.is-open {
+  display: flex;
+  animation: modal-fade var(--dur-fast) ease;
+}
+
+.modal__panel {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 560px;
+  max-height: 74vh;
+  overflow: hidden;
+  background: var(--paper);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 30px 80px -20px rgb(0 0 0 / 50%);
+  animation: modal-rise var(--dur-mid) var(--ease-out);
+}
+
+.modal__head {
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: var(--space-4) var(--space-5);
+  border-bottom: 1px solid var(--rule);
+}
+
+.modal__title {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: 14.5px;
+  font-weight: 600;
+}
+
+.modal__title svg {
+  width: 17px;
+  height: 17px;
+  color: var(--accent);
+}
+
+.modal__close {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  color: var(--ink-soft);
+  border-radius: var(--radius-sm);
+}
+
+.modal__close:hover {
+  color: var(--ink);
+  background: var(--accent-soft);
+}
+
+.modal__close svg {
+  width: 17px;
+  height: 17px;
+}
+
+.modal__body {
+  overflow-y: auto;
+  padding: var(--space-2) 10px;
+}
+
+@keyframes modal-fade {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes modal-rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.99);
+  }
+}
+
+/* ---------- جست‌وجو ---------- */
+.search-field {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 0 var(--space-5) var(--space-3);
+  color: var(--ink-faint);
+  border-bottom: 1px solid var(--rule);
+}
+
+.search-field svg {
+  flex: none;
+  width: 17px;
+  height: 17px;
+}
+
+.search-field input {
+  flex: 1;
+  padding: 6px 0;
+  font: inherit;
+  font-size: 15px;
+  color: var(--ink);
+  background: none;
+  border: 0;
+  outline: 0;
+}
+
+.search-field input::placeholder {
+  color: var(--ink-faint);
+}
+
+.search-result {
+  display: block;
+  width: 100%;
+  padding: 11px 12px;
+  text-align: start;
+  border-radius: var(--radius-sm);
+  line-height: 1.9;
+}
+
+.search-result:hover,
+.search-result:focus-visible {
+  background: var(--accent-soft);
+  outline: none;
+}
+
+.search-result__where {
+  margin-bottom: 2px;
+  font-size: 11.5px;
+  color: var(--accent);
+}
+
+.search-result__text {
+  font-size: 13.5px;
+  color: var(--ink-soft);
+}
+
+.search-result__text mark {
+  padding: 0 2px;
+  color: var(--ink);
+  background: var(--selection);
+  border-radius: 3px;
+}
+
+.search-hint,
+.search-empty {
+  padding: var(--space-5) var(--space-4);
+  font-size: 13px;
+  text-align: center;
+  color: var(--ink-faint);
+}
+
+.search-hint {
+  text-align: start;
+  font-size: 12px;
+}
+
+/* ---------- توست ---------- */
+.toast {
+  position: fixed;
+  bottom: 26px;
+  left: 50%;
+  z-index: 90;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 11px 18px;
+  font-size: 12.5px;
+  color: var(--paper);
+  background: var(--ink);
+  border-radius: var(--radius-pill);
+  box-shadow: 0 16px 40px -12px rgb(0 0 0 / 50%);
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, 20px);
+  transition:
+    opacity 250ms ease,
+    transform 250ms ease;
+}
+
+.toast.is-visible {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+.toast svg {
+  width: 15px;
+  height: 15px;
+  color: var(--accent-2);
+}
+
+/* ---------- پیام خطا ---------- */
+.fatal {
+  padding-top: 60px;
+  text-align: center;
+  color: var(--ink-faint);
+}
+
+.fatal strong {
+  display: block;
+  margin-bottom: var(--space-2);
+  font-size: 15px;
+  color: var(--ink);
+}
+
+.fatal p {
+  font-size: 0.88em;
+  line-height: 2;
+}
+
+/* ---------- موبایل ---------- */
+@media (max-width: 979px) {
+  .book-toolbar {
+    justify-content: center;
+  }
+
+  .book-toolbar__group:first-child {
+    display: none;
+  }
+
+  .book-toolbar__group {
+    gap: 7px;
+  }
+
+  .tool-btn {
+    justify-content: center;
+    width: 40px;
+    padding: 0;
+  }
+
+  .tool-btn__text {
+    display: none;
+  }
+
+  .modal {
+    padding-top: 5vh;
+  }
+
+  .modal__panel {
+    max-height: 90vh;
+  }
+}
+
+@media print {
+  .book-toolbar,
+  .modal,
+  .toast {
+    display: none !important;
+  }
+}

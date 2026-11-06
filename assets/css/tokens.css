@@ -1,0 +1,240 @@
+/* ==========================================================================
+   tokens.css — متغیرهای بنیادی
+   همهٔ رنگ‌ها، فونت‌ها، فاصله‌ها و شعاع‌ها فقط در همین فایل تعریف می‌شوند.
+   برای تغییر ظاهر کتاب، معمولاً همین یک فایل کافی است.
+   ========================================================================== */
+
+/* ---------- فونت لوکال (بدون CDN) ---------- */
+@font-face {
+  font-family: "Vazirmatn";
+  src: url("../fonts/Vazirmatn-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Vazirmatn";
+  src: url("../fonts/Vazirmatn-Medium.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Vazirmatn";
+  src: url("../fonts/Vazirmatn-SemiBold.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Vazirmatn";
+  src: url("../fonts/Vazirmatn-Bold.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ---------- ثابت‌ها ---------- */
+:root {
+  --font-sans: "Vazirmatn", Tahoma, "Segoe UI", sans-serif;
+  --font-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+
+  /* مقیاس فاصله (بر پایهٔ ۴px) */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-pill: 999px;
+
+  --page-max: 46rem; /* عرض ستون متن */
+  --stage-max: 1180px; /* عرض کل کتاب */
+  --stage-height: min(88vh, 880px);
+
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --dur-fast: 180ms;
+  --dur-mid: 320ms;
+}
+
+/* ==========================================================================
+   پالت ۱ — لاجورد و زر (پیش‌فرض)
+   ========================================================================== */
+html[data-palette="lapis"] {
+  --bg: #e6e9ef;
+  --bg-deep: #dbe0e9;
+  --paper: #fbfbf9;
+  --paper-2: #f1f3f7;
+  --ink: #161e2b;
+  --ink-soft: #5a6779;
+  --ink-faint: #8c97a8;
+  --accent: #2e4e8f;
+  --accent-2: #b8892f;
+  --accent-soft: rgb(46 78 143 / 10%);
+  --rule: rgb(22 30 43 / 13%);
+  --selection: #d9e2f5;
+  --cover-1: #22375f;
+  --cover-2: #121d33;
+  --spine: linear-gradient(
+    90deg,
+    rgb(10 20 40 / 20%),
+    rgb(10 20 40 / 3%) 18%,
+    rgb(255 255 255 / 55%) 40%,
+    rgb(10 20 40 / 2%) 70%,
+    rgb(10 20 40 / 13%)
+  );
+  --shadow:
+    0 26px 64px -20px rgb(12 18 30 / 45%), 0 6px 18px -10px rgb(12 18 30 / 28%);
+  color-scheme: light;
+}
+
+html[data-palette="lapis"][data-theme="dark"] {
+  --bg: #0b0f16;
+  --bg-deep: #070a0f;
+  --paper: #141a24;
+  --paper-2: #10151d;
+  --ink: #e7ebf2;
+  --ink-soft: #a3afc0;
+  --ink-faint: #6c7889;
+  --accent: #8fb0e8;
+  --accent-2: #d2a85c;
+  --accent-soft: rgb(143 176 232 / 13%);
+  --rule: rgb(231 235 242 / 13%);
+  --selection: #2c3f63;
+  --cover-1: #1a2438;
+  --cover-2: #0c1220;
+  --spine: linear-gradient(
+    90deg,
+    rgb(0 0 0 / 50%),
+    rgb(0 0 0 / 12%) 18%,
+    rgb(255 255 255 / 6%) 40%,
+    rgb(0 0 0 / 8%) 70%,
+    rgb(0 0 0 / 40%)
+  );
+  --shadow:
+    0 26px 70px -20px rgb(0 0 0 / 80%), 0 6px 22px -10px rgb(0 0 0 / 60%);
+  color-scheme: dark;
+}
+
+/* ==========================================================================
+   پالت ۲ — فیروزه و برنج
+   ========================================================================== */
+html[data-palette="turquoise"] {
+  --bg: #e3eae7;
+  --bg-deep: #d7e1dd;
+  --paper: #fafcfb;
+  --paper-2: #eff5f2;
+  --ink: #14211d;
+  --ink-soft: #566b64;
+  --ink-faint: #8b9b95;
+  --accent: #17756a;
+  --accent-2: #b98f3e;
+  --accent-soft: rgb(23 117 106 / 10%);
+  --rule: rgb(20 33 29 / 12%);
+  --selection: #cfe7e0;
+  --cover-1: #0f4a44;
+  --cover-2: #072a27;
+  --spine: linear-gradient(
+    90deg,
+    rgb(6 30 27 / 20%),
+    rgb(6 30 27 / 3%) 18%,
+    rgb(255 255 255 / 55%) 40%,
+    rgb(6 30 27 / 2%) 70%,
+    rgb(6 30 27 / 13%)
+  );
+  --shadow:
+    0 26px 64px -20px rgb(8 28 24 / 45%), 0 6px 18px -10px rgb(8 28 24 / 28%);
+  color-scheme: light;
+}
+
+html[data-palette="turquoise"][data-theme="dark"] {
+  --bg: #07110f;
+  --bg-deep: #040b0a;
+  --paper: #0e1a17;
+  --paper-2: #0a1412;
+  --ink: #dfeee9;
+  --ink-soft: #9cb3ac;
+  --ink-faint: #66807a;
+  --accent: #52c3b0;
+  --accent-2: #d0ac61;
+  --accent-soft: rgb(82 195 176 / 13%);
+  --rule: rgb(223 238 233 / 13%);
+  --selection: #1d4b44;
+  --cover-1: #0c2b27;
+  --cover-2: #05100e;
+  --spine: linear-gradient(
+    90deg,
+    rgb(0 0 0 / 50%),
+    rgb(0 0 0 / 12%) 18%,
+    rgb(255 255 255 / 6%) 40%,
+    rgb(0 0 0 / 8%) 70%,
+    rgb(0 0 0 / 40%)
+  );
+  --shadow:
+    0 26px 70px -20px rgb(0 0 0 / 80%), 0 6px 22px -10px rgb(0 0 0 / 60%);
+  color-scheme: dark;
+}
+
+/* ==========================================================================
+   پالت ۳ — زغال و شنگرف
+   ========================================================================== */
+html[data-palette="charcoal"] {
+  --bg: #ecebe8;
+  --bg-deep: #e1dfdb;
+  --paper: #fdfcfa;
+  --paper-2: #f4f2ee;
+  --ink: #1a1a1a;
+  --ink-soft: #6a6660;
+  --ink-faint: #9b958c;
+  --accent: #a63a2e;
+  --accent-2: #b08a3e;
+  --accent-soft: rgb(166 58 46 / 9%);
+  --rule: rgb(26 26 26 / 12%);
+  --selection: #f6ddd6;
+  --cover-1: #2c2b29;
+  --cover-2: #161615;
+  --spine: linear-gradient(
+    90deg,
+    rgb(0 0 0 / 22%),
+    rgb(0 0 0 / 3%) 18%,
+    rgb(255 255 255 / 55%) 40%,
+    rgb(0 0 0 / 2%) 70%,
+    rgb(0 0 0 / 14%)
+  );
+  --shadow:
+    0 26px 64px -20px rgb(20 20 20 / 40%), 0 6px 18px -10px rgb(20 20 20 / 25%);
+  color-scheme: light;
+}
+
+html[data-palette="charcoal"][data-theme="dark"] {
+  --bg: #0d0d0d;
+  --bg-deep: #080808;
+  --paper: #171716;
+  --paper-2: #111110;
+  --ink: #ece8e1;
+  --ink-soft: #a5a099;
+  --ink-faint: #6f6a64;
+  --accent: #e0745f;
+  --accent-2: #d8b26a;
+  --accent-soft: rgb(224 116 95 / 13%);
+  --rule: rgb(236 232 225 / 13%);
+  --selection: #4a2a24;
+  --cover-1: #222120;
+  --cover-2: #0c0c0b;
+  --spine: linear-gradient(
+    90deg,
+    rgb(0 0 0 / 50%),
+    rgb(0 0 0 / 12%) 18%,
+    rgb(255 255 255 / 6%) 40%,
+    rgb(0 0 0 / 8%) 70%,
+    rgb(0 0 0 / 40%)
+  );
+  --shadow:
+    0 26px 70px -20px rgb(0 0 0 / 80%), 0 6px 22px -10px rgb(0 0 0 / 60%);
+  color-scheme: dark;
+}
