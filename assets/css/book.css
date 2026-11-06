@@ -122,10 +122,11 @@ body.is-zen .shell .doc-sheet {
 }
 
 .sidebar__foot {
-  display: flex;
-  align-items: center;
-  gap: 0.35em;
-  padding: 0.6rem 0.8rem;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: stretch;
+  gap: 0.25rem;
+  padding: 0.5rem 0.6rem 0.6rem;
   border-top: 1px solid var(--rule);
 }
 
@@ -302,37 +303,55 @@ body.is-zen .shell .doc-sheet {
 /* دکمه‌های پاصفحهٔ سایدبار */
 
 .foot-btn {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
+  display: inline-flex;
+  flex-direction: row;
   align-items: center;
-  gap: 0.15em;
-  padding: 0.4em 0.2em;
+  justify-content: center;
+  gap: 0.4em;
+  min-width: 0;
+  padding: 0.55em 0.5em;
   font-family: inherit;
-  font-size: 10.5px;
-  color: var(--ink-faint);
+  font-size: 0.8em;
+  font-weight: 500;
+  line-height: 1.2;
+  color: var(--ink-soft);
+  white-space: nowrap;
   background: transparent;
   border: 1px solid transparent;
   border-radius: var(--radius-sm);
   cursor: pointer;
   transition:
     background-color var(--dur-fast) ease,
-    color var(--dur-fast) ease;
+    color var(--dur-fast) ease,
+    border-color var(--dur-fast) ease;
 }
 
 .foot-btn:hover {
   color: var(--ink);
   background: var(--accent-soft);
+  border-color: var(--rule);
+}
+
+.foot-btn:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
 }
 
 .foot-btn svg {
-  width: 17px;
-  height: 17px;
+  flex: none;
+  width: 1.15em;
+  height: 1.15em;
+}
+
+.foot-btn span {
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .foot-btn[aria-pressed="true"] {
   color: var(--accent);
   background: var(--accent-soft);
+  border-color: transparent;
 }
 
 /* ---------- پردهٔ پشت منو (موبایل) ---------- */
