@@ -79,6 +79,74 @@ function renderSidebar() {
   });
 }
 
+/* ---------- همگام‌سازی فهرست با اسکرول ---------- */
+
+let activeSection = null;
+
+/**
+ * با اسکرول سند، بخشی که در بالای دید است را در فهرست برجسته می‌کند.
+ * این کار مسیر را عوض نمی‌کند و روی history اثری ندارد.
+ */
+function syncSidebarToScroll() {
+  if (route.type !== "chapter") return;
+
+  const scroller = $("#docScroll");
+  if (!scroller) return;
+
+  const heads = [...scroller.querySelectorAll(".doc__body h2[id], .doc__body h3[id]")];
+  if (!heads.length) return;
+
+  // خط مرجع: کمی پایین‌تر از لبهٔ بالای دید، تا عنوانی که تازه رسیده برنده شود.
+  const line = scroller.getBoundingClientRect().top + 88;
+
+  // آخرین عنوانی که از خط مرجع گذشته، بخش جاری است.
+  let current = null;
+  for (const heading of heads) {
+    if (heading.getBoundingClientRect().top <= line) current = heading;
+  }
+
+  const slug = current ? current.id : null;
+  if (slug === activeSection) return;
+  activeSection = slug;
+
+  const panel = $("#sidebarContent");
+  if (!panel) return;
+
+  panel.querySelectorAll(".is-active").forEach((el) => el.classList.remove("is-active"));
+
+  if (!slug) {
+    // بالای فصل: خود فصل را برجسته کن.
+    panel.querySelector(`a.sb__link[href="#/chapter/${encodeURIComponent(route.id)}"]`)
+      ?.classList.add("is-active");
+  } else {
+    const link = panel.querySelector(
+      `a.sb__link--sub[href="#/chapter/${encodeURIComponent(route.id)}/${encodeURIComponent(slug)}"]`,
+    );
+    if (link) {
+      link.classList.add("is-active");
+      revealInSidebar(link);
+    }
+  }
+}
+
+/** آیتم فعال را در فهرست کناری به دید می‌آورد، بدون بریدن بالای فهرست. */
+function revealInSidebar(link) {
+  const panel = $("#sidebarScroll");
+  if (!panel) return;
+
+  const panelRect = panel.getBoundingClientRect();
+  const linkRect = link.getBoundingClientRect();
+
+  const visible =
+    linkRect.top >= panelRect.top + 12 && linkRect.bottom <= panelRect.bottom - 12;
+  if (visible) return;
+
+  panel.scrollTo({
+    top: panel.scrollTop + (linkRect.top - panelRect.top) - panel.clientHeight / 3,
+    behavior: "smooth",
+  });
+}
+
 function renderPage() {
   const content = $("#content");
   if (!content) return;
@@ -156,6 +224,7 @@ function renderChrome() {
 }
 
 function render() {
+  activeSection = null;
   renderSidebar();
   renderPage();
   renderChrome();
@@ -318,7 +387,23 @@ async function init() {
   });
 
   const docElement = $("#docScroll");
-  if (docElement) bindSwipe(docElement, step);
+  if (docElement) {
+    bindSwipe(docElement, step);
+
+    let ticking = false;
+    docElement.addEventListener(
+      "scroll",
+      () => {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(() => {
+          syncSidebarToScroll();
+          ticking = false;
+        });
+      },
+      { passive: true },
+    );
+  }
 
   // مسیر اولیه
   const initial = parseHash();
