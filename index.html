@@ -1,0 +1,335 @@
+<!doctype html>
+<html lang="fa" dir="rtl" data-theme="light" data-palette="lapis">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <meta name="theme-color" content="#e6e9ef" />
+    <title>خط روشن</title>
+    <meta
+      name="description"
+      content="کتابی شخصی روی وب: نوشته‌هایی روشن، با ترتیبی روشن."
+    />
+
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232e4e8f'/%3E%3Cpath d='M9 8h9a4 4 0 0 1 4 4v12a3 3 0 0 0-3-3H9z' fill='%23fbfbf9'/%3E%3C/svg%3E"
+    />
+
+    <link rel="stylesheet" href="assets/css/tokens.css" />
+    <link rel="stylesheet" href="assets/css/base.css" />
+    <link rel="stylesheet" href="assets/css/book.css" />
+    <link rel="stylesheet" href="assets/css/ui.css" />
+  </head>
+  <body>
+    <!-- اسپرایت آیکون‌ها: یک‌بار تعریف می‌شوند و همه‌جا استفاده می‌شوند -->
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      style="display: none"
+      aria-hidden="true"
+    >
+      <symbol
+        id="i-list"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.8"
+        stroke-linecap="round"
+      >
+        <path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01" />
+      </symbol>
+      <symbol
+        id="i-search"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.8"
+        stroke-linecap="round"
+      >
+        <circle cx="11" cy="11" r="7" />
+        <path d="m20 20-3.5-3.5" />
+      </symbol>
+      <symbol
+        id="i-moon"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.8"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z" />
+      </symbol>
+      <symbol
+        id="i-sun"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.8"
+        stroke-linecap="round"
+      >
+        <circle cx="12" cy="12" r="4" />
+        <path
+          d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"
+        />
+      </symbol>
+      <symbol
+        id="i-palette"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.7"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <path
+          d="M12 3a9 9 0 1 0 0 18c1.1 0 1.8-.8 1.8-1.8 0-.5-.2-.9-.5-1.2-.3-.3-.5-.7-.5-1.2 0-1 .8-1.8 1.8-1.8H17a4 4 0 0 0 4-4c0-4.4-4-8-9-8z"
+        />
+        <circle cx="7.5" cy="11.5" r="1.2" />
+        <circle cx="10.5" cy="7.5" r="1.2" />
+        <circle cx="15" cy="8" r="1.2" />
+      </symbol>
+      <symbol
+        id="i-expand"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.8"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <path
+          d="M8 3H5a2 2 0 0 0-2 2v3M16 3h3a2 2 0 0 1 2 2v3M8 21H5a2 2 0 0 1-2-2v-3M16 21h3a2 2 0 0 0 2-2v-3"
+        />
+      </symbol>
+      <symbol
+        id="i-close"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.9"
+        stroke-linecap="round"
+      >
+        <path d="M18 6 6 18M6 6l12 12" />
+      </symbol>
+      <symbol
+        id="i-chev-left"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.9"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <path d="m15 18-6-6 6-6" />
+      </symbol>
+      <symbol
+        id="i-chev-right"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.9"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <path d="m9 18 6-6-6-6" />
+      </symbol>
+      <symbol
+        id="i-info"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.8"
+        stroke-linecap="round"
+      >
+        <circle cx="12" cy="12" r="9" />
+        <path d="M12 11v5M12 8h.01" />
+      </symbol>
+      <symbol
+        id="i-quill"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.4"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <path d="M4 20c6 0 10-4 12-10l1.5-4.5L13 7C7 9 4 13 4 20z" />
+        <path d="M4 20 12 12" />
+      </symbol>
+      <symbol
+        id="i-arrow-start"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.9"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <path d="M19 12H5M11 18l-6-6 6-6" />
+      </symbol>
+      <symbol
+        id="i-check"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <path d="m20 6-11 11-5-5" />
+      </symbol>
+    </svg>
+
+    <main class="book-stage">
+      <header class="book-toolbar">
+        <div class="book-toolbar__group">
+          <span class="book-toolbar__title" id="toolbarTitle"></span>
+        </div>
+        <div class="book-toolbar__group">
+          <button class="tool-btn" id="btnToc" title="فهرست">
+            <svg><use href="#i-list" /></svg
+            ><span class="tool-btn__text">فهرست</span>
+          </button>
+          <button class="tool-btn" id="btnSearch" title="جست‌وجو (Ctrl+K)">
+            <svg><use href="#i-search" /></svg
+            ><span class="tool-btn__text">جست‌وجو</span>
+          </button>
+          <button class="tool-btn" id="btnPalette" title="تغییر پالت رنگ (P)">
+            <svg><use href="#i-palette" /></svg
+            ><span class="tool-btn__text">رنگ</span>
+          </button>
+          <button
+            class="tool-btn tool-btn--icon"
+            id="btnTheme"
+            title="تم روشن/تاریک (T)"
+          >
+            <svg><use href="#i-moon" id="themeIcon" /></svg>
+          </button>
+          <button
+            class="tool-btn tool-btn--icon"
+            id="btnZen"
+            title="حالت مطالعه (Z)"
+            aria-pressed="false"
+          >
+            <svg><use href="#i-expand" /></svg>
+          </button>
+        </div>
+      </header>
+
+      <div class="book" id="book">
+        <div class="book__spine" aria-hidden="true"></div>
+
+        <!-- صفحهٔ چپ: فهرست -->
+        <section class="page page--left" aria-label="فهرست">
+          <div class="page__running-head">
+            <span id="leftRunning">فهرست</span>
+            <span id="leftTitle"></span>
+          </div>
+          <div class="page__scroller">
+            <div class="page__content" id="tocContent"></div>
+          </div>
+          <div class="page__foot">
+            <span class="page__num">۲</span>
+            <a class="nav-btn" href="#/about">
+              <svg><use href="#i-info" /></svg>
+              <span class="nav-btn__label">دربارهٔ کتاب</span>
+            </a>
+          </div>
+        </section>
+
+        <!-- صفحهٔ راست: متن -->
+        <section class="page page--right" aria-label="متن کتاب">
+          <div class="page__running-head">
+            <span id="rightRunning"></span>
+            <span id="rightPart"></span>
+          </div>
+          <div class="page__scroller" id="scroller">
+            <div class="page__content" id="content"></div>
+          </div>
+          <div class="page__foot">
+            <button class="nav-btn" id="btnPrev">
+              <svg><use href="#i-chev-right" /></svg>
+              <span class="nav-btn__label" id="prevLabel">قبلی</span>
+            </button>
+            <span class="page__num" id="pageNum">۱</span>
+            <button class="nav-btn" id="btnNext">
+              <span class="nav-btn__label" id="nextLabel">بعدی</span>
+              <svg><use href="#i-chev-left" /></svg>
+            </button>
+          </div>
+        </section>
+
+        <div
+          class="progress"
+          role="progressbar"
+          aria-valuemin="0"
+          aria-valuemax="100"
+          aria-valuenow="0"
+        >
+          <div class="progress__bar" id="progressBar"></div>
+        </div>
+      </div>
+    </main>
+
+    <!-- مودال جست‌وجو -->
+    <div
+      class="modal"
+      id="searchModal"
+      role="dialog"
+      aria-modal="true"
+      aria-label="جست‌وجو در کتاب"
+    >
+      <div class="modal__panel">
+        <div class="modal__head">
+          <span class="modal__title"
+            ><svg><use href="#i-search" /></svg> جست‌وجو در کتاب</span
+          >
+          <button class="modal__close" data-close title="بستن">
+            <svg><use href="#i-close" /></svg>
+          </button>
+        </div>
+        <div class="search-field">
+          <svg><use href="#i-search" /></svg>
+          <input
+            type="search"
+            id="searchInput"
+            placeholder="چیزی بنویس… مثلاً روشن"
+            autocomplete="off"
+          />
+        </div>
+        <div class="modal__body" id="searchResults"></div>
+      </div>
+    </div>
+
+    <!-- مودال فهرست (موبایل) -->
+    <div
+      class="modal"
+      id="tocModal"
+      role="dialog"
+      aria-modal="true"
+      aria-label="فهرست کتاب"
+    >
+      <div class="modal__panel">
+        <div class="modal__head">
+          <span class="modal__title"
+            ><svg><use href="#i-list" /></svg> فهرست کتاب</span
+          >
+          <button class="modal__close" data-close title="بستن">
+            <svg><use href="#i-close" /></svg>
+          </button>
+        </div>
+        <div class="modal__body" id="tocModalBody"></div>
+      </div>
+    </div>
+
+    <div class="toast" id="toast">
+      <svg><use href="#i-check" /></svg>
+      <span id="toastText"></span>
+    </div>
+
+    <script type="module" src="assets/js/app.js"></script>
+  </body>
+</html>
