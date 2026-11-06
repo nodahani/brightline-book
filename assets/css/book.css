@@ -89,12 +89,26 @@
   left: 50%;
   width: 76px;
   transform: translateX(-50%);
-  background: linear-gradient(90deg, transparent, rgb(0 0 0 / 6%) 35%, rgb(0 0 0 / 9%) 50%, rgb(0 0 0 / 6%) 65%, transparent);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgb(0 0 0 / 6%) 35%,
+    rgb(0 0 0 / 9%) 50%,
+    rgb(0 0 0 / 6%) 65%,
+    transparent
+  );
   z-index: -1;
 }
 
 html[data-theme="dark"] .book__spine::after {
-  background: linear-gradient(90deg, transparent, rgb(0 0 0 / 30%) 35%, rgb(0 0 0 / 42%) 50%, rgb(0 0 0 / 30%) 65%, transparent);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgb(0 0 0 / 30%) 35%,
+    rgb(0 0 0 / 42%) 50%,
+    rgb(0 0 0 / 30%) 65%,
+    transparent
+  );
 }
 
 /* ---------- صفحه ---------- */
@@ -136,7 +150,11 @@ html[data-theme="dark"] .book__spine::after {
   left: 0;
   width: 46px;
   height: 46px;
-  background: linear-gradient(45deg, color-mix(in srgb, var(--bg-deep) 80%, transparent) 50%, transparent 50%);
+  background: linear-gradient(
+    45deg,
+    color-mix(in srgb, var(--bg-deep) 80%, transparent) 50%,
+    transparent 50%
+  );
   opacity: 0.5;
   pointer-events: none;
 }
@@ -246,6 +264,18 @@ html[data-theme="dark"] .book__spine::after {
   font-size: 1.14em;
 }
 
+/* پررنگ داخل تیتر: فقط کمی سنگین‌تر، بدون تغییر اندازه و رنگ */
+.page--right .page__content h2 strong,
+.page--right .page__content h3 strong {
+  font-weight: inherit;
+  color: inherit;
+}
+
+/* زیرتیتر: سبک‌تر از تیتر اصلی، تا سلسله‌مراتب حفظ شود */
+.page--right .page__content h3 {
+  font-weight: 600;
+}
+
 /* نشانهٔ لوزی کنار تیترها */
 .page--right .page__content h2::before {
   content: "";
@@ -304,6 +334,16 @@ html[data-theme="dark"] .book__spine::after {
 
 .page--right .page__content .chapter-head h1 {
   margin: 0;
+}
+
+/* خلاصهٔ کوتاه زیر عنوان فصل */
+.chapter-intro {
+  margin: -0.6em 0 1.8em;
+  padding-inline-start: 1em;
+  font-size: 0.92em;
+  line-height: 2;
+  color: var(--ink-soft);
+  border-inline-start: 2px solid var(--accent-2);
 }
 
 /* ---------- دکمه‌های ورق زدن ---------- */
@@ -586,6 +626,74 @@ html[data-theme="dark"] .book__spine::after {
 .toc__link.is-current .toc__num {
   font-weight: 600;
   color: var(--accent);
+}
+
+/* زیربخش‌های هر فصل در فهرست */
+.toc__sub {
+  position: relative;
+  margin: 0.1em 0 0.5em;
+  padding: 0;
+  list-style: none;
+  padding-inline-start: 2.75em;
+}
+
+/* خط راهنمای عمودی، هم‌تراز با شمارهٔ فصل (سمت راست در RTL) */
+.toc__sub::before {
+  content: "";
+  position: absolute;
+  inset-block: 0.3em;
+  inset-inline-start: 0;
+  width: 1px;
+  background: var(--rule);
+}
+
+.toc__link--sub {
+  padding: 0.22em 0.6em;
+  border-radius: var(--radius-sm);
+}
+
+.toc__link--sub .toc__name {
+  font-size: 0.86em;
+  line-height: 1.85;
+  color: var(--ink-soft);
+}
+
+.toc__link--sub:hover {
+  padding-inline-start: 0.85em;
+  background: var(--accent-soft);
+}
+
+.toc__link--sub:hover .toc__name {
+  color: var(--ink);
+}
+
+/* زیرزیربخش‌ها (h3) کمی فروتر و کم‌رنگ‌تر */
+.toc__link--deep {
+  padding-inline-start: 1.15em;
+}
+
+.toc__link--deep .toc__name {
+  font-size: 0.8em;
+  color: var(--ink-faint);
+}
+
+.toc__link--deep:hover {
+  padding-inline-start: 1.35em;
+}
+
+/* در نسخهٔ موبایل فهرست فشرده‌تر می‌شود */
+@media (max-width: 979px) {
+  .toc__sub {
+    padding-inline-start: 2em;
+  }
+
+  .toc__link--sub .toc__name {
+    font-size: 0.82em;
+  }
+
+  .toc__link--deep .toc__name {
+    font-size: 0.78em;
+  }
 }
 
 /* ---------- صفحهٔ درباره ---------- */

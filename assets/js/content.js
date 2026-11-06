@@ -70,6 +70,41 @@ function validate(manifest) {
   });
 }
 
+/* ---------- عنوان‌های درون‌فصل ---------- */
+
+/**
+ * یک شناسهٔ پایدار از متن عنوان می‌سازد تا بتوان مستقیم به آن بخش پیوند داد.
+ * حروف فارسی دست‌نخورده می‌مانند؛ فقط فاصله و نشانه‌ها به خط تیره تبدیل می‌شوند.
+ */
+export function slugify(text) {
+  return String(text)
+    .replace(/[\u200c\u200f\u200e]/g, "")
+    .trim()
+    .replace(/[^\p{L}\p{N}]+/gu, "-")
+    .replace(/^-+|-+$/g, "")
+    .toLowerCase();
+}
+
+/**
+ * فهرست زیربخش‌های یک فصل را از روی h2 و h3 استخراج می‌کند.
+ * تگ strong را از عنوان حذف می‌کند تا متن ساده به فهرست برود.
+ */
+export function sectionsOf(html) {
+  const holder = document.createElement("div");
+  holder.innerHTML = html || "";
+  const sections = [];
+
+  holder.querySelectorAll("h2, h3").forEach((heading, index) => {
+    const text = (heading.textContent || "").replace(/\s+/g, " ").trim();
+    if (!text) return;
+
+    const slug = slugify(text) || `section-${index + 1}`;
+    sections.push({ level: heading.tagName === "H2" ? 2 : 3, text, slug });
+  });
+
+  return sections;
+}
+
 /* ---------- بارگذاری ---------- */
 
 async function fetchText(url, label) {
@@ -114,11 +149,15 @@ export async function loadBook({ base = "content/" } = {}) {
   validate(manifest);
 
   const withBody = await Promise.all(
-    manifest.chapters.map(async (chapter) => ({
-      ...chapter,
-      running: chapter.running || chapter.title,
-      body: await fetchText(`${base}${chapter.file}`, `فصل «${chapter.title}»`),
-    })),
+    manifest.chapters.map(async (chapter) => {
+      const body = await fetchText(`${base}${chapter.file}`, `فصل «${chapter.title}»`);
+      return {
+        ...chapter,
+        running: chapter.running || chapter.title,
+        body,
+        sections: sectionsOf(body),
+      };
+    }),
   );
 
   const about = manifest.about?.file
@@ -146,6 +185,14 @@ export function pagesOf(book) {
 
 export const chapterById = (book, id) =>
   book.chapters.find((c) => c.id === id) || null;
+
+/** فصل و بخشِ داخل آن، از روی id فصل و slug بخش. */
+export function sectionById(book, chapterId, slug) {
+  const chapter = chapterById(book, chapterId);
+  if (!chapter) return null;
+  const section = (chapter.sections || []).find((s) => s.slug === slug);
+  return section ? { chapter, section } : null;
+}
 export const partById = (book, id) =>
   book.parts.find((p) => p.id === id) || null;
 

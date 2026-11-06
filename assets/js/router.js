@@ -8,7 +8,8 @@
 const ROUTES = {
   cover: () => ({ type: "cover" }),
   about: () => ({ type: "about" }),
-  chapter: (id) => (id ? { type: "chapter", id } : { type: "cover" }),
+  chapter: (id, section) =>
+    id ? { type: "chapter", id, section: section || null } : { type: "cover" },
 };
 
 /** رشتهٔ hash را به یک شیء مسیر تبدیل می‌کند. */
@@ -23,19 +24,24 @@ export function parseHash(hash = window.location.hash) {
   if (name !== "chapter") return build();
 
   let id = "";
+  let section = "";
   try {
-    id = decodeURIComponent(rest.join("/"));
+    id = decodeURIComponent(rest[0] || "");
+    section = decodeURIComponent(rest.slice(1).join("/") || "");
   } catch {
-    id = rest.join("/");
+    id = rest[0] || "";
+    section = rest.slice(1).join("/");
   }
-  return build(id);
+  return build(id, section);
 }
 
 /** مسیر را به رشتهٔ hash برمی‌گرداند. */
 export function toHash(route) {
   switch (route.type) {
-    case "chapter":
-      return `#/chapter/${encodeURIComponent(route.id)}`;
+    case "chapter": {
+      const base = `#/chapter/${encodeURIComponent(route.id)}`;
+      return route.section ? `${base}/${encodeURIComponent(route.section)}` : base;
+    }
     case "about":
       return "#/about";
     default:
@@ -46,7 +52,15 @@ export function toHash(route) {
 /** آیا این مسیر یک صفحهٔ واقعی کتاب است؟ */
 export function isKnown(book, route) {
   if (route.type !== "chapter") return true;
-  return book.chapters.some((chapter) => chapter.id === route.id);
+
+  const chapter = book.chapters.find((c) => c.id === route.id);
+  if (!chapter) return false;
+
+  // اگر آدرس به یک بخش اشاره می‌کند، آن بخش هم باید وجود داشته باشد.
+  if (route.section) {
+    return (chapter.sections || []).some((s) => s.slug === route.section);
+  }
+  return true;
 }
 
 /**

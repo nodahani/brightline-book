@@ -16,6 +16,7 @@ import { isKnown, navigate, onRouteChange, parseHash } from "./router.js";
 
 import {
   aboutView,
+  anchorsIn,
   chapterView,
   coverView,
   pageNumber,
@@ -62,8 +63,14 @@ function renderToc() {
   if (runningHeadEl) runningHeadEl.textContent = currentPart || "فهرست";
   if (titleEl) titleEl.textContent = book.meta.title || "";
 
-  const current = $("#tocContent .is-current");
-  if (current) current.scrollIntoView({ block: "nearest", behavior: "smooth" });
+  // فهرست را روی فصل جاری نگه دار — بدون اسکرول کل صفحه.
+  const panel = $("#tocContent");
+  const current = panel?.querySelector(".is-current");
+  if (panel && current) {
+    const offset =
+      current.getBoundingClientRect().top - panel.getBoundingClientRect().top;
+    panel.scrollTop += offset - panel.clientHeight / 3;
+  }
 }
 
 function renderPage() {
@@ -81,6 +88,9 @@ function renderPage() {
     const chapter = chapterById(book, route.id);
     content.innerHTML = chapter ? chapterView(book, chapter) : "";
   }
+
+  // شناسه‌گذاری عنوان‌ها تا لینک‌های فهرست به بخش درست برسند.
+  anchorsIn(content);
 
   const scroller = $("#scroller");
   if (scroller) scroller.scrollTop = 0;
@@ -139,10 +149,27 @@ function renderChrome() {
       : `${pageTitle(book, route)} — ${book.meta.title || "کتاب"}`;
 }
 
+function scrollToSection() {
+  if (route.type !== "chapter" || !route.section) return;
+
+  const target = document.getElementById(route.section);
+  const scroller = $("#scroller");
+  if (!target || !scroller) return;
+
+  const top =
+    target.getBoundingClientRect().top -
+    scroller.getBoundingClientRect().top +
+    scroller.scrollTop -
+    16;
+
+  scroller.scrollTo({ top, behavior: "smooth" });
+}
+
 function render() {
   renderToc();
   renderPage();
   renderChrome();
+  scrollToSection();
 }
 
 /* ---------- ناوبری ---------- */
@@ -260,6 +287,19 @@ async function init() {
 
   onRouteChange((next) => {
     const safe = isKnown(book, next) ? next : { type: "cover" };
+
+    // کلیک روی بخشی از همان فصلِ باز: مسیر عوض نمی‌شود، پس دستی اسکرول کن.
+    if (
+      safe.type === "chapter" &&
+      route.type === "chapter" &&
+      safe.id === route.id &&
+      safe.section !== route.section
+    ) {
+      route = safe;
+      scrollToSection();
+      return;
+    }
+
     route = safe;
     render();
   });

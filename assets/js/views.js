@@ -4,7 +4,7 @@
    همین کار تست و جایگزینی‌اش را ساده می‌کند.
    ========================================================================== */
 
-import { fa, readingMinutes, routeIndex, wordCount } from "./content.js";
+import { fa, readingMinutes, routeIndex, slugify, wordCount } from "./content.js";
 
 /** متن را برای درج در HTML امن می‌کند. */
 export const escapeHtml = (value = "") =>
@@ -62,6 +62,21 @@ export function tocView(book, route) {
       const links = items
         .map(({ chapter, index }) => {
           const isCurrent = chapter.id === currentChapter;
+          const sections = chapter.sections || [];
+
+          const subLinks = sections
+            .map((section) => {
+              const cls = `toc__link toc__link--sub${section.level === 3 ? " toc__link--deep" : ""}`;
+              return `
+                <li>
+                  <a class="${cls}"
+                     href="#/chapter/${encodeURIComponent(chapter.id)}/${encodeURIComponent(section.slug)}">
+                    <span class="toc__name">${escapeHtml(section.text)}</span>
+                  </a>
+                </li>`;
+            })
+            .join("");
+
           return `
             <li>
               <a class="toc__link${isCurrent ? " is-current" : ""}"
@@ -72,6 +87,7 @@ export function tocView(book, route) {
                 <span class="toc__dots" aria-hidden="true"></span>
                 <span class="toc__page">${fa(index + 3)}</span>
               </a>
+              ${subLinks ? `<ul class="toc__sub">${subLinks}</ul>` : ""}
             </li>`;
         })
         .join("");
@@ -109,6 +125,20 @@ export function tocView(book, route) {
 }
 
 /* ---------- فصل ---------- */
+
+/**
+ * به هر h2/h3 یک id می‌دهد تا لینک‌های فهرست بتوانند به آن بپرند.
+ * روی DOM ساخته‌شده کار می‌کند تا متن عنوان دقیقاً همان چیزی باشد
+ * که sectionsOf دید (تگ‌های strong حذف‌شده، فاصله‌های نرمال‌شده).
+ */
+export function anchorsIn(root) {
+  if (!root) return;
+  root.querySelectorAll("h2, h3").forEach((heading, index) => {
+    if (heading.id) return;
+    const text = (heading.textContent || "").replace(/\s+/g, " ").trim();
+    heading.id = slugify(text) || `section-${index + 1}`;
+  });
+}
 
 export function chapterView(book, chapter) {
   const part = book.parts.find((p) => p.id === chapter.part);

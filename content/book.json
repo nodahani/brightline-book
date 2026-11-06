@@ -2,44 +2,90 @@
   "meta": {
     "siteName": "خط روشن",
     "title": "خط روشن",
-    "subtitle": "نوشته‌هایی که خطِ خودشان را دارند",
+    "subtitle": "راهنمای عملی امنیت و حریم خصوصی دیجیتال",
     "author": "حسینم",
     "year": "۱۴۰۵",
     "lang": "fa",
-    "defaultPalette": "lapis",
-    "description": "کتابی شخصی روی وب: نوشته‌هایی روشن، با ترتیبی روشن، منتشرشده روی GitHub Pages."
+    "defaultPalette": "sepia",
+    "description": "راهنمای عملی امنیت و حریم خصوصی دیجیتال: از رمز عبور و احراز هویت دو مرحله‌ای تا فیشینگ، وای‌فای عمومی و هوش مصنوعی."
   },
-
   "parts": [
-    { "id": "start", "title": "آغاز" }
-  ],
-
-  "chapters": [
     {
-      "id": "01-chera",
-      "part": "start",
-      "label": "۱",
-      "title": "چرا خط روشن",
-      "running": "چرا خط روشن",
-      "file": "chapters/01-chera.html"
+      "id": "start",
+      "title": "آغاز"
     },
     {
-      "id": "02-ravesh",
-      "part": "start",
-      "label": "۲",
-      "title": "چطور این کتاب ساخته می‌شود",
-      "running": "روشِ کار",
-      "file": "chapters/02-ravesh.html"
+      "id": "core",
+      "title": "هستهٔ کتاب"
     },
     {
-      "id": "03-olgoo",
-      "part": "start",
-      "label": "۳",
-      "title": "الگوی یک فصل",
-      "running": "الگوی فصل",
-      "file": "chapters/03-olgoo.html"
+      "id": "guard",
+      "title": "خودت را بپا"
+    },
+    {
+      "id": "end",
+      "title": "پایان"
     }
   ],
-
-  "about": { "file": "chapters/about.html" }
+  "chapters": [
+    {
+      "id": "01-moghadame",
+      "part": "start",
+      "label": "۱",
+      "title": "مقدمه — چرا باید نگران باشیم؟",
+      "running": "مقدمه",
+      "file": "chapters/01-moghadame.html"
+    },
+    {
+      "id": "02-hesab",
+      "part": "core",
+      "label": "۲",
+      "title": "کلیدهای ورود — امنیت حساب‌های کاربری",
+      "running": "کلیدهای ورود",
+      "file": "chapters/02-hesab.html"
+    },
+    {
+      "id": "03-morur",
+      "part": "core",
+      "label": "۳",
+      "title": "مرور امن اینترنت",
+      "running": "مرور امن",
+      "file": "chapters/03-morur.html"
+    },
+    {
+      "id": "04-dade",
+      "part": "guard",
+      "label": "۴",
+      "title": "حفاظت از داده‌ها و فایل‌ها",
+      "running": "حفاظت از داده",
+      "file": "chapters/04-dade.html"
+    },
+    {
+      "id": "05-tahdid",
+      "part": "guard",
+      "label": "۵",
+      "title": "تهدیدات و دام‌ها",
+      "running": "تهدیدات و دام‌ها",
+      "file": "chapters/05-tahdid.html"
+    },
+    {
+      "id": "06-harim",
+      "part": "guard",
+      "label": "۶",
+      "title": "حریم خصوصی در فضای مجازی",
+      "running": "حریم خصوصی",
+      "file": "chapters/06-harim.html"
+    },
+    {
+      "id": "07-jam",
+      "part": "end",
+      "label": "۷",
+      "title": "جمع‌بندی",
+      "running": "جمع‌بندی",
+      "file": "chapters/07-jam.html"
+    }
+  ],
+  "about": {
+    "file": "chapters/about.html"
+  }
 }
