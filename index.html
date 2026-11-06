@@ -24,6 +24,8 @@
     <link rel="stylesheet" href="assets/css/ui.css" />
   </head>
   <body>
+    <a class="skip-link" href="#content">پرش به متن</a>
+
     <!-- اسپرایت آیکون‌ها: یک‌بار تعریف می‌شوند و همه‌جا استفاده می‌شوند -->
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -246,7 +248,7 @@
       <!-- متن سند -->
       <main class="doc-scroll" id="docScroll">
         <div class="doc-sheet">
-          <div id="content"></div>
+          <div id="content" tabindex="-1"></div>
         </div>
 
         <nav class="pager" id="pager" aria-label="پیمایش فصل‌ها">

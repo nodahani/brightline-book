@@ -43,7 +43,10 @@ export function applyTheme(theme) {
   const next = THEMES.includes(theme) ? theme : THEMES[0];
   document.documentElement.dataset.theme = next;
 
-  const iconEl = document.querySelector("#themeIcon use");
+  // شناسه روی خودِ <use> است، نه روی <svg> والد؛ هر دو حالت را می‌پذیریم.
+  const iconEl =
+    document.querySelector("#themeIcon") ||
+    document.querySelector("#themeIcon use");
   if (iconEl)
     iconEl.setAttribute("href", next === "dark" ? "#i-sun" : "#i-moon");
 
@@ -121,6 +124,31 @@ export function toast(message, { ms = 2400 } = {}) {
 
 let lastFocused = null;
 
+const FOCUSABLE =
+  'a[href], button:not([disabled]), input:not([disabled]), textarea:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])';
+
+/** فوکوس را داخل مودال نگه می‌دارد تا Tab به پشت صحنه نرود. */
+function trapFocus(dialog, event) {
+  if (event.key !== "Tab") return;
+
+  const items = [...dialog.querySelectorAll(FOCUSABLE)].filter(
+    (el) => el.offsetParent !== null || el === document.activeElement,
+  );
+  if (!items.length) return;
+
+  const first = items[0];
+  const last = items[items.length - 1];
+  const active = document.activeElement;
+
+  if (event.shiftKey && (active === first || !dialog.contains(active))) {
+    event.preventDefault();
+    last.focus();
+  } else if (!event.shiftKey && (active === last || !dialog.contains(active))) {
+    event.preventDefault();
+    first.focus();
+  }
+}
+
 export function openDialog(dialog) {
   if (!dialog) return;
   lastFocused = document.activeElement;
@@ -129,6 +157,8 @@ export function openDialog(dialog) {
   });
   dialog.classList.add("is-open");
   document.body.style.overflow = "hidden";
+
+  dialog.addEventListener("keydown", (event) => trapFocus(dialog, event));
 }
 
 export function closeDialogs() {
@@ -173,7 +203,9 @@ export function setupSearch({ dialog, input, results, index }) {
     results.innerHTML = found
       .map(
         (result) => `
-          <a class="search-result" href="#/chapter/${encodeURIComponent(result.id)}">
+          <a class="search-result" href="#/chapter/${encodeURIComponent(result.id)}${
+            result.slug ? `/${encodeURIComponent(result.slug)}` : ""
+          }">
             <span class="search-result__where">${escapeText(result.where)}</span>
             <span class="search-result__text">${highlight(result.text, query)}</span>
           </a>`,
@@ -207,15 +239,21 @@ export function setupSearch({ dialog, input, results, index }) {
  *   onTheme: () => void,
  *   onPalette: () => void,
  *   onZen: () => void,
+ *   onSidebarClose: () => void,
  *   isTyping: () => boolean
  * }} handlers
  */
 export function bindGlobalKeys(handlers) {
   document.addEventListener("keydown", (event) => {
     if (event.key === "Escape") {
-      // اول مودال‌ها؛ اگر هیچ مودالی باز نبود، از حالت تمرکز بیرون بیا.
+      // ترتیب: مودال، بعد کشوی فهرست، بعد حالت تمرکز.
       if (anyDialogOpen()) {
         closeDialogs();
+      } else if (
+        document.querySelector("#shell")?.classList.contains("is-sidebar-open") &&
+        !window.matchMedia("(min-width: 980px)").matches
+      ) {
+        handlers.onSidebarClose?.();
       } else if (document.body.classList.contains("is-zen")) {
         handlers.onZen();
       }

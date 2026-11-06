@@ -4,7 +4,7 @@
      ی/ي، ک/ك، آ/ا، نیم‌فاصله، اعراب و ارقام فارسی/لاتین
    ========================================================================== */
 
-import { stripHtml } from "./content.js";
+import { slugify, stripHtml } from "./content.js";
 
 const ARABIC_TO_PERSIAN = [
   [/[\u064A\u0649]/g, "\u06CC"], // ي، ى → ی
@@ -46,9 +46,18 @@ export function buildIndex(book) {
     const holder = document.createElement("div");
     holder.innerHTML = chapter.body || "";
 
-    const blocks = Array.from(holder.children)
-      .map((node) => stripHtml(node.outerHTML))
-      .filter((text) => text.length > 1);
+    // هر بند را با slug عنوانِ بالادستش ذخیره می‌کنیم تا نتیجهٔ جست‌وجو
+    // بتواند مستقیم به همان بخش بپرد، نه به اول فصل.
+    const blocks = [];
+    let slug = null;
+
+    for (const node of holder.children) {
+      if (/^H[23]$/.test(node.tagName)) {
+        slug = slugify(node.textContent || "") || null;
+      }
+      const text = stripHtml(node.outerHTML);
+      if (text.length > 1) blocks.push({ text, slug });
+    }
 
     return {
       id: chapter.id,
@@ -64,7 +73,7 @@ export function buildIndex(book) {
  * @param {ReturnType<typeof buildIndex>} index
  * @param {string} query
  * @param {{ limit?: number }} options
- * @returns {{ id: string, where: string, text: string }[]}
+ * @returns {{ id: string, slug: string|null, where: string, text: string }[]}
  */
 export function search(index, query, { limit = 40 } = {}) {
   const needle = normalize(query);
@@ -76,22 +85,24 @@ export function search(index, query, { limit = 40 } = {}) {
     if (normalize(entry.title).includes(needle)) {
       results.push({
         id: entry.id,
+        slug: null,
         where: `فصل ${entry.label} · عنوان`,
         text: entry.title,
       });
     }
 
     for (const block of entry.blocks) {
-      const position = normalize(block).indexOf(needle);
+      const position = normalize(block.text).indexOf(needle);
       if (position === -1) continue;
 
       const from = Math.max(0, position - 55);
-      const to = Math.min(block.length, position + needle.length + 75);
+      const to = Math.min(block.text.length, position + needle.length + 75);
 
       results.push({
         id: entry.id,
+        slug: block.slug,
         where: `فصل ${entry.label} · ${entry.title}`,
-        text: `${from > 0 ? "…" : ""}${block.slice(from, to)}${to < block.length ? "…" : ""}`,
+        text: `${from > 0 ? "…" : ""}${block.text.slice(from, to)}${to < block.text.length ? "…" : ""}`,
       });
 
       if (results.length >= limit) return results;

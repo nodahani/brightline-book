@@ -105,6 +105,19 @@ function syncSidebarToScroll() {
     if (heading.getBoundingClientRect().top <= line) current = heading;
   }
 
+  // در انتهای فصل، محتوای بعد از آخرین عنوان آن‌قدر کوتاه است که هرگز از خط
+  // مرجع نمی‌گذرد؛ پس فهرست تا ابد روی عنوان قبلی گیر می‌کند. وقتی آخرین عنوان
+  // در دید است و بعد از آن عنوان دیگری نیست، همان را برنده اعلام می‌کنیم.
+  //
+  // شرط عمداً بر پایهٔ موقعیت خودِ عنوان است، نه scrollTop: بعد از رندر مجدد
+  // مرورگر ممکن است scrollTop قدیمی را لحظه‌ای برگرداند و محاسبهٔ «سقف» را
+  // خراب کند.
+  const last = heads[heads.length - 1];
+  const viewportBottom = scroller.getBoundingClientRect().bottom;
+  if (last.getBoundingClientRect().top <= viewportBottom - 48) {
+    current = last;
+  }
+
   const slug = current ? current.id : null;
   if (slug === activeSection) return;
   activeSection = slug;
@@ -217,10 +230,13 @@ function renderChrome() {
       ?.setAttribute("aria-valuenow", String(Math.round(percent)));
   }
 
+  // اگر عنوان صفحه با عنوان کتاب یکی باشد، تکرارش نکن.
+  const pageName = pageTitle(book, route);
+  const siteName = book.meta.title || "کتاب";
   document.title =
-    position === 0
-      ? book.meta.title || "کتاب"
-      : `${pageTitle(book, route)} — ${book.meta.title || "کتاب"}`;
+    position === 0 || !pageName || pageName === siteName
+      ? siteName
+      : `${pageName} — ${siteName}`;
 }
 
 function render() {
@@ -252,6 +268,27 @@ function scrollToSection() {
     top,
     behavior: reduceMotion() ? "auto" : "smooth",
   });
+
+  // اسکرول برنامه‌ای همیشه رویداد scroll را شلیک نمی‌کند (و وقتی مقصد همان
+  // جای فعلی باشد، اصلاً شلیک نمی‌کند). پس همگام‌سازی را صریح صدا می‌زنیم.
+  settleSidebarSync();
+}
+
+/**
+ * بعد از یک پرش برنامه‌ای، فهرست را دوباره همگام می‌کند.
+ * «scrollend» در همهٔ مرورگرها نیست، پس یک پشتوانهٔ زمانی هم می‌گذاریم.
+ */
+function settleSidebarSync() {
+  const scroller = $("#docScroll");
+  if (!scroller) return;
+
+  const run = () => syncSidebarToScroll();
+
+  if ("onscrollend" in scroller) {
+    scroller.addEventListener("scrollend", run, { once: true });
+  }
+  // اسکرول نرم ممکن است چند صد میلی‌ثانیه طول بکشد.
+  setTimeout(run, reduceMotion() ? 60 : 520);
 }
 
 /* ---------- ناوبری ---------- */
@@ -311,6 +348,12 @@ function bindChrome(search) {
 
   $("#btnZen")?.addEventListener("click", handleZen);
   $("#btnZenExit")?.addEventListener("click", handleZen);
+
+  // در موبایل، انتخاب هر صفحه از فهرست باید کشو را ببندد؛ وگرنه کاربر با
+  // بدنهٔ قفل‌شده (no-scroll) روی صفحهٔ جدید می‌ماند.
+  $("#sidebarContent")?.addEventListener("click", (event) => {
+    if (event.target.closest("a.sb__link") && !isDesktop()) setSidebar(false);
+  });
 
   // باز/بسته کردن زیربخش‌های هر فصل (بدون تغییر مسیر)
   $("#sidebarContent")?.addEventListener("click", (event) => {
@@ -382,6 +425,7 @@ async function init() {
       toast(`پالت: ${paletteLabel(next.id)}`);
     },
     onZen: handleZen,
+    onSidebarClose: () => setSidebar(false),
     isTyping: () =>
       /^(INPUT|TEXTAREA|SELECT)$/.test(document.activeElement?.tagName || ""),
   });

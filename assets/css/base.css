@@ -202,3 +202,8 @@ th {
     background: #fff;
   }
 }
+
+/* پرش به متن: کادر فوکوس روی خودِ محتوا لازم نیست */
+#content:focus {
+  outline: none;
+}

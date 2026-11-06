@@ -49,6 +49,28 @@ body.is-zen .shell .doc-sheet {
   box-shadow: none;
 }
 
+/* ---------- پرش به متن (فقط با صفحه‌کلید دیده می‌شود) ---------- */
+
+.skip-link {
+  position: fixed;
+  z-index: 200;
+  inset-inline-start: 1rem;
+  inset-block-start: 1rem;
+  padding: 0.6rem 1rem;
+  border-radius: 0.5rem;
+  background: var(--paper);
+  color: var(--ink);
+  font-size: 0.9em;
+  text-decoration: none;
+  box-shadow: 0 8px 24px rgb(0 0 0 / 18%);
+  transform: translateY(-200%);
+  transition: transform 0.16s ease;
+}
+
+.skip-link:focus-visible {
+  transform: translateY(0);
+}
+
 /* ---------- فهرست کناری ---------- */
 
 .sidebar {
