@@ -170,12 +170,74 @@ body.is-zen .shell .doc-sheet {
   color: var(--accent);
 }
 
-/* زیربخش‌ها */
+/* فصل و دکمهٔ باز/بستن */
+
+.sb__row {
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: stretch;
+  gap: 0.1em;
+}
+
+.sb__row .sb__link {
+  flex: 1;
+  min-width: 0;
+}
+
+.sb__toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 22px;
+  width: 22px;
+  margin-inline-end: 0.15em;
+  padding: 0;
+  color: var(--ink-faint);
+  background: transparent;
+  border: 0;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition:
+    color var(--dur-fast) ease,
+    background-color var(--dur-fast) ease;
+}
+
+.sb__toggle:hover {
+  color: var(--ink);
+  background: var(--accent-soft);
+}
+
+.sb__toggle svg {
+  width: 14px;
+  height: 14px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transform: rotate(90deg);
+  transition: transform var(--dur-fast) ease;
+}
+
+.sb__item.is-open .sb__toggle svg {
+  transform: rotate(0deg);
+}
+
+.sb__item.is-open > .sb__row .sb__label {
+  font-weight: 600;
+}
+
+/* زیربخش‌ها — پیش‌فرض بسته، فقط فصل باز نمایش داده می‌شود */
 
 .sb__sub {
   position: relative;
+  display: none;
   margin: 0.1em 0 0.55em;
   padding-inline-start: 1.6em;
+}
+
+.sb__item.is-open > .sb__sub {
+  display: block;
 }
 
 .sb__sub::before {
@@ -527,6 +589,158 @@ body.is-zen .shell .topbar {
   max-width: 100%;
   height: auto;
   border-radius: var(--radius-sm);
+}
+
+/* ---------- دستورهای گام‌به‌گام ---------- */
+
+/*
+  ساختار هر دستور در فایل فصل:
+
+  <div class="steps" data-step-title="فعال‌سازی 2FA در گوگل">
+    <ol class="steps__list">
+      <li>
+        <p class="steps__what">به myaccount.google.com بروید</p>
+        <p class="steps__why">چون تنظیمات امنیتی حساب گوگل همان‌جاست.</p>
+      </li>
+    </ol>
+    <p class="steps__result">نتیجه: از این پس هر ورود کد دوم می‌خواهد.</p>
+  </div>
+*/
+
+.steps {
+  margin: 1.9em 0;
+  padding: 1.15em 1.25em 1.25em;
+  background: var(--paper-2);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-md);
+}
+
+.steps__title {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  margin: 0 0 1em;
+  padding-bottom: 0.7em;
+  font-size: 0.98em;
+  font-weight: 700;
+  color: var(--ink);
+  border-bottom: 1px solid var(--rule);
+}
+
+.steps__title svg {
+  width: 17px;
+  height: 17px;
+  color: var(--accent);
+}
+
+.steps__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: step;
+}
+
+.steps__list > li {
+  position: relative;
+  padding-inline-start: 2.4em;
+  padding-bottom: 1.05em;
+  counter-increment: step;
+}
+
+.steps__list > li:last-child {
+  padding-bottom: 0;
+}
+
+/* شمارهٔ گام */
+.steps__list > li::before {
+  content: counter(step, persian);
+  position: absolute;
+  inset-inline-start: 0;
+  top: 0.15em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.75em;
+  height: 1.75em;
+  font-size: 0.74em;
+  font-weight: 700;
+  color: var(--accent);
+  background: var(--accent-soft);
+  border-radius: 50%;
+}
+
+/* خط اتصال گام‌ها */
+.steps__list > li:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  inset-inline-start: 0.87em;
+  top: 2.1em;
+  bottom: 0.4em;
+  width: 1px;
+  background: var(--rule);
+}
+
+.steps__what {
+  margin: 0 0 0.2em;
+  font-size: 0.98em;
+  font-weight: 600;
+  line-height: 1.85;
+  color: var(--ink);
+}
+
+.steps__why {
+  margin: 0;
+  font-size: 0.86em;
+  line-height: 1.8;
+  color: var(--ink-soft);
+}
+
+.steps__result {
+  margin: 1.1em 0 0;
+  padding-top: 0.85em;
+  font-size: 0.86em;
+  line-height: 1.75;
+  color: var(--ink-soft);
+  border-top: 1px dashed var(--rule);
+}
+
+.steps__result::before {
+  content: "✓ ";
+  font-weight: 700;
+  color: var(--accent);
+}
+
+/* ---------- هشدار و نکته ---------- */
+
+.note {
+  margin: 1.7em 0;
+  padding: 0.95em 1.1em;
+  font-size: 0.94em;
+  line-height: 1.9;
+  color: var(--ink-soft);
+  background: var(--paper-2);
+  border-radius: var(--radius-sm);
+  border-inline-start: 3px solid var(--accent-2);
+}
+
+.note--warn {
+  border-inline-start-color: #b4543a;
+}
+
+.note__label {
+  display: block;
+  margin-bottom: 0.25em;
+  font-size: 0.86em;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.note--warn .note__label {
+  color: #b4543a;
+}
+
+html[data-theme="dark"] .note--warn .note__label {
+  color: #e08a6f;
 }
 
 /* ---------- آمار صفحهٔ درباره ---------- */

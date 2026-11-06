@@ -55,14 +55,14 @@
 
   /* چیدمان سند */
   --sidebar-w: 292px; /* عرض فهرست کناری */
-  --sheet-max: 43rem; /* عرض برگهٔ سند */
-  --sheet-pad-x: 3.2rem; /* حاشیهٔ افقی متن */
+  --sheet-max: 46rem; /* عرض برگهٔ سند */
+  --sheet-pad-x: 3.6rem; /* حاشیهٔ افقی متن */
   --sheet-pad-y: 3rem; /* حاشیهٔ عمودی متن */
   --topbar-h: 52px;
 
   /* تایپوگرافی خواندن */
-  --read-size: 1.02rem;
-  --read-line: 2.05;
+  --read-size: 1.13rem; /* بزرگ‌تر: آموزش، نه فقط آگاه‌سازی */
+  --read-line: 2.15;
 
   /* بازماندهٔ چیدمان قدیمی — برای سازگاری */
   --page-max: 46rem;
@@ -84,15 +84,15 @@
 
 /* ===== پالت ۱ — سپیا (پیش‌فرض) ===== */
 html[data-palette="sepia"] {
-  --bg: #efe6d3;
-  --bg-deep: #e5dac3;
-  --paper: #fbf0d9;
-  --paper-2: #f4e8cd;
-  --ink: #5f4b32;
-  --ink-soft: #7d6a4f;
-  --ink-faint: #a4947a;
-  --accent: #8a5a2b;
-  --accent-2: #b3873f;
+  --bg: #f7f1e6;
+  --bg-deep: #efe7d8;
+  --paper: #fffcf5;
+  --paper-2: #faf4e8;
+  --ink: #2f2418;
+  --ink-soft: #574634;
+  --ink-faint: #8d7c63;
+  --accent: #8a5622;
+  --accent-2: #b8862f;
   --accent-soft: rgb(138 90 43 / 11%);
   --rule: rgb(95 75 50 / 16%);
   --selection: #f2dfae;
@@ -106,13 +106,13 @@ html[data-palette="sepia"] {
 }
 
 html[data-palette="sepia"][data-theme="dark"] {
-  --bg: #171310;
-  --bg-deep: #100d0b;
-  --paper: #221c16;
-  --paper-2: #1b1611;
-  --ink: #e8dcc8;
-  --ink-soft: #b9a88e;
-  --ink-faint: #8a7a63;
+  --bg: #1c1712;
+  --bg-deep: #14100c;
+  --paper: #2a231b;
+  --paper-2: #221c15;
+  --ink: #f6ecdc;
+  --ink-soft: #d3c3a8;
+  --ink-faint: #a08d73;
   --accent: #d9a566;
   --accent-2: #c9a56a;
   --accent-soft: rgb(217 165 102 / 13%);

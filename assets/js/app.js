@@ -58,14 +58,25 @@ function renderSidebar() {
   const brand = $("#sidebarTitle");
   if (brand) brand.textContent = book.meta.title || "";
 
-  // فصل جاری را در دید نگه دار، بدون اسکرول کل صفحه.
+  // فصل جاری را در دید نگه دار، ولی هرگز بالای فهرست را نبُر.
   const panel = $("#sidebarScroll");
-  const active = panel?.querySelector(".is-active");
-  if (panel && active) {
-    const offset =
-      active.getBoundingClientRect().top - panel.getBoundingClientRect().top;
-    panel.scrollTop += offset - panel.clientHeight / 3;
-  }
+  const active = panel?.querySelector(".sb__link.is-active");
+  if (!panel || !active) return;
+
+  const panelRect = panel.getBoundingClientRect();
+  const activeRect = active.getBoundingClientRect();
+
+  const above = activeRect.top < panelRect.top + 8;
+  const below = activeRect.bottom > panelRect.bottom - 8;
+  if (!above && !below) return;
+
+  panel.scrollTo({
+    top:
+      panel.scrollTop +
+      (activeRect.top - panelRect.top) -
+      panel.clientHeight / 3,
+    behavior: "smooth",
+  });
 }
 
 function renderPage() {
@@ -231,6 +242,18 @@ function bindChrome(search) {
 
   $("#btnZen")?.addEventListener("click", handleZen);
   $("#btnZenExit")?.addEventListener("click", handleZen);
+
+  // باز/بسته کردن زیربخش‌های هر فصل (بدون تغییر مسیر)
+  $("#sidebarContent")?.addEventListener("click", (event) => {
+    const toggle = event.target.closest(".sb__toggle");
+    if (!toggle) return;
+    event.preventDefault();
+    event.stopPropagation();
+
+    const item = toggle.closest(".sb__item");
+    const open = item?.classList.toggle("is-open");
+    toggle.setAttribute("aria-expanded", String(Boolean(open)));
+  });
 
   // بستن مودال با کلیک بیرون یا دکمهٔ بستن
   document.querySelectorAll(".modal").forEach((dialog) => {

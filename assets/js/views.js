@@ -76,14 +76,27 @@ export function tocView(book, route) {
             })
             .join("");
 
+          // زیربخش‌ها پیش‌فرض بسته‌اند؛ فقط فصل جاری باز است.
+          const open = chapter.id === currentChapter;
+          const hasSub = sections.length > 0;
+
           return `
-            <li>
-              <a class="sb__link${isCurrent ? " is-active" : ""}"
-                 href="#/chapter/${encodeURIComponent(chapter.id)}">
-                <span class="sb__num">${escapeHtml(chapter.label || fa(index + 1))}</span>
-                <span class="sb__label">${escapeHtml(chapter.title)}</span>
-              </a>
-              ${subRows ? `<ul class="sb__sub">${subRows}</ul>` : ""}
+            <li class="sb__item${open ? " is-open" : ""}">
+              <div class="sb__row">
+                <a class="sb__link${isCurrent && !currentSection ? " is-active" : ""}"
+                   href="#/chapter/${encodeURIComponent(chapter.id)}">
+                  <span class="sb__num">${escapeHtml(chapter.label || fa(index + 1))}</span>
+                  <span class="sb__label">${escapeHtml(chapter.title)}</span>
+                </a>
+                ${
+                  hasSub
+                    ? `<button class="sb__toggle" aria-expanded="${open}" aria-label="باز/بستن زیربخش‌های این فصل">
+                         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+                       </button>`
+                    : ""
+                }
+              </div>
+              ${hasSub ? `<ul class="sb__sub">${subRows}</ul>` : ""}
             </li>`;
         })
         .join("");
