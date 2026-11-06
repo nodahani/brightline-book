@@ -63,178 +63,189 @@
 }
 
 /* ==========================================================================
-   پالت ۱ — لاجورد و زر (پیش‌فرض)
+   پالت‌ها — برگرفته از کتاب‌خوان‌های واقعی
+   سپیا: Kindle (کاغذ کرم #FBF0D9 / مرکب #5F4B32)
+   مهتاب: Apple Books (زمینهٔ خاکستری‌سرد، متن نرم)
+   کاغذ: iBooks روشن / Kindle White
+   زغال: حالت شب مینیمال با متن کرمِ گرم
    ========================================================================== */
-html[data-palette="lapis"] {
-  --bg: #e6e9ef;
-  --bg-deep: #dbe0e9;
-  --paper: #fbfbf9;
-  --paper-2: #f1f3f7;
-  --ink: #161e2b;
-  --ink-soft: #5a6779;
-  --ink-faint: #8c97a8;
-  --accent: #2e4e8f;
-  --accent-2: #b8892f;
-  --accent-soft: rgb(46 78 143 / 10%);
-  --rule: rgb(22 30 43 / 13%);
-  --selection: #d9e2f5;
-  --cover-1: #22375f;
-  --cover-2: #121d33;
-  --spine: linear-gradient(
-    90deg,
-    rgb(10 20 40 / 20%),
-    rgb(10 20 40 / 3%) 18%,
-    rgb(255 255 255 / 55%) 40%,
-    rgb(10 20 40 / 2%) 70%,
-    rgb(10 20 40 / 13%)
-  );
-  --shadow:
-    0 26px 64px -20px rgb(12 18 30 / 45%), 0 6px 18px -10px rgb(12 18 30 / 28%);
+
+/* ===== پالت ۱ — سپیا (پیش‌فرض) ===== */
+html[data-palette="sepia"] {
+  --bg: #efe6d3;
+  --bg-deep: #e5dac3;
+  --paper: #fbf0d9;
+  --paper-2: #f4e8cd;
+  --ink: #5f4b32;
+  --ink-soft: #7d6a4f;
+  --ink-faint: #a4947a;
+  --accent: #8a5a2b;
+  --accent-2: #b3873f;
+  --accent-soft: rgb(138 90 43 / 11%);
+  --rule: rgb(95 75 50 / 16%);
+  --selection: #f2dfae;
+  --cover-1: #4a3520;
+  --cover-2: #2e2013;
+  --spine-bg: #f4e8cd;
+  --spine-shade: rgb(95 75 50 / 10%);
+  --spine-highlight: rgb(255 255 255 / 55%);
+  --shadow: 0 24px 56px -22px rgb(74 53 32 / 32%), 0 4px 14px -8px rgb(74 53 32 / 22%);
   color-scheme: light;
 }
 
-html[data-palette="lapis"][data-theme="dark"] {
-  --bg: #0b0f16;
-  --bg-deep: #070a0f;
-  --paper: #141a24;
-  --paper-2: #10151d;
-  --ink: #e7ebf2;
-  --ink-soft: #a3afc0;
-  --ink-faint: #6c7889;
-  --accent: #8fb0e8;
-  --accent-2: #d2a85c;
-  --accent-soft: rgb(143 176 232 / 13%);
-  --rule: rgb(231 235 242 / 13%);
-  --selection: #2c3f63;
-  --cover-1: #1a2438;
-  --cover-2: #0c1220;
-  --spine: linear-gradient(
-    90deg,
-    rgb(0 0 0 / 50%),
-    rgb(0 0 0 / 12%) 18%,
-    rgb(255 255 255 / 6%) 40%,
-    rgb(0 0 0 / 8%) 70%,
-    rgb(0 0 0 / 40%)
-  );
-  --shadow:
-    0 26px 70px -20px rgb(0 0 0 / 80%), 0 6px 22px -10px rgb(0 0 0 / 60%);
+html[data-palette="sepia"][data-theme="dark"] {
+  --bg: #171310;
+  --bg-deep: #100d0b;
+  --paper: #221c16;
+  --paper-2: #1b1611;
+  --ink: #e8dcc8;
+  --ink-soft: #b9a88e;
+  --ink-faint: #8a7a63;
+  --accent: #d9a566;
+  --accent-2: #c9a56a;
+  --accent-soft: rgb(217 165 102 / 13%);
+  --rule: rgb(232 220 200 / 13%);
+  --selection: #4a3926;
+  --cover-1: #2a2018;
+  --cover-2: #150f0b;
+  --spine-bg: #1b1611;
+  --spine-shade: rgb(0 0 0 / 38%);
+  --spine-highlight: rgb(255 255 255 / 5%);
+  --shadow: 0 26px 60px -22px rgb(0 0 0 / 75%), 0 4px 16px -8px rgb(0 0 0 / 55%);
   color-scheme: dark;
 }
 
-/* ==========================================================================
-   پالت ۲ — فیروزه و برنج
-   ========================================================================== */
-html[data-palette="turquoise"] {
-  --bg: #e3eae7;
-  --bg-deep: #d7e1dd;
-  --paper: #fafcfb;
-  --paper-2: #eff5f2;
-  --ink: #14211d;
-  --ink-soft: #566b64;
-  --ink-faint: #8b9b95;
-  --accent: #17756a;
-  --accent-2: #b98f3e;
-  --accent-soft: rgb(23 117 106 / 10%);
-  --rule: rgb(20 33 29 / 12%);
-  --selection: #cfe7e0;
-  --cover-1: #0f4a44;
-  --cover-2: #072a27;
-  --spine: linear-gradient(
-    90deg,
-    rgb(6 30 27 / 20%),
-    rgb(6 30 27 / 3%) 18%,
-    rgb(255 255 255 / 55%) 40%,
-    rgb(6 30 27 / 2%) 70%,
-    rgb(6 30 27 / 13%)
-  );
-  --shadow:
-    0 26px 64px -20px rgb(8 28 24 / 45%), 0 6px 18px -10px rgb(8 28 24 / 28%);
+/* ===== پالت ۲ — مهتاب (خاکستری‌سرد) ===== */
+html[data-palette="moon"] {
+  --bg: #e4e5e7;
+  --bg-deep: #d9dadd;
+  --paper: #f7f7f6;
+  --paper-2: #ececeb;
+  --ink: #1c1d20;
+  --ink-soft: #5a5d64;
+  --ink-faint: #93969d;
+  --accent: #3f5d8a;
+  --accent-2: #a58652;
+  --accent-soft: rgb(63 93 138 / 10%);
+  --rule: rgb(28 29 32 / 12%);
+  --selection: #d7dee9;
+  --cover-1: #23272e;
+  --cover-2: #14171b;
+  --spine-bg: #ececeb;
+  --spine-shade: rgb(28 29 32 / 9%);
+  --spine-highlight: rgb(255 255 255 / 62%);
+  --shadow: 0 24px 56px -22px rgb(30 32 38 / 30%), 0 4px 14px -8px rgb(30 32 38 / 20%);
   color-scheme: light;
 }
 
-html[data-palette="turquoise"][data-theme="dark"] {
-  --bg: #07110f;
-  --bg-deep: #040b0a;
-  --paper: #0e1a17;
-  --paper-2: #0a1412;
-  --ink: #dfeee9;
-  --ink-soft: #9cb3ac;
-  --ink-faint: #66807a;
-  --accent: #52c3b0;
-  --accent-2: #d0ac61;
-  --accent-soft: rgb(82 195 176 / 13%);
-  --rule: rgb(223 238 233 / 13%);
-  --selection: #1d4b44;
-  --cover-1: #0c2b27;
-  --cover-2: #05100e;
-  --spine: linear-gradient(
-    90deg,
-    rgb(0 0 0 / 50%),
-    rgb(0 0 0 / 12%) 18%,
-    rgb(255 255 255 / 6%) 40%,
-    rgb(0 0 0 / 8%) 70%,
-    rgb(0 0 0 / 40%)
-  );
-  --shadow:
-    0 26px 70px -20px rgb(0 0 0 / 80%), 0 6px 22px -10px rgb(0 0 0 / 60%);
+html[data-palette="moon"][data-theme="dark"] {
+  --bg: #131417;
+  --bg-deep: #0c0d0f;
+  --paper: #1d1f23;
+  --paper-2: #17191c;
+  --ink: #e4e6ea;
+  --ink-soft: #a2a7b0;
+  --ink-faint: #71767f;
+  --accent: #9db6dc;
+  --accent-2: #c6a878;
+  --accent-soft: rgb(157 182 220 / 13%);
+  --rule: rgb(228 230 234 / 12%);
+  --selection: #2f3a4a;
+  --cover-1: #1f2227;
+  --cover-2: #0e0f12;
+  --spine-bg: #17191c;
+  --spine-shade: rgb(0 0 0 / 40%);
+  --spine-highlight: rgb(255 255 255 / 5%);
+  --shadow: 0 26px 60px -22px rgb(0 0 0 / 78%), 0 4px 16px -8px rgb(0 0 0 / 58%);
   color-scheme: dark;
 }
 
-/* ==========================================================================
-   پالت ۳ — زغال و شنگرف
-   ========================================================================== */
+/* ===== پالت ۳ — کاغذ (روشن و بی‌رنگ) ===== */
+html[data-palette="paper"] {
+  --bg: #eceae6;
+  --bg-deep: #e1dfda;
+  --paper: #fdfdfc;
+  --paper-2: #f4f3f0;
+  --ink: #1e1c19;
+  --ink-soft: #605c55;
+  --ink-faint: #9a958c;
+  --accent: #6b5744;
+  --accent-2: #b08b4c;
+  --accent-soft: rgb(107 87 68 / 9%);
+  --rule: rgb(30 28 25 / 11%);
+  --selection: #eee2c8;
+  --cover-1: #35302a;
+  --cover-2: #1e1a16;
+  --spine-bg: #f4f3f0;
+  --spine-shade: rgb(30 28 25 / 8%);
+  --spine-highlight: rgb(255 255 255 / 70%);
+  --shadow: 0 24px 56px -22px rgb(35 31 26 / 26%), 0 4px 14px -8px rgb(35 31 26 / 18%);
+  color-scheme: light;
+}
+
+html[data-palette="paper"][data-theme="dark"] {
+  --bg: #121110;
+  --bg-deep: #0a0a09;
+  --paper: #1b1a18;
+  --paper-2: #151412;
+  --ink: #e9e5de;
+  --ink-soft: #a9a29a;
+  --ink-faint: #767069;
+  --accent: #d8c6a8;
+  --accent-2: #c9a86d;
+  --accent-soft: rgb(216 198 168 / 12%);
+  --rule: rgb(233 229 222 / 12%);
+  --selection: #3d372f;
+  --cover-1: #232120;
+  --cover-2: #0f0e0d;
+  --spine-bg: #151412;
+  --spine-shade: rgb(0 0 0 / 38%);
+  --spine-highlight: rgb(255 255 255 / 5%);
+  --shadow: 0 26px 60px -22px rgb(0 0 0 / 76%), 0 4px 16px -8px rgb(0 0 0 / 56%);
+  color-scheme: dark;
+}
+
+/* ===== پالت ۴ — زغال (شب عمیق) ===== */
 html[data-palette="charcoal"] {
-  --bg: #ecebe8;
-  --bg-deep: #e1dfdb;
-  --paper: #fdfcfa;
-  --paper-2: #f4f2ee;
-  --ink: #1a1a1a;
-  --ink-soft: #6a6660;
-  --ink-faint: #9b958c;
-  --accent: #a63a2e;
-  --accent-2: #b08a3e;
-  --accent-soft: rgb(166 58 46 / 9%);
-  --rule: rgb(26 26 26 / 12%);
-  --selection: #f6ddd6;
-  --cover-1: #2c2b29;
-  --cover-2: #161615;
-  --spine: linear-gradient(
-    90deg,
-    rgb(0 0 0 / 22%),
-    rgb(0 0 0 / 3%) 18%,
-    rgb(255 255 255 / 55%) 40%,
-    rgb(0 0 0 / 2%) 70%,
-    rgb(0 0 0 / 14%)
-  );
-  --shadow:
-    0 26px 64px -20px rgb(20 20 20 / 40%), 0 6px 18px -10px rgb(20 20 20 / 25%);
+  --bg: #e9e8e6;
+  --bg-deep: #dddcda;
+  --paper: #fcfbfa;
+  --paper-2: #f3f2f0;
+  --ink: #191817;
+  --ink-soft: #5d5a56;
+  --ink-faint: #99958f;
+  --accent: #7a4a3a;
+  --accent-2: #a98a4e;
+  --accent-soft: rgb(122 74 58 / 9%);
+  --rule: rgb(25 24 23 / 11%);
+  --selection: #efe0d4;
+  --cover-1: #2a2826;
+  --cover-2: #161514;
+  --spine-bg: #f3f2f0;
+  --spine-shade: rgb(25 24 23 / 8%);
+  --spine-highlight: rgb(255 255 255 / 65%);
+  --shadow: 0 24px 56px -22px rgb(25 24 23 / 28%), 0 4px 14px -8px rgb(25 24 23 / 18%);
   color-scheme: light;
 }
 
 html[data-palette="charcoal"][data-theme="dark"] {
-  --bg: #0d0d0d;
-  --bg-deep: #080808;
-  --paper: #171716;
-  --paper-2: #111110;
-  --ink: #ece8e1;
-  --ink-soft: #a5a099;
-  --ink-faint: #6f6a64;
-  --accent: #e0745f;
-  --accent-2: #d8b26a;
-  --accent-soft: rgb(224 116 95 / 13%);
-  --rule: rgb(236 232 225 / 13%);
-  --selection: #4a2a24;
-  --cover-1: #222120;
-  --cover-2: #0c0c0b;
-  --spine: linear-gradient(
-    90deg,
-    rgb(0 0 0 / 50%),
-    rgb(0 0 0 / 12%) 18%,
-    rgb(255 255 255 / 6%) 40%,
-    rgb(0 0 0 / 8%) 70%,
-    rgb(0 0 0 / 40%)
-  );
-  --shadow:
-    0 26px 70px -20px rgb(0 0 0 / 80%), 0 6px 22px -10px rgb(0 0 0 / 60%);
+  --bg: #0a0a0a;
+  --bg-deep: #050505;
+  --paper: #121212;
+  --paper-2: #0d0d0d;
+  --ink: #e6e1d8;
+  --ink-soft: #a39d94;
+  --ink-faint: #6e6862;
+  --accent: #dfae7a;
+  --accent-2: #d1a878;
+  --accent-soft: rgb(223 174 122 / 12%);
+  --rule: rgb(230 225 216 / 11%);
+  --selection: #40342a;
+  --cover-1: #1a1917;
+  --cover-2: #080807;
+  --spine-bg: #0d0d0d;
+  --spine-shade: rgb(0 0 0 / 45%);
+  --spine-highlight: rgb(255 255 255 / 4%);
+  --shadow: 0 26px 60px -22px rgb(0 0 0 / 80%), 0 4px 16px -8px rgb(0 0 0 / 60%);
   color-scheme: dark;
 }

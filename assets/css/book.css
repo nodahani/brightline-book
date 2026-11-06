@@ -33,14 +33,15 @@
 .book::before {
   content: "";
   position: absolute;
-  inset: -7px -9px;
+  inset: -6px -7px;
   z-index: 0;
-  border-radius: calc(var(--radius-lg) + 4px);
+  border-radius: calc(var(--radius-lg) + 3px);
   background: linear-gradient(160deg, var(--cover-1) 0%, var(--cover-2) 100%);
-  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 8%);
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 7%);
 }
 
-/* شیرازهٔ وسط کتاب؛ فقط در چیدمان دو صفحه‌ای دیده می‌شود */
+/* شیرازهٔ وسط کتاب — شیارِ عطف
+   سه لایه: تیرگیِ نرم در دو طرف، خط طلاییِ نازک در مرکز، و یک درخشش کاغذی */
 .book__spine {
   display: none;
   position: absolute;
@@ -48,10 +49,52 @@
   bottom: 0;
   left: 50%;
   z-index: 4;
-  width: 56px;
+  width: 34px;
   transform: translateX(-50%);
-  background: var(--spine);
   pointer-events: none;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--spine-shade) 22%,
+    var(--spine-highlight) 47%,
+    var(--spine-highlight) 53%,
+    var(--spine-shade) 78%,
+    transparent 100%
+  );
+  opacity: 0.85;
+}
+
+/* خطِ طلایی نازک روی شیار */
+.book__spine::before {
+  content: "";
+  position: absolute;
+  inset-block: 0;
+  left: 50%;
+  width: 1px;
+  transform: translateX(-50%);
+  background: linear-gradient(
+    180deg,
+    transparent,
+    color-mix(in srgb, var(--accent-2) 55%, transparent) 12%,
+    color-mix(in srgb, var(--accent-2) 55%, transparent) 88%,
+    transparent
+  );
+}
+
+/* سایهٔ ملایمی که دو صفحه را از هم جدا می‌کند، بدون بریدگی */
+.book__spine::after {
+  content: "";
+  position: absolute;
+  inset-block: 0;
+  left: 50%;
+  width: 76px;
+  transform: translateX(-50%);
+  background: linear-gradient(90deg, transparent, rgb(0 0 0 / 6%) 35%, rgb(0 0 0 / 9%) 50%, rgb(0 0 0 / 6%) 65%, transparent);
+  z-index: -1;
+}
+
+html[data-theme="dark"] .book__spine::after {
+  background: linear-gradient(90deg, transparent, rgb(0 0 0 / 30%) 35%, rgb(0 0 0 / 42%) 50%, rgb(0 0 0 / 30%) 65%, transparent);
 }
 
 /* ---------- صفحه ---------- */
@@ -77,11 +120,12 @@
 }
 
 .page--left {
-  box-shadow: inset -22px 0 28px -26px rgb(30 30 30 / 55%);
+  /* سایهٔ ملایم در لبهٔ شیرازه؛ عمق می‌دهد بدون اینکه بریده به نظر برسد */
+  box-shadow: inset -14px 0 20px -22px rgb(60 50 40 / 40%);
 }
 
 .page--right {
-  box-shadow: inset 22px 0 28px -26px rgb(30 30 30 / 55%);
+  box-shadow: inset 14px 0 20px -22px rgb(60 50 40 / 40%);
 }
 
 /* گوشهٔ تاخوردهٔ کاغذ */
@@ -92,8 +136,8 @@
   left: 0;
   width: 46px;
   height: 46px;
-  background: linear-gradient(45deg, var(--bg-deep) 50%, transparent 50%);
-  opacity: 0.3;
+  background: linear-gradient(45deg, color-mix(in srgb, var(--bg-deep) 80%, transparent) 50%, transparent 50%);
+  opacity: 0.5;
   pointer-events: none;
 }
 
@@ -265,6 +309,7 @@
 /* ---------- دکمه‌های ورق زدن ---------- */
 .nav-btn {
   display: inline-flex;
+  text-decoration: none;
   align-items: center;
   gap: 6px;
   height: 34px;
@@ -420,6 +465,7 @@
 
 .cover__start {
   display: inline-flex;
+  text-decoration: none;
   align-items: center;
   gap: var(--space-2);
   margin-top: 3.4em;
@@ -491,6 +537,8 @@
 
 .toc__link {
   display: flex;
+  text-decoration: none;
+  color: inherit;
   align-items: baseline;
   gap: 0.7em;
   width: 100%;
@@ -589,7 +637,7 @@
 .progress__bar {
   width: 0;
   height: 100%;
-  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  background: linear-gradient(90deg, var(--accent-2), var(--accent));
   border-radius: inherit;
   transition: width 450ms var(--ease-out);
 }

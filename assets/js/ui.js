@@ -11,9 +11,10 @@ const PALETTE_KEY = "khat-roshan/palette";
 
 const THEMES = ["light", "dark"];
 const PALETTES = [
-  { id: "lapis", label: "لاجورد و زر" },
-  { id: "turquoise", label: "فیروزه و برنج" },
-  { id: "charcoal", label: "زغال و شنگرف" },
+  { id: "sepia", label: "سپیا" },
+  { id: "moon", label: "مهتاب" },
+  { id: "paper", label: "کاغذ" },
+  { id: "charcoal", label: "زغال" },
 ];
 
 /* حافظهٔ مرورگر ممکن است در iframe سندباکس بسته باشد */
@@ -79,7 +80,7 @@ export function cyclePalette() {
 
 export const paletteLabel = (id) => paletteOf(id).label;
 
-export function initTheme(defaultPalette = "lapis") {
+export function initTheme(defaultPalette = "sepia") {
   const savedTheme = store.get(THEME_KEY);
   const prefersDark = window.matchMedia?.(
     "(prefers-color-scheme: dark)",
