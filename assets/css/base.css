@@ -15,20 +15,18 @@ html {
 
 body {
   margin: 0;
-  min-height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
   font-family: var(--font-sans);
   font-size: 16px;
   line-height: 1.8;
   color: var(--ink);
-  background:
-    radial-gradient(1200px 800px at 85% -10%, var(--paper-2), transparent 60%),
-    radial-gradient(1000px 700px at 0% 110%, var(--paper-2), transparent 55%),
-    var(--bg);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: var(--space-6) var(--space-4);
+  background: var(--bg);
   transition: background-color var(--dur-mid) ease;
+}
+
+body.no-scroll {
+  overflow: hidden;
 }
 
 ::selection {
@@ -197,9 +195,10 @@ th {
 
 /* ---------- چاپ ---------- */
 @media print {
+  html,
   body {
-    display: block;
-    padding: 0;
+    height: auto;
+    overflow: visible;
     background: #fff;
   }
 }

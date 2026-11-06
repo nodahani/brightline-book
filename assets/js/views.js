@@ -19,26 +19,24 @@ export const escapeHtml = (value = "") =>
 export const icon = (name, className = "") =>
   `<svg class="${className}" aria-hidden="true"><use href="#i-${name}"></use></svg>`;
 
-/* ---------- جلد ---------- */
+/* ---------- صفحهٔ عنوان ---------- */
 
 export function coverView(book) {
   const { meta, chapters } = book;
   const first = chapters[0];
 
   return `
-    <div class="cover">
-      <div class="cover__frame" aria-hidden="true"></div>
-      <p class="cover__eyebrow">${escapeHtml(meta.siteName || "")}</p>
-      <h1 class="cover__title">${escapeHtml(meta.title || "")}</h1>
-      ${meta.subtitle ? `<p class="cover__subtitle">${escapeHtml(meta.subtitle)}</p>` : ""}
-      <div class="cover__ornament" aria-hidden="true">${icon("quill")}</div>
-      <p class="cover__meta">
-        ${meta.author ? `<span class="cover__author">${escapeHtml(meta.author)}</span>` : ""}
+    <div class="doc-title">
+      <p class="doc-title__eyebrow">${escapeHtml(meta.siteName || "")}</p>
+      <h1 class="doc-title__heading">${escapeHtml(meta.title || "")}</h1>
+      ${meta.subtitle ? `<p class="doc-title__subtitle">${escapeHtml(meta.subtitle)}</p>` : ""}
+      <p class="doc-title__meta">
+        ${meta.author ? `<span>${escapeHtml(meta.author)}</span>` : ""}
         <span>${escapeHtml(meta.year || "")}${meta.year ? " · " : ""}${fa(chapters.length)} فصل</span>
       </p>
       ${
         first
-          ? `<a class="cover__start" href="#/chapter/${encodeURIComponent(first.id)}">
+          ? `<a class="doc-title__start" href="#/chapter/${encodeURIComponent(first.id)}">
                شروع خواندن ${icon("arrow-start")}
              </a>`
           : ""
@@ -46,10 +44,11 @@ export function coverView(book) {
     </div>`;
 }
 
-/* ---------- فهرست ---------- */
+/* ---------- فهرست کناری ---------- */
 
 export function tocView(book, route) {
   const currentChapter = route.type === "chapter" ? route.id : null;
+  const currentSection = route.type === "chapter" ? route.section : null;
 
   const parts = book.parts
     .map((part) => {
@@ -59,19 +58,19 @@ export function tocView(book, route) {
 
       if (!items.length) return "";
 
-      const links = items
+      const rows = items
         .map(({ chapter, index }) => {
-          const isCurrent = chapter.id === currentChapter;
+          const isCurrent = chapter.id === currentChapter && !currentSection;
           const sections = chapter.sections || [];
 
-          const subLinks = sections
+          const subRows = sections
             .map((section) => {
-              const cls = `toc__link toc__link--sub${section.level === 3 ? " toc__link--deep" : ""}`;
+              const active = chapter.id === currentChapter && section.slug === currentSection;
               return `
                 <li>
-                  <a class="${cls}"
+                  <a class="sb__link sb__link--sub${section.level === 3 ? " sb__link--deep" : ""}${active ? " is-active" : ""}"
                      href="#/chapter/${encodeURIComponent(chapter.id)}/${encodeURIComponent(section.slug)}">
-                    <span class="toc__name">${escapeHtml(section.text)}</span>
+                    <span class="sb__label">${escapeHtml(section.text)}</span>
                   </a>
                 </li>`;
             })
@@ -79,23 +78,20 @@ export function tocView(book, route) {
 
           return `
             <li>
-              <a class="toc__link${isCurrent ? " is-current" : ""}"
-                 href="#/chapter/${encodeURIComponent(chapter.id)}"
-                 ${isCurrent ? 'aria-current="page"' : ""}>
-                <span class="toc__num">${escapeHtml(chapter.label || fa(index + 1))}</span>
-                <span class="toc__name">${escapeHtml(chapter.title)}</span>
-                <span class="toc__dots" aria-hidden="true"></span>
-                <span class="toc__page">${fa(index + 3)}</span>
+              <a class="sb__link${isCurrent ? " is-active" : ""}"
+                 href="#/chapter/${encodeURIComponent(chapter.id)}">
+                <span class="sb__num">${escapeHtml(chapter.label || fa(index + 1))}</span>
+                <span class="sb__label">${escapeHtml(chapter.title)}</span>
               </a>
-              ${subLinks ? `<ul class="toc__sub">${subLinks}</ul>` : ""}
+              ${subRows ? `<ul class="sb__sub">${subRows}</ul>` : ""}
             </li>`;
         })
         .join("");
 
       return `
-        <div class="toc__part">
-          <h3 class="toc__part-title">${escapeHtml(part.title)}</h3>
-          <ul class="toc__list">${links}</ul>
+        <div class="sb__group">
+          <p class="sb__group-title">${escapeHtml(part.title)}</p>
+          <ul class="sb__list">${rows}</ul>
         </div>`;
     })
     .join("");
@@ -103,20 +99,13 @@ export function tocView(book, route) {
   const aboutCurrent = route.type === "about";
 
   return `
-    <nav class="toc" aria-label="فهرست کتاب">
-      <h2 class="toc__title">فهرست</h2>
-      <p class="toc__subtitle">${fa(book.chapters.length)} فصل در ${fa(book.parts.length)} بخش</p>
+    <nav class="sb" aria-label="فهرست کتاب">
       ${parts}
-      <div class="toc__part">
-        <h3 class="toc__part-title">پیوست</h3>
-        <ul class="toc__list">
+      <div class="sb__group">
+        <ul class="sb__list">
           <li>
-            <a class="toc__link${aboutCurrent ? " is-current" : ""}" href="#/about"
-               ${aboutCurrent ? 'aria-current="page"' : ""}>
-              <span class="toc__num">—</span>
-              <span class="toc__name">دربارهٔ این کتاب</span>
-              <span class="toc__dots" aria-hidden="true"></span>
-              <span class="toc__page">${fa(book.chapters.length + 3)}</span>
+            <a class="sb__link${aboutCurrent ? " is-active" : ""}" href="#/about">
+              <span class="sb__label">دربارهٔ این کتاب</span>
             </a>
           </li>
         </ul>
@@ -144,14 +133,16 @@ export function chapterView(book, chapter) {
   const part = book.parts.find((p) => p.id === chapter.part);
 
   return `
-    <header class="chapter-head">
-      <p class="chapter-head__badge">
-        ${escapeHtml(part ? part.title : "فصل")}
-        ${chapter.label ? ` · ${escapeHtml(chapter.label)}` : ""}
-      </p>
-      <h1 class="chapter-head__title">${escapeHtml(chapter.title)}</h1>
-    </header>
-    <div class="chapter-body">${chapter.body}</div>`;
+    <article class="doc">
+      <header class="doc__head">
+        <p class="doc__eyebrow">
+          ${escapeHtml(part ? part.title : "فصل")}
+          ${chapter.label ? ` · فصل ${escapeHtml(chapter.label)}` : ""}
+        </p>
+        <h1 class="doc__title">${escapeHtml(chapter.title)}</h1>
+      </header>
+      <div class="doc__body">${chapter.body}</div>
+    </article>`;
 }
 
 /* ---------- درباره ---------- */
@@ -168,21 +159,23 @@ export function aboutView(book) {
   );
 
   return `
-    <header class="chapter-head">
-      <p class="chapter-head__badge">${icon("info", "badge-icon")} دربارهٔ کتاب</p>
-      <h1 class="chapter-head__title">${escapeHtml(meta.title || "")}</h1>
-    </header>
-    <div class="chapter-body">${about}</div>
-    <dl class="about__stats">
-      <div class="about__stat"><dt>فصل</dt><dd>${fa(chapters.length)}</dd></div>
-      <div class="about__stat"><dt>بخش</dt><dd>${fa(parts.length)}</dd></div>
-      <div class="about__stat"><dt>دقیقه خواندن</dt><dd>${fa(minutes)}</dd></div>
-    </dl>
-    <p class="about__meta">
-      ${meta.author ? `نویسنده: ${escapeHtml(meta.author)}` : ""}
-      ${meta.author && meta.year ? " · " : ""}${escapeHtml(meta.year || "")}
-      ${words ? `<br />${fa(words)} کلمه` : ""}
-    </p>`;
+    <article class="doc">
+      <header class="doc__head">
+        <p class="doc__eyebrow">دربارهٔ کتاب</p>
+        <h1 class="doc__title">${escapeHtml(meta.title || "")}</h1>
+      </header>
+      <div class="doc__body">${about}</div>
+      <dl class="doc__stats">
+        <div class="doc__stat"><dt>فصل</dt><dd>${fa(chapters.length)}</dd></div>
+        <div class="doc__stat"><dt>بخش</dt><dd>${fa(parts.length)}</dd></div>
+        <div class="doc__stat"><dt>دقیقه خواندن</dt><dd>${fa(minutes)}</dd></div>
+        ${words ? `<div class="doc__stat"><dt>کلمه</dt><dd>${fa(words)}</dd></div>` : ""}
+      </dl>
+      <p class="doc__meta">
+        ${meta.author ? `نویسنده: ${escapeHtml(meta.author)}` : ""}
+        ${meta.author && meta.year ? " · " : ""}${escapeHtml(meta.year || "")}
+      </p>
+    </article>`;
 }
 
 /* ---------- چکیدهٔ صفحه (برای عنوان مرورگر و سرصفحه) ---------- */

@@ -33,7 +33,6 @@ import {
   closeDialogs,
   cyclePalette,
   initTheme,
-  openDialog,
   paletteLabel,
   setupSearch,
   showFatal,
@@ -52,23 +51,19 @@ let route = { type: "cover" };
 
 /* ---------- رندر ---------- */
 
-function renderToc() {
-  const container = $("#tocContent");
+function renderSidebar() {
+  const container = $("#sidebarContent");
   if (container) container.innerHTML = tocView(book, route);
 
-  const runningHeadEl = $("#leftRunning");
-  const titleEl = $("#leftTitle");
-  const currentPart = runningHead(book, route);
+  const brand = $("#sidebarTitle");
+  if (brand) brand.textContent = book.meta.title || "";
 
-  if (runningHeadEl) runningHeadEl.textContent = currentPart || "فهرست";
-  if (titleEl) titleEl.textContent = book.meta.title || "";
-
-  // فهرست را روی فصل جاری نگه دار — بدون اسکرول کل صفحه.
-  const panel = $("#tocContent");
-  const current = panel?.querySelector(".is-current");
-  if (panel && current) {
+  // فصل جاری را در دید نگه دار، بدون اسکرول کل صفحه.
+  const panel = $("#sidebarScroll");
+  const active = panel?.querySelector(".is-active");
+  if (panel && active) {
     const offset =
-      current.getBoundingClientRect().top - panel.getBoundingClientRect().top;
+      active.getBoundingClientRect().top - panel.getBoundingClientRect().top;
     panel.scrollTop += offset - panel.clientHeight / 3;
   }
 }
@@ -78,7 +73,7 @@ function renderPage() {
   if (!content) return;
 
   const isCover = route.type === "cover";
-  content.classList.toggle("is-cover", isCover);
+  content.classList.toggle("is-title-page", isCover);
 
   if (isCover) {
     content.innerHTML = coverView(book);
@@ -92,31 +87,31 @@ function renderPage() {
   // شناسه‌گذاری عنوان‌ها تا لینک‌های فهرست به بخش درست برسند.
   anchorsIn(content);
 
-  const scroller = $("#scroller");
+  const scroller = $("#docScroll");
   if (scroller) scroller.scrollTop = 0;
 
-  content.animate(
-    [
-      { opacity: 0, transform: "translateY(8px)" },
-      { opacity: 1, transform: "none" },
-    ],
-    { duration: 320, easing: "cubic-bezier(0.22, 1, 0.36, 1)" },
-  );
+  if (!reduceMotion()) {
+    content.animate(
+      [{ opacity: 0 }, { opacity: 1 }],
+      { duration: 200, easing: "ease-out" },
+    );
+  }
 }
 
+const reduceMotion = () =>
+  window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
 function renderChrome() {
-  const total = pageCountLabel(book);
   const position = routeIndex(book, route);
+  const total = pageCountLabel(book);
 
   const setText = (selector, value) => {
-    const element = $(selector);
-    if (element) element.textContent = value;
+    const el = $(selector);
+    if (el) el.textContent = value;
   };
 
+  setText("#topbarTitle", route.type === "cover" ? "" : pageTitle(book, route));
   setText("#pageNum", pageNumber(book, route));
-  setText("#rightRunning", pageTitle(book, route));
-  setText("#rightPart", runningHead(book, route));
-  setText("#toolbarTitle", book.meta.title || "");
 
   const previous = stepRoute(book, route, -1);
   const next = stepRoute(book, route, 1);
@@ -125,13 +120,13 @@ function renderChrome() {
   const nextButton = $("#btnNext");
 
   if (prevButton) {
-    prevButton.disabled = !previous;
-    setText("#prevLabel", previous ? pageTitle(book, previous) : "قبلی");
+    prevButton.hidden = !previous;
+    setText("#prevLabel", previous ? pageTitle(book, previous) : "");
   }
 
   if (nextButton) {
-    nextButton.disabled = !next;
-    setText("#nextLabel", next ? pageTitle(book, next) : "بعدی");
+    nextButton.hidden = !next;
+    setText("#nextLabel", next ? pageTitle(book, next) : "");
   }
 
   const progress = $("#progressBar");
@@ -149,27 +144,34 @@ function renderChrome() {
       : `${pageTitle(book, route)} — ${book.meta.title || "کتاب"}`;
 }
 
+function render() {
+  renderSidebar();
+  renderPage();
+  renderChrome();
+  // بعد از چیده‌شدن صفحه، پرش به بخش انجام می‌شود.
+  requestAnimationFrame(frameThen(() => scrollToSection()));
+}
+
+/** اجرای تابع در فریم بعدی (تا چیدمان نهایی شود). */
+const frameThen = (fn) => () => requestAnimationFrame(fn);
+
 function scrollToSection() {
   if (route.type !== "chapter" || !route.section) return;
 
   const target = document.getElementById(route.section);
-  const scroller = $("#scroller");
+  const scroller = $("#docScroll");
   if (!target || !scroller) return;
 
   const top =
     target.getBoundingClientRect().top -
     scroller.getBoundingClientRect().top +
     scroller.scrollTop -
-    16;
+    72; // فضای نوار بالا
 
-  scroller.scrollTo({ top, behavior: "smooth" });
-}
-
-function render() {
-  renderToc();
-  renderPage();
-  renderChrome();
-  scrollToSection();
+  scroller.scrollTo({
+    top,
+    behavior: reduceMotion() ? "auto" : "smooth",
+  });
 }
 
 /* ---------- ناوبری ---------- */
@@ -182,24 +184,41 @@ function step(direction) {
 
 /* ---------- راه‌اندازی ---------- */
 
+/* ---------- منوی کناری ---------- */
+
+const DESKTOP = "(min-width: 980px)";
+const isDesktop = () => window.matchMedia(DESKTOP).matches;
+
+function setSidebar(open) {
+  const shell = $("#shell");
+  const button = $("#btnMenu");
+  const scrim = $("#scrim");
+
+  shell?.classList.toggle("is-sidebar-open", open);
+  button?.setAttribute("aria-expanded", String(open));
+  if (scrim) scrim.hidden = !open || isDesktop();
+  document.body.classList.toggle("no-scroll", open && !isDesktop());
+}
+
+function toggleSidebar() {
+  const shell = $("#shell");
+  setSidebar(!shell?.classList.contains("is-sidebar-open"));
+}
+
 function bindChrome(search) {
   $("#btnPrev")?.addEventListener("click", () => step(-1));
   $("#btnNext")?.addEventListener("click", () => step(1));
   $("#btnSearch")?.addEventListener("click", search.open);
 
-  $("#btnToc")?.addEventListener("click", () => {
-    const isMobile = window.matchMedia("(max-width: 979px)").matches;
+  $("#btnMenu")?.addEventListener("click", toggleSidebar);
+  $("#btnSidebarClose")?.addEventListener("click", () => setSidebar(false));
+  $("#scrim")?.addEventListener("click", () => setSidebar(false));
 
-    if (isMobile) {
-      const dialog = $("#tocModal");
-      const body = $("#tocModalBody");
-      if (body) body.innerHTML = tocView(book, route);
-      openDialog(dialog);
-      return;
-    }
-
-    $("#tocContent")?.scrollIntoView({ block: "nearest", behavior: "smooth" });
-  });
+  // در دسکتاپ فهرست باز است؛ در موبایل بسته.
+  setSidebar(isDesktop());
+  window
+    .matchMedia(DESKTOP)
+    .addEventListener("change", (event) => setSidebar(event.matches));
 
   $("#btnTheme")?.addEventListener("click", () => {
     toggleTheme();
@@ -211,6 +230,7 @@ function bindChrome(search) {
   });
 
   $("#btnZen")?.addEventListener("click", handleZen);
+  $("#btnZenExit")?.addEventListener("click", handleZen);
 
   // بستن مودال با کلیک بیرون یا دکمهٔ بستن
   document.querySelectorAll(".modal").forEach((dialog) => {
@@ -225,11 +245,12 @@ function bindChrome(search) {
 function handleZen() {
   const active = toggleZen();
   const button = $("#btnZen");
-  if (button)
-    button.setAttribute(
-      "aria-label",
-      active ? "خروج از حالت مطالعه" : "حالت مطالعه",
-    );
+  if (button) button.setAttribute("aria-pressed", String(active));
+
+  const exit = $("#btnZenExit");
+  if (exit) exit.hidden = !active;
+
+  if (!isDesktop()) setSidebar(false);
 }
 
 async function init() {
@@ -273,8 +294,8 @@ async function init() {
       /^(INPUT|TEXTAREA|SELECT)$/.test(document.activeElement?.tagName || ""),
   });
 
-  const bookElement = $("#book");
-  if (bookElement) bindSwipe(bookElement, step);
+  const docElement = $("#docScroll");
+  if (docElement) bindSwipe(docElement, step);
 
   // مسیر اولیه
   const initial = parseHash();

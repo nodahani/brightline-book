@@ -53,8 +53,20 @@
   --radius-lg: 14px;
   --radius-pill: 999px;
 
-  --page-max: 46rem; /* عرض ستون متن */
-  --stage-max: 1180px; /* عرض کل کتاب */
+  /* چیدمان سند */
+  --sidebar-w: 292px; /* عرض فهرست کناری */
+  --sheet-max: 43rem; /* عرض برگهٔ سند */
+  --sheet-pad-x: 3.2rem; /* حاشیهٔ افقی متن */
+  --sheet-pad-y: 3rem; /* حاشیهٔ عمودی متن */
+  --topbar-h: 52px;
+
+  /* تایپوگرافی خواندن */
+  --read-size: 1.02rem;
+  --read-line: 2.05;
+
+  /* بازماندهٔ چیدمان قدیمی — برای سازگاری */
+  --page-max: 46rem;
+  --stage-max: 1180px;
   --stage-height: min(88vh, 880px);
 
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);

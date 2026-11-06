@@ -213,7 +213,12 @@ export function setupSearch({ dialog, input, results, index }) {
 export function bindGlobalKeys(handlers) {
   document.addEventListener("keydown", (event) => {
     if (event.key === "Escape") {
-      closeDialogs();
+      // اول مودال‌ها؛ اگر هیچ مودالی باز نبود، از حالت تمرکز بیرون بیا.
+      if (anyDialogOpen()) {
+        closeDialogs();
+      } else if (document.body.classList.contains("is-zen")) {
+        handlers.onZen();
+      }
       return;
     }
 

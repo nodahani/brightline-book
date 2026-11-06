@@ -1,950 +1,845 @@
 /* ==========================================================================
-   book.css — چیدمان کتاب
-   ساختار: صحنه (stage) › نوار ابزار › کتاب (book) › دو صفحه (page)
-   جهت: صحنه ltr است تا فهرست در سمت چپ و متن در سمت راست بنشیند؛
-   محتوای هر صفحه اما rtl است.
+   book.css — چیدمان سند
+   ساختار: پوسته (shell) › فهرست کناری (sidebar) + نوار بالا (topbar) + سند
+   الگو: یک ستون متن روی زمینهٔ آرام، مثل خواندن PDF در مرورگر.
    ========================================================================== */
 
-/* ---------- صحنه ---------- */
-.book-stage {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-3);
-  width: 100%;
-  max-width: var(--stage-max);
-  height: var(--stage-height);
-  min-height: 560px;
-}
+/* ---------- پوسته ---------- */
 
-/* ---------- کتاب ---------- */
-.book {
-  position: relative;
-  flex: 1;
-  min-height: 0;
-  display: flex;
-  direction: ltr;
-  border-radius: var(--radius-lg);
-  background: var(--paper);
-  box-shadow: var(--shadow);
-}
-
-/* جلدِ پشتِ صفحه‌ها: کمی بزرگ‌تر از کتاب */
-.book::before {
-  content: "";
-  position: absolute;
-  inset: -6px -7px;
-  z-index: 0;
-  border-radius: calc(var(--radius-lg) + 3px);
-  background: linear-gradient(160deg, var(--cover-1) 0%, var(--cover-2) 100%);
-  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 7%);
-}
-
-/* شیرازهٔ وسط کتاب — شیارِ عطف
-   سه لایه: تیرگیِ نرم در دو طرف، خط طلاییِ نازک در مرکز، و یک درخشش کاغذی */
-.book__spine {
-  display: none;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 50%;
-  z-index: 4;
-  width: 34px;
-  transform: translateX(-50%);
-  pointer-events: none;
-  background: linear-gradient(
-    90deg,
-    transparent 0%,
-    var(--spine-shade) 22%,
-    var(--spine-highlight) 47%,
-    var(--spine-highlight) 53%,
-    var(--spine-shade) 78%,
-    transparent 100%
-  );
-  opacity: 0.85;
-}
-
-/* خطِ طلایی نازک روی شیار */
-.book__spine::before {
-  content: "";
-  position: absolute;
-  inset-block: 0;
-  left: 50%;
-  width: 1px;
-  transform: translateX(-50%);
-  background: linear-gradient(
-    180deg,
-    transparent,
-    color-mix(in srgb, var(--accent-2) 55%, transparent) 12%,
-    color-mix(in srgb, var(--accent-2) 55%, transparent) 88%,
-    transparent
-  );
-}
-
-/* سایهٔ ملایمی که دو صفحه را از هم جدا می‌کند، بدون بریدگی */
-.book__spine::after {
-  content: "";
-  position: absolute;
-  inset-block: 0;
-  left: 50%;
-  width: 76px;
-  transform: translateX(-50%);
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgb(0 0 0 / 6%) 35%,
-    rgb(0 0 0 / 9%) 50%,
-    rgb(0 0 0 / 6%) 65%,
-    transparent
-  );
-  z-index: -1;
-}
-
-html[data-theme="dark"] .book__spine::after {
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgb(0 0 0 / 30%) 35%,
-    rgb(0 0 0 / 42%) 50%,
-    rgb(0 0 0 / 30%) 65%,
-    transparent
-  );
-}
-
-/* ---------- صفحه ---------- */
-.page {
-  position: relative;
-  z-index: 1;
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  min-width: 0;
-  overflow: hidden;
+.shell {
   direction: rtl;
-  border-radius: var(--radius-lg);
-  background:
-    linear-gradient(
-      90deg,
-      rgb(120 120 120 / 4%),
-      transparent 8%,
-      transparent 92%,
-      rgb(120 120 120 / 4%)
-    ),
-    var(--paper);
+  display: grid;
+  grid-template-columns: var(--sidebar-w) minmax(0, 1fr);
+  grid-template-rows: auto minmax(0, 1fr);
+  width: 100%;
+  height: 100dvh;
+  overflow: hidden;
+  background: var(--bg);
 }
 
-.page--left {
-  /* سایهٔ ملایم در لبهٔ شیرازه؛ عمق می‌دهد بدون اینکه بریده به نظر برسد */
-  box-shadow: inset -14px 0 20px -22px rgb(60 50 40 / 40%);
+/* نوار بالا فقط بالای ستون سند می‌نشیند */
+.topbar {
+  grid-column: 2;
+  grid-row: 1;
 }
 
-.page--right {
-  box-shadow: inset 14px 0 20px -22px rgb(60 50 40 / 40%);
+.doc-scroll {
+  grid-column: 2;
+  grid-row: 2;
 }
 
-/* گوشهٔ تاخوردهٔ کاغذ */
-.page--right::after {
-  content: "";
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 46px;
-  height: 46px;
-  background: linear-gradient(
-    45deg,
-    color-mix(in srgb, var(--bg-deep) 80%, transparent) 50%,
-    transparent 50%
-  );
-  opacity: 0.5;
+body.is-zen .shell {
+  grid-template-columns: 0 minmax(0, 1fr);
+  grid-template-rows: 0 minmax(0, 1fr);
+}
+
+body.is-zen .shell .sidebar {
+  transform: translateX(100%);
+  opacity: 0;
   pointer-events: none;
 }
 
-/* ---------- سرصفحه و پاصفحهٔ هر صفحه ---------- */
-.page__running-head {
-  display: flex;
-  flex: none;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--space-3);
-  height: 46px;
-  padding: 0 clamp(26px, 5vw, 58px);
-  font-size: 11.5px;
-  letter-spacing: 0.04em;
-  color: var(--ink-faint);
-  border-bottom: 1px solid var(--rule);
-  border-image: linear-gradient(90deg, transparent, var(--rule), transparent) 1;
+body.is-zen .shell .topbar {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-8px);
 }
 
-.page__running-head span {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+body.is-zen .shell .doc-sheet {
+  box-shadow: none;
 }
 
-.page__foot {
-  display: flex;
-  flex: none;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-  height: 54px;
-  padding: 0 clamp(18px, 4vw, 40px);
-  border-top: 1px solid var(--rule);
-  border-image: linear-gradient(90deg, transparent, var(--rule), transparent) 1;
-}
+/* ---------- فهرست کناری ---------- */
 
-.page__num {
-  font-size: 12.5px;
-  font-variant-numeric: tabular-nums;
-  letter-spacing: 0.08em;
-  color: var(--ink-faint);
-}
-
-/* ---------- ناحیهٔ اسکرول و ستون متن ---------- */
-.page__scroller {
-  flex: 1;
-  min-height: 0;
+.sidebar {
+  grid-column: 1;
+  grid-row: 1 / -1;
   display: flex;
   flex-direction: column;
-  overflow-y: auto;
-  padding: 46px clamp(26px, 5vw, 58px) 30px;
-  scrollbar-width: thin;
-  scrollbar-color: var(--ink-faint) transparent;
-  overscroll-behavior: contain;
+  min-height: 0;
+  height: 100dvh;
+  background: var(--bg-deep);
+  border-inline-end: 1px solid var(--rule);
+  transition:
+    transform var(--dur-med) ease,
+    opacity var(--dur-med) ease;
 }
 
-.page__scroller::-webkit-scrollbar {
-  width: 6px;
+.sidebar__head {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  padding: 0.9rem 1rem 0.7rem;
+  border-bottom: 1px solid var(--rule);
 }
 
-.page__scroller::-webkit-scrollbar-thumb {
-  border-radius: var(--radius-pill);
-  background: var(--ink-faint);
+.sidebar__head .icon-btn {
+  display: none;
 }
 
-.page__content {
-  flex: 1 0 auto;
-  width: 100%;
-  max-width: var(--page-max);
-  margin-inline: auto;
-}
-
-/* ==========================================================================
-   محتوای فصل (HTML داخل فایل‌های content/chapters)
-   ========================================================================== */
-.page--right .page__content {
-  font-size: clamp(15.5px, 1.35vw, 17.5px);
-  line-height: 2.05;
-}
-
-.page--right .page__content > *:first-child {
-  margin-top: 0;
-}
-
-.page--right .page__content > *:last-child {
-  margin-bottom: 0;
-}
-
-.page--right .page__content h1,
-.page--right .page__content h2,
-.page--right .page__content h3 {
-  margin: 1.6em 0 0.7em;
+.sidebar__brand {
+  flex: 1;
+  font-size: 0.95em;
   font-weight: 700;
-  line-height: 1.6;
+  color: var(--ink);
+  text-decoration: none;
   letter-spacing: -0.01em;
 }
 
-.page--right .page__content h1 {
-  font-size: 1.75em;
-}
-.page--right .page__content h2 {
-  font-size: 1.38em;
-}
-.page--right .page__content h3 {
-  font-size: 1.14em;
-}
-
-/* پررنگ داخل تیتر: فقط کمی سنگین‌تر، بدون تغییر اندازه و رنگ */
-.page--right .page__content h2 strong,
-.page--right .page__content h3 strong {
-  font-weight: inherit;
-  color: inherit;
-}
-
-/* زیرتیتر: سبک‌تر از تیتر اصلی، تا سلسله‌مراتب حفظ شود */
-.page--right .page__content h3 {
-  font-weight: 600;
-}
-
-/* نشانهٔ لوزی کنار تیترها */
-.page--right .page__content h2::before {
-  content: "";
-  display: inline-block;
-  width: 0.55em;
-  height: 0.55em;
-  margin-inline-end: 0.4em;
-  background: var(--accent-2);
-  border-radius: 2px;
-  opacity: 0.85;
-  transform: rotate(45deg) translateY(-2px);
-}
-
-.page--right .page__content p {
-  margin: 0 0 1.15em;
-  text-align: justify;
-}
-
-.page--right .page__content ul,
-.page--right .page__content ol {
-  margin: 0 0 1.2em;
-  padding-inline-start: 1.4em;
-}
-
-.page--right .page__content li {
-  margin-bottom: 0.45em;
-}
-
-.page--right .page__content li::marker {
+.sidebar__brand:hover {
   color: var(--accent);
 }
 
-.page--right .page__content blockquote {
-  margin: 1.6em 0;
-  padding: 0.9em 1.3em 0.9em 0;
-  color: var(--ink-soft);
-  font-size: 0.97em;
-  background: linear-gradient(90deg, var(--accent-soft), transparent 70%);
-  border-inline-start: 3px solid var(--accent);
-  border-radius: 4px;
+.sidebar__scroll {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 0.9rem 0.6rem 1.4rem;
+  scrollbar-width: thin;
 }
 
-.page--right .page__content blockquote p {
-  margin-bottom: 0.5em;
-  text-align: start;
-}
-
-.page--right .page__content blockquote p:last-child {
-  margin-bottom: 0;
-}
-
-.page--right .page__content img {
-  max-width: 100%;
-  border-radius: var(--radius-sm);
-}
-
-.page--right .page__content .chapter-head h1 {
-  margin: 0;
-}
-
-/* خلاصهٔ کوتاه زیر عنوان فصل */
-.chapter-intro {
-  margin: -0.6em 0 1.8em;
-  padding-inline-start: 1em;
-  font-size: 0.92em;
-  line-height: 2;
-  color: var(--ink-soft);
-  border-inline-start: 2px solid var(--accent-2);
-}
-
-/* ---------- دکمه‌های ورق زدن ---------- */
-.nav-btn {
-  display: inline-flex;
-  text-decoration: none;
+.sidebar__foot {
+  display: flex;
   align-items: center;
-  gap: 6px;
-  height: 34px;
-  padding: 0 12px;
-  font-size: 12.5px;
-  color: var(--ink-soft);
-  border-radius: var(--radius-pill);
-  transition:
-    color var(--dur-fast) ease,
-    background-color var(--dur-fast) ease;
+  gap: 0.35em;
+  padding: 0.6rem 0.8rem;
+  border-top: 1px solid var(--rule);
 }
 
-.nav-btn:hover:not(:disabled) {
+/* گروه‌های فهرست */
+
+.sb__group + .sb__group {
+  margin-top: 1.2rem;
+}
+
+.sb__group-title {
+  margin: 0 0 0.4em;
+  padding-inline-start: 0.65em;
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  color: var(--ink-faint);
+  text-transform: uppercase;
+}
+
+.sb__list,
+.sb__sub {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.sb__link {
+  display: flex;
+  align-items: baseline;
+  gap: 0.55em;
+  padding: 0.38em 0.65em;
+  border-radius: var(--radius-sm);
+  color: var(--ink-soft);
+  text-decoration: none;
+  transition:
+    background-color var(--dur-fast) ease,
+    color var(--dur-fast) ease;
+}
+
+.sb__link:hover {
+  background: var(--accent-soft);
+  color: var(--ink);
+}
+
+.sb__num {
+  min-width: 1.4em;
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink-faint);
+}
+
+.sb__label {
+  flex: 1;
+  font-size: 0.87em;
+  line-height: 1.65;
+}
+
+.sb__link.is-active {
+  background: var(--accent-soft);
+}
+
+.sb__link.is-active .sb__label {
+  font-weight: 600;
+  color: var(--accent);
+}
+
+/* زیربخش‌ها */
+
+.sb__sub {
+  position: relative;
+  margin: 0.1em 0 0.55em;
+  padding-inline-start: 1.6em;
+}
+
+.sb__sub::before {
+  content: "";
+  position: absolute;
+  inset-block: 0.2em;
+  inset-inline-start: 0.62em;
+  width: 1px;
+  background: var(--rule);
+}
+
+.sb__link--sub {
+  padding: 0.2em 0.6em;
+}
+
+.sb__link--sub .sb__label {
+  font-size: 0.79em;
+  line-height: 1.75;
+  color: var(--ink-faint);
+}
+
+.sb__link--sub:hover .sb__label,
+.sb__link--sub.is-active .sb__label {
+  color: var(--ink-soft);
+}
+
+.sb__link--sub.is-active .sb__label {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.sb__link--deep {
+  padding-inline-start: 0.95em;
+}
+
+.sb__link--deep .sb__label {
+  font-size: 0.75em;
+}
+
+/* دکمه‌های پاصفحهٔ سایدبار */
+
+.foot-btn {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.15em;
+  padding: 0.4em 0.2em;
+  font-family: inherit;
+  font-size: 10.5px;
+  color: var(--ink-faint);
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition:
+    background-color var(--dur-fast) ease,
+    color var(--dur-fast) ease;
+}
+
+.foot-btn:hover {
   color: var(--ink);
   background: var(--accent-soft);
 }
 
-.nav-btn svg {
-  flex: none;
-  width: 15px;
-  height: 15px;
+.foot-btn svg {
+  width: 17px;
+  height: 17px;
 }
 
-.nav-btn:disabled {
-  opacity: 0.3;
+.foot-btn[aria-pressed="true"] {
+  color: var(--accent);
+  background: var(--accent-soft);
 }
 
-.nav-btn__label {
-  max-width: 13ch;
+/* ---------- پردهٔ پشت منو (موبایل) ---------- */
+
+.scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  background: rgb(0 0 0 / 42%);
+  backdrop-filter: blur(1px);
+}
+
+/* ---------- نوار بالا ---------- */
+
+.topbar {
+  position: relative;
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  gap: 0.6em;
+  box-sizing: border-box;
+  height: var(--topbar-h);
+  min-height: var(--topbar-h);
+  padding: 0 1.1rem;
+  background: color-mix(in oklab, var(--bg) 88%, transparent);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--rule);
+  transition:
+    opacity var(--dur-med) ease,
+    transform var(--dur-med) ease;
+}
+
+.topbar__title {
+  flex: 1;
+  min-width: 0;
   overflow: hidden;
+  font-size: 0.82em;
+  color: var(--ink-faint);
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
-/* ---------- سرصفحهٔ فصل و جلد ---------- */
-.chapter-head {
-  margin-bottom: var(--space-5);
+body.is-zen .shell .topbar {
+  grid-row: 1;
 }
 
-.chapter-head__badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  margin-bottom: var(--space-3);
-  padding: 4px 11px;
-  font-size: 11.5px;
-  letter-spacing: 0.05em;
-  color: var(--accent);
-  background: var(--accent-soft);
-  border-radius: var(--radius-pill);
-}
+/* ---------- ناحیهٔ اسکرول سند ---------- */
 
-.chapter-head__title {
-  margin: 0;
-  font-size: clamp(1.5rem, 2.6vw, 2rem);
-  line-height: 1.5;
-  letter-spacing: -0.01em;
-}
-
-.page__content.is-cover {
+.doc-scroll {
   display: flex;
   flex-direction: column;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior-y: contain;
+  background: var(--bg);
+  scroll-behavior: smooth;
 }
 
-.cover {
-  position: relative;
+/* ---------- برگهٔ سند ---------- */
+
+.doc-sheet {
+  flex: 0 0 auto;
+  width: 100%;
+  max-width: var(--sheet-max);
+  margin: 0 auto;
+  padding: var(--sheet-pad-y) var(--sheet-pad-x);
+  background: var(--paper);
+}
+
+/* ---------- صفحهٔ عنوان ---------- */
+
+.doc-title {
   display: flex;
-  flex: 1;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 420px;
-  padding: 8% 6%;
+  min-height: min(62vh, 520px);
   text-align: center;
 }
 
-.cover__frame {
-  position: absolute;
-  inset: 4.5%;
-  border: 1.5px solid var(--accent-2);
-  border-radius: var(--radius-md);
-  opacity: 0.5;
-  pointer-events: none;
-}
-
-.cover__frame::after {
-  content: "";
-  position: absolute;
-  inset: 6px;
-  border: 1px solid var(--accent-2);
-  border-radius: var(--radius-sm);
-  opacity: 0.4;
-}
-
-.cover__eyebrow {
-  margin-bottom: 3.5em;
-  font-size: 12px;
-  letter-spacing: 0.35em;
+.doc-title__eyebrow {
+  margin: 0 0 1.4em;
+  font-size: 11px;
+  letter-spacing: 0.22em;
   color: var(--ink-faint);
+  text-transform: uppercase;
 }
 
-.cover__title {
-  margin: 0 0 0.35em;
-  font-size: clamp(2rem, 4.4vw, 3.1rem);
+.doc-title__heading {
+  margin: 0;
+  font-size: clamp(2rem, 5vw, 2.9rem);
   font-weight: 700;
-  line-height: 1.45;
-  letter-spacing: -0.015em;
+  line-height: 1.35;
+  letter-spacing: -0.02em;
+  color: var(--ink);
 }
 
-.cover__subtitle {
-  max-width: 30ch;
-  margin: 0 0 3.2em;
-  font-size: clamp(0.95rem, 1.4vw, 1.1rem);
+.doc-title__subtitle {
+  max-width: 26em;
+  margin: 1em 0 0;
+  font-size: 1.02em;
   line-height: 1.9;
   color: var(--ink-soft);
 }
 
-.cover__ornament {
+.doc-title__meta {
   display: flex;
-  align-items: center;
-  gap: 14px;
-  margin-bottom: 3em;
-  color: var(--accent-2);
-}
-
-.cover__ornament::before,
-.cover__ornament::after {
-  content: "";
-  width: clamp(40px, 7vw, 80px);
-  height: 1px;
-  background: currentcolor;
-  opacity: 0.5;
-}
-
-.cover__ornament svg {
-  width: 22px;
-  height: 22px;
-  opacity: 0.85;
-}
-
-.cover__meta {
-  font-size: 13px;
-  line-height: 2.1;
+  gap: 0.9em;
+  margin: 2em 0 0;
+  font-size: 0.83em;
   color: var(--ink-faint);
 }
 
-.cover__author {
-  margin-bottom: 0.2em;
-  font-size: 15px;
+.doc-title__start {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+  margin-top: 2.4em;
+  padding: 0.68em 1.5em;
+  font-size: 0.9em;
+  font-weight: 600;
+  color: var(--paper);
+  text-decoration: none;
+  background: var(--accent);
+  border-radius: 999px;
+  transition:
+    transform var(--dur-fast) ease,
+    filter var(--dur-fast) ease;
+}
+
+.doc-title__start:hover {
+  filter: brightness(1.08);
+  transform: translateY(-1px);
+}
+
+.doc-title__start svg {
+  width: 15px;
+  height: 15px;
+}
+
+/* ---------- فصل ---------- */
+
+.doc__head {
+  margin-bottom: 2.2em;
+}
+
+.doc__eyebrow {
+  margin: 0 0 0.6em;
+  font-size: 11.5px;
+  letter-spacing: 0.08em;
+  color: var(--accent);
+}
+
+.doc__title {
+  margin: 0;
+  font-size: clamp(1.5rem, 3.2vw, 1.9rem);
+  font-weight: 700;
+  line-height: 1.5;
+  letter-spacing: -0.015em;
+  color: var(--ink);
+}
+
+/* ---------- بدنهٔ متن ---------- */
+
+.doc__body {
+  font-size: var(--read-size);
+  line-height: var(--read-line);
+  color: var(--ink);
+}
+
+.doc__body > *:first-child {
+  margin-top: 0;
+}
+
+.doc__body p {
+  margin: 0 0 1.15em;
+  text-align: justify;
+  text-justify: inter-word;
+}
+
+/* خلاصهٔ کوتاه زیر عنوان فصل */
+.chapter-intro {
+  margin: 0 0 1.9em;
+  padding-inline-start: 0.95em;
+  font-size: 0.92em;
+  line-height: 1.85;
+  color: var(--ink-soft);
+  border-inline-start: 2px solid var(--accent-2);
+}
+
+.doc__body h2,
+.doc__body h3 {
+  margin: 2.1em 0 0.65em;
+  font-weight: 700;
+  line-height: 1.55;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  scroll-margin-top: calc(var(--topbar-h) + 12px);
+}
+
+.doc__body h2 {
+  font-size: 1.22em;
+}
+
+.doc__body h3 {
+  font-size: 1.02em;
   font-weight: 600;
   color: var(--ink-soft);
 }
 
-.cover__start {
-  display: inline-flex;
-  text-decoration: none;
-  align-items: center;
-  gap: var(--space-2);
-  margin-top: 3.4em;
-  height: 44px;
-  padding: 0 22px;
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--paper);
-  background: var(--accent);
-  border-radius: var(--radius-pill);
-  transition:
-    transform var(--dur-fast) ease,
-    filter var(--dur-fast) ease,
-    box-shadow var(--dur-fast) ease;
+.doc__body h2 strong,
+.doc__body h3 strong {
+  font-weight: inherit;
+  color: inherit;
 }
 
-.cover__start:hover {
-  transform: translateY(-2px);
-  filter: brightness(1.07);
-  box-shadow: 0 14px 26px -12px var(--accent);
+.doc__body ul,
+.doc__body ol {
+  margin: 0 0 1.2em;
+  padding-inline-start: 1.35em;
 }
 
-.cover__start svg {
-  width: 16px;
-  height: 16px;
+.doc__body li {
+  margin-bottom: 0.4em;
+  line-height: 1.95;
 }
 
-/* ---------- فهرست ---------- */
-.toc__title {
-  margin: 0 0 var(--space-1);
-  font-size: 1.5em;
+.doc__body li::marker {
+  color: var(--accent-2);
+}
+
+.doc__body strong {
   font-weight: 700;
+  color: var(--ink);
 }
 
-.toc__subtitle {
-  margin: 0 0 var(--space-5);
-  font-size: 12.5px;
+.doc__body a {
+  color: var(--accent);
+  text-decoration-color: color-mix(in oklab, var(--accent) 40%, transparent);
+  text-underline-offset: 3px;
+}
+
+.doc__body a:hover {
+  text-decoration-color: var(--accent);
+}
+
+.doc__body blockquote {
+  margin: 1.8em 0;
+  padding: 0.2em 0 0.2em 1.1em;
+  font-size: 0.95em;
+  color: var(--ink-soft);
+  border-inline-start: 3px solid var(--accent-2);
+}
+
+.doc__body blockquote p:last-child {
+  margin-bottom: 0;
+}
+
+.doc__body code {
+  padding: 0.1em 0.35em;
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+  background: var(--bg-deep);
+  border-radius: 4px;
+  unicode-bidi: isolate;
+}
+
+.doc__body hr {
+  margin: 2.4em auto;
+  width: 40%;
+  border: 0;
+  border-top: 1px solid var(--rule);
+}
+
+.doc__body img {
+  max-width: 100%;
+  height: auto;
+  border-radius: var(--radius-sm);
+}
+
+/* ---------- آمار صفحهٔ درباره ---------- */
+
+.doc__stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  gap: 1px;
+  margin: 2.4em 0 1.4em;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+
+.doc__stat {
+  padding: 0.9em 0.6em;
+  text-align: center;
+  background: var(--paper);
+}
+
+.doc__stat dt {
+  font-size: 10.5px;
   letter-spacing: 0.06em;
   color: var(--ink-faint);
 }
 
-.toc__part {
-  margin-bottom: var(--space-5);
-}
-
-.toc__part-title {
-  display: flex;
-  align-items: center;
-  gap: 0.6em;
-  margin: 0 0 0.6em;
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.09em;
-  color: var(--accent);
-}
-
-.toc__part-title::after {
-  content: "";
-  flex: 1;
-  height: 1px;
-  background: var(--rule);
-}
-
-.toc__list {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.toc__link {
-  display: flex;
-  text-decoration: none;
-  color: inherit;
-  align-items: baseline;
-  gap: 0.7em;
-  width: 100%;
-  padding: 0.5em 0.6em;
-  text-align: start;
-  border-radius: var(--radius-sm);
-  transition:
-    background-color var(--dur-fast) ease,
-    padding-inline-start var(--dur-fast) ease;
-}
-
-.toc__link:hover {
-  padding-inline-start: 0.95em;
-  background: var(--accent-soft);
-}
-
-.toc__num {
-  min-width: 1.9em;
-  font-size: 12px;
-  font-variant-numeric: tabular-nums;
-  color: var(--ink-faint);
-}
-
-.toc__name {
-  flex: 1;
-  font-size: 0.98em;
-  line-height: 1.7;
-}
-
-.toc__dots {
-  flex: 1;
-  min-width: 14px;
-  border-bottom: 1px dotted var(--ink-faint);
-  opacity: 0.5;
-  transform: translateY(-4px);
-}
-
-.toc__page {
-  font-size: 12px;
-  font-variant-numeric: tabular-nums;
-  color: var(--ink-faint);
-}
-
-.toc__link.is-current .toc__name,
-.toc__link.is-current .toc__num {
-  font-weight: 600;
-  color: var(--accent);
-}
-
-/* زیربخش‌های هر فصل در فهرست */
-.toc__sub {
-  position: relative;
-  margin: 0.1em 0 0.5em;
-  padding: 0;
-  list-style: none;
-  padding-inline-start: 2.75em;
-}
-
-/* خط راهنمای عمودی، هم‌تراز با شمارهٔ فصل (سمت راست در RTL) */
-.toc__sub::before {
-  content: "";
-  position: absolute;
-  inset-block: 0.3em;
-  inset-inline-start: 0;
-  width: 1px;
-  background: var(--rule);
-}
-
-.toc__link--sub {
-  padding: 0.22em 0.6em;
-  border-radius: var(--radius-sm);
-}
-
-.toc__link--sub .toc__name {
-  font-size: 0.86em;
-  line-height: 1.85;
-  color: var(--ink-soft);
-}
-
-.toc__link--sub:hover {
-  padding-inline-start: 0.85em;
-  background: var(--accent-soft);
-}
-
-.toc__link--sub:hover .toc__name {
+.doc__stat dd {
+  margin: 0.3em 0 0;
+  font-size: 1.1em;
+  font-weight: 700;
   color: var(--ink);
 }
 
-/* زیرزیربخش‌ها (h3) کمی فروتر و کم‌رنگ‌تر */
-.toc__link--deep {
-  padding-inline-start: 1.15em;
-}
-
-.toc__link--deep .toc__name {
-  font-size: 0.8em;
+.doc__meta {
+  font-size: 0.82em;
   color: var(--ink-faint);
 }
 
-.toc__link--deep:hover {
-  padding-inline-start: 1.35em;
-}
+/* ---------- دکمهٔ پیمایش پایین سند ---------- */
 
-/* در نسخهٔ موبایل فهرست فشرده‌تر می‌شود */
-@media (max-width: 979px) {
-  .toc__sub {
-    padding-inline-start: 2em;
-  }
-
-  .toc__link--sub .toc__name {
-    font-size: 0.82em;
-  }
-
-  .toc__link--deep .toc__name {
-    font-size: 0.78em;
-  }
-}
-
-/* ---------- صفحهٔ درباره ---------- */
-.about__stats {
+.pager {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
-  margin: var(--space-5) 0;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.7rem;
+  width: 100%;
+  max-width: var(--sheet-max);
+  margin: 0 auto;
+  padding: 0 var(--sheet-pad-x) 2.4rem;
 }
 
-.about__stat {
-  padding: 0.85em 0.5em;
-  text-align: center;
+.pager__btn {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25em;
+  padding: 0.85em 1em;
+  text-align: start;
+  color: var(--ink-soft);
+  background: var(--paper);
   border: 1px solid var(--rule);
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition:
+    border-color var(--dur-fast) ease,
+    background-color var(--dur-fast) ease;
 }
 
-.about__stat b {
-  display: block;
-  font-size: 1.35em;
-  font-weight: 700;
-  line-height: 1.4;
-  color: var(--accent);
+.pager__btn:hover:not([hidden]) {
+  background: var(--bg-deep);
+  border-color: var(--accent-2);
 }
 
-.about__stat span {
-  font-size: 11.5px;
+.pager__btn--end {
+  text-align: end;
+}
+
+.pager__dir {
+  font-size: 10.5px;
+  letter-spacing: 0.08em;
   color: var(--ink-faint);
 }
 
-.about__meta {
-  font-size: 0.85em;
-  line-height: 2;
-  color: var(--ink-faint);
+.pager__name {
+  font-size: 0.86em;
+  font-weight: 600;
+  color: var(--ink);
 }
 
-/* ---------- نوار پیشرفت مطالعه ---------- */
+/* ---------- نوار پیشرفت ---------- */
+
 .progress {
-  position: absolute;
-  inset-inline: 22px;
-  bottom: -1px;
-  z-index: 6;
-  height: 3px;
-  overflow: hidden;
+  position: sticky;
+  bottom: 0;
+  z-index: 20;
+  height: 2px;
   background: var(--rule);
-  border-radius: var(--radius-pill);
 }
 
 .progress__bar {
-  width: 0;
   height: 100%;
-  background: linear-gradient(90deg, var(--accent-2), var(--accent));
-  border-radius: inherit;
-  transition: width 450ms var(--ease-out);
+  width: 0;
+  background: var(--accent);
+  transition: width var(--dur-med) ease;
 }
 
-/* ==========================================================================
-   چیدمان دو صفحه‌ای (دسکتاپ)
-   ========================================================================== */
-@media (min-width: 980px) {
-  .book__spine {
-    display: block;
-  }
+/* ---------- دکمهٔ نوار بالا (آیکون + برچسب) ---------- */
 
-  .page--left {
-    border-start-start-radius: var(--radius-lg);
-    border-start-end-radius: 4px;
-    border-end-start-radius: var(--radius-lg);
-    border-end-end-radius: 4px;
-  }
-
-  .page--right {
-    border-start-start-radius: 4px;
-    border-start-end-radius: var(--radius-lg);
-    border-end-start-radius: 4px;
-    border-end-end-radius: var(--radius-lg);
-  }
-
-  .page__foot {
-    padding-inline: 26px;
-  }
-
-  /* فاصله از شیرازه تا شمارهٔ صفحه و دکمه‌ها بریده نشوند */
-  .page--left .page__foot,
-  .page--left .page__running-head {
-    padding-right: 40px;
-  }
-
-  .page--right .page__foot,
-  .page--right .page__running-head {
-    padding-left: 40px;
-  }
+.top-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45em;
+  padding: 0 0.75em;
+  height: 34px;
+  font-family: inherit;
+  font-size: 0.82em;
+  font-weight: 500;
+  color: var(--ink-soft);
+  background: transparent;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  white-space: nowrap;
+  transition:
+    background-color var(--dur-fast) ease,
+    color var(--dur-fast) ease,
+    border-color var(--dur-fast) ease;
 }
 
-/* برچسب دکمه‌های ورق زدن در عرض‌های میانی */
-@media (max-width: 1330px) {
-  .nav-btn__label {
-    display: none;
-  }
-
-  .nav-btn {
-    padding: 0 4px;
-  }
+.top-btn:hover {
+  color: var(--ink);
+  background: var(--accent-soft);
+  border-color: var(--accent-2);
 }
 
-/* ==========================================================================
-   تک صفحه‌ای (تبلت و موبایل)
-   ========================================================================== */
-@media (max-width: 979px) {
-  body {
-    align-items: stretch;
-    padding: var(--space-3) 10px;
-  }
-
-  .book-stage {
-    height: calc(100dvh - 28px);
-    min-height: 0;
-    max-width: 620px;
-    margin-inline: auto;
-  }
-
-  .book::before {
-    inset: -5px -6px;
-  }
-
-  .page--left {
-    display: none;
-  }
-
-  .page__scroller {
-    padding-top: 30px;
-  }
-
-  .page__running-head {
-    height: 42px;
-  }
-
-  .page__foot {
-    height: 58px;
-  }
-
-  .nav-btn {
-    justify-content: center;
-    width: 40px;
-    height: 40px;
-    padding: 0;
-    border: 1px solid var(--rule);
-    border-radius: 50%;
-  }
-
-  .nav-btn__label {
-    display: none;
-  }
-
-  .progress {
-    inset-inline: 10px;
-  }
-
-  .page__content.is-cover .cover {
-    min-height: 0;
-  }
-
-  .cover {
-    padding: 6% 5%;
-  }
-
-  .cover__frame {
-    inset: 3.5%;
-  }
-
-  .cover__eyebrow {
-    margin-bottom: 2.2em;
-    letter-spacing: 0.28em;
-  }
-
-  .cover__subtitle {
-    margin-bottom: 2em;
-  }
-
-  .cover__ornament {
-    margin-bottom: 1.8em;
-  }
-
-  .cover__start {
-    margin-top: 2.2em;
-  }
+.top-btn svg {
+  width: 16px;
+  height: 16px;
 }
 
-/* ==========================================================================
-   حالت مطالعه
-   ========================================================================== */
-body.is-zen {
-  padding: 0;
-  background: var(--bg-deep);
-}
+/* ---------- دکمهٔ خروج از حالت تمرکز ---------- */
 
-body.is-zen .book-stage {
-  max-width: none;
-  height: 100dvh;
-}
-
-body.is-zen .book {
-  border-radius: 0;
-}
-
-body.is-zen .book::before {
-  display: none;
-}
-
-body.is-zen .page {
-  border-radius: 0;
-}
-
-body.is-zen .page__running-head {
-  display: none;
-}
-
-body.is-zen .page__scroller {
-  padding-top: 78px;
-  padding-bottom: 84px;
-}
-
-body.is-zen .nav-btn__label {
-  display: none;
-}
-
-body.is-zen .page__foot {
-  justify-content: space-between;
-  padding-inline: clamp(20px, 4vw, 56px);
-  background: color-mix(in srgb, var(--paper) 82%, transparent);
+.zen-exit {
+  position: fixed;
+  top: 14px;
+  inset-inline-start: 16px;
+  z-index: 60;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45em;
+  padding: 0.45em 0.9em;
+  font-family: inherit;
+  font-size: 0.78em;
+  color: var(--ink-soft);
+  background: color-mix(in oklab, var(--paper) 92%, transparent);
   backdrop-filter: blur(8px);
+  border: 1px solid var(--rule);
+  border-radius: 999px;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity var(--dur-med) ease;
 }
 
-body.is-zen .progress {
-  inset-inline: 0;
-  bottom: 0;
+body.is-zen .zen-exit:not([hidden]) {
+  opacity: 1;
 }
+
+.zen-exit:hover {
+  color: var(--ink);
+  border-color: var(--accent-2);
+}
+
+.zen-exit svg {
+  width: 14px;
+  height: 14px;
+}
+
+/* ---------- دکمهٔ آیکونی ---------- */
+
+.icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  color: var(--ink-soft);
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition:
+    background-color var(--dur-fast) ease,
+    color var(--dur-fast) ease,
+    border-color var(--dur-fast) ease;
+}
+
+.icon-btn:hover {
+  color: var(--ink);
+  background: var(--accent-soft);
+  border-color: var(--rule);
+}
+
+.icon-btn svg {
+  width: 18px;
+  height: 18px;
+}
+
+.icon-btn[aria-pressed="true"] {
+  color: var(--accent);
+  background: var(--accent-soft);
+}
+
+/* همبرگر فقط در موبایل — بعد از .top-btn تا بازنویسی نشود */
+.topbar__menu {
+  display: none;
+}
+
+/* ---------- موبایل ---------- */
+
+@media (max-width: 979px) {
+  .shell,
+  body.is-zen .shell {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto minmax(0, 1fr);
+  }
+
+  .sidebar {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: auto;
+    z-index: 50;
+    width: min(84vw, 320px);
+    height: 100dvh;
+    transform: translateX(100%);
+    box-shadow: -8px 0 32px rgb(0 0 0 / 18%);
+  }
+
+  .shell.is-sidebar-open .sidebar {
+    transform: translateX(0);
+  }
+
+  .sidebar__head .icon-btn {
+    display: inline-flex;
+  }
+
+  .sidebar__brand {
+    font-size: 0.9em;
+  }
+
+  .topbar__menu {
+    display: inline-flex;
+  }
+
+  .topbar,
+  .doc-scroll {
+    grid-column: 1;
+  }
+
+  .doc-sheet {
+    padding: 1.6rem 1.15rem 2rem;
+  }
+
+  .pager {
+    grid-template-columns: 1fr;
+    padding: 0 1.15rem 1.8rem;
+  }
+
+  .doc__body {
+    font-size: calc(var(--read-size) * 0.97);
+  }
+}
+
+/* ---------- چاپ ---------- */
 
 @media print {
-  .page--left,
-  .page__foot,
-  .progress {
+  .sidebar,
+  .topbar,
+  .pager,
+  .progress,
+  .scrim {
     display: none !important;
   }
 
-  .book,
-  .page {
-    box-shadow: none;
+  .shell {
+    display: block;
+    height: auto;
+    overflow: visible;
   }
 
-  .page__scroller {
+  .doc-scroll {
+    display: block;
     overflow: visible;
+  }
+
+  .doc-sheet {
+    max-width: none;
+    padding: 0;
+    background: #fff;
+  }
+
+  .doc__body {
+    font-size: 11pt;
+  }
+
+  .doc__body h2,
+  .doc__body h3 {
+    break-after: avoid;
+  }
+
+  .doc__body blockquote,
+  .doc__body li {
+    break-inside: avoid;
   }
 }

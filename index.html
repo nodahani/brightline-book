@@ -7,10 +7,10 @@
       content="width=device-width, initial-scale=1, viewport-fit=cover"
     />
     <meta name="theme-color" content="#e6e9ef" />
-    <title>خط روشن</title>
+    <title>خط روشن — راهنمای امنیت دیجیتال</title>
     <meta
       name="description"
-      content="کتابی شخصی روی وب: نوشته‌هایی روشن، با ترتیبی روشن."
+      content="راهنمای عملی امنیت و حریم خصوصی دیجیتال"
     />
 
     <link
@@ -183,96 +183,95 @@
       </symbol>
     </svg>
 
-    <main class="book-stage">
-      <header class="book-toolbar">
-        <div class="book-toolbar__group">
-          <span class="book-toolbar__title" id="toolbarTitle"></span>
+    <!-- آیکون همبرگر -->
+    <svg xmlns="http://www.w3.org/2000/svg" style="display: none" aria-hidden="true">
+      <symbol id="i-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              stroke-width="1.9" stroke-linecap="round">
+        <path d="M3 6h18M3 12h18M3 18h18" />
+      </symbol>
+      <symbol id="i-prev" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M9 18l6-6-6-6" />
+      </symbol>
+      <symbol id="i-next" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M15 18l-6-6 6-6" />
+      </symbol>
+    </svg>
+
+    <div class="shell" id="shell">
+      <!-- فهرست کناری -->
+      <aside class="sidebar" id="sidebar" aria-label="فهرست کتاب">
+        <div class="sidebar__head">
+          <a class="sidebar__brand" href="#/cover" id="sidebarTitle"></a>
+          <button class="icon-btn" id="btnSidebarClose" title="بستن فهرست" aria-label="بستن فهرست">
+            <svg><use href="#i-close" /></svg>
+          </button>
         </div>
-        <div class="book-toolbar__group">
-          <button class="tool-btn" id="btnToc" title="فهرست">
-            <svg><use href="#i-list" /></svg
-            ><span class="tool-btn__text">فهرست</span>
-          </button>
-          <button class="tool-btn" id="btnSearch" title="جست‌وجو (Ctrl+K)">
-            <svg><use href="#i-search" /></svg
-            ><span class="tool-btn__text">جست‌وجو</span>
-          </button>
-          <button class="tool-btn" id="btnPalette" title="تغییر پالت رنگ (P)">
-            <svg><use href="#i-palette" /></svg
-            ><span class="tool-btn__text">رنگ</span>
-          </button>
-          <button
-            class="tool-btn tool-btn--icon"
-            id="btnTheme"
-            title="تم روشن/تاریک (T)"
-          >
+        <div class="sidebar__scroll" id="sidebarScroll">
+          <div id="sidebarContent"></div>
+        </div>
+        <div class="sidebar__foot">
+          <button class="foot-btn" id="btnTheme" title="تم روشن/تاریک (T)">
             <svg><use href="#i-moon" id="themeIcon" /></svg>
+            <span>تم</span>
           </button>
-          <button
-            class="tool-btn tool-btn--icon"
-            id="btnZen"
-            title="حالت مطالعه (Z)"
-            aria-pressed="false"
-          >
+          <button class="foot-btn" id="btnPalette" title="پالت رنگ (P)">
+            <svg><use href="#i-palette" /></svg>
+            <span>رنگ</span>
+          </button>
+          <button class="foot-btn" id="btnZen" title="حالت تمرکز (Z)" aria-pressed="false">
             <svg><use href="#i-expand" /></svg>
+            <span>تمرکز</span>
           </button>
         </div>
+      </aside>
+
+      <div class="scrim" id="scrim" hidden></div>
+
+      <!-- نوار بالای سند -->
+      <header class="topbar">
+        <button class="top-btn topbar__menu" id="btnMenu" title="فهرست"
+                aria-expanded="false" aria-controls="sidebar">
+          <svg><use href="#i-menu" /></svg>
+          <span>فهرست</span>
+        </button>
+        <span class="topbar__title" id="topbarTitle"></span>
+        <button class="top-btn" id="btnSearch" title="جست‌وجو (Ctrl+K)">
+          <svg><use href="#i-search" /></svg>
+          <span>جست‌وجو</span>
+        </button>
       </header>
 
-      <div class="book" id="book">
-        <div class="book__spine" aria-hidden="true"></div>
+      <!-- متن سند -->
+      <main class="doc-scroll" id="docScroll">
+        <div class="doc-sheet">
+          <div id="content"></div>
+        </div>
 
-        <!-- صفحهٔ چپ: فهرست -->
-        <section class="page page--left" aria-label="فهرست">
-          <div class="page__running-head">
-            <span id="leftRunning">فهرست</span>
-            <span id="leftTitle"></span>
-          </div>
-          <div class="page__scroller">
-            <div class="page__content" id="tocContent"></div>
-          </div>
-          <div class="page__foot">
-            <span class="page__num">۲</span>
-            <a class="nav-btn" href="#/about">
-              <svg><use href="#i-info" /></svg>
-              <span class="nav-btn__label">دربارهٔ کتاب</span>
-            </a>
-          </div>
-        </section>
+        <nav class="pager" id="pager" aria-label="پیمایش فصل‌ها">
+          <button class="pager__btn" id="btnPrev">
+            <span class="pager__dir">قبلی</span>
+            <span class="pager__name" id="prevLabel"></span>
+          </button>
+          <button class="pager__btn pager__btn--end" id="btnNext">
+            <span class="pager__dir">بعدی</span>
+            <span class="pager__name" id="nextLabel"></span>
+          </button>
+        </nav>
 
-        <!-- صفحهٔ راست: متن -->
-        <section class="page page--right" aria-label="متن کتاب">
-          <div class="page__running-head">
-            <span id="rightRunning"></span>
-            <span id="rightPart"></span>
-          </div>
-          <div class="page__scroller" id="scroller">
-            <div class="page__content" id="content"></div>
-          </div>
-          <div class="page__foot">
-            <button class="nav-btn" id="btnPrev">
-              <svg><use href="#i-chev-right" /></svg>
-              <span class="nav-btn__label" id="prevLabel">قبلی</span>
-            </button>
-            <span class="page__num" id="pageNum">۱</span>
-            <button class="nav-btn" id="btnNext">
-              <span class="nav-btn__label" id="nextLabel">بعدی</span>
-              <svg><use href="#i-chev-left" /></svg>
-            </button>
-          </div>
-        </section>
-
-        <div
-          class="progress"
-          role="progressbar"
-          aria-valuemin="0"
-          aria-valuemax="100"
-          aria-valuenow="0"
-        >
+        <div class="progress" role="progressbar" aria-valuemin="0"
+             aria-valuemax="100" aria-valuenow="0">
           <div class="progress__bar" id="progressBar"></div>
         </div>
-      </div>
-    </main>
+
+        <!-- راه خروج از حالت تمرکز -->
+        <button class="zen-exit" id="btnZenExit" title="خروج از حالت تمرکز (Esc)" hidden>
+          <svg><use href="#i-close" /></svg>
+          <span>خروج از تمرکز</span>
+        </button>
+      </main>
+    </div>
 
     <!-- مودال جست‌وجو -->
     <div
@@ -304,26 +303,6 @@
       </div>
     </div>
 
-    <!-- مودال فهرست (موبایل) -->
-    <div
-      class="modal"
-      id="tocModal"
-      role="dialog"
-      aria-modal="true"
-      aria-label="فهرست کتاب"
-    >
-      <div class="modal__panel">
-        <div class="modal__head">
-          <span class="modal__title"
-            ><svg><use href="#i-list" /></svg> فهرست کتاب</span
-          >
-          <button class="modal__close" data-close title="بستن">
-            <svg><use href="#i-close" /></svg>
-          </button>
-        </div>
-        <div class="modal__body" id="tocModalBody"></div>
-      </div>
-    </div>
 
     <div class="toast" id="toast">
       <svg><use href="#i-check" /></svg>
