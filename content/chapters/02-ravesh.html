@@ -1,0 +1,38 @@
+<p>
+  این کتاب هیچ پنلِ مدیریتی ندارد. نوشتن، یعنی ویرایش یک فایل. هر فصل یک فایل
+  HTML مستقل در پوشهٔ <code>content/chapters</code> است و فهرست کتاب در
+  <code>content/book.json</code> نگهداری می‌شود.
+</p>
+
+<h2>برای اضافه‌کردن یک فصل</h2>
+<ol>
+  <li>
+    یک فایل تازه در <code>content/chapters</code> بساز؛ مثلاً
+    <code>04-fasl-taze.html</code>.
+  </li>
+  <li>متن را همان‌جا بنویس.</li>
+  <li>
+    در <code>book.json</code> یک مورد به آرایهٔ <code>chapters</code> اضافه کن.
+  </li>
+  <li>کامیت کن و push بزن.</li>
+</ol>
+
+<p>
+  چند دقیقه بعد، فصل روی سایت است. هیچ مرحلهٔ ساختی هم در کار نیست: نه بیلد، نه
+  نصب وابستگی، نه دیتابیس.
+</p>
+
+<h2>قاعده‌های کوچک</h2>
+<ul>
+  <li>
+    <code>id</code> باید یکتا باشد؛ آدرس فصل از آن ساخته می‌شود:
+    <code>#/chapter/04-fasl-taze</code>.
+  </li>
+  <li>
+    <code>part</code> باید با یکی از <code>id</code>های بخش‌ها برابر باشد.
+  </li>
+  <li>
+    فایل فصل فقط یک <em>تکه</em> از HTML است؛ نه <code>&lt;html&gt;</code> دارد،
+    نه <code>&lt;head&gt;</code>.
+  </li>
+</ul>
