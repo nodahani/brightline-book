@@ -179,6 +179,7 @@ export async function loadBook({ base = "content/" } = {}) {
 export function pagesOf(book) {
   return [
     { type: "cover" },
+    { type: "start" },
     ...book.chapters.map((chapter) => ({ type: "chapter", id: chapter.id })),
     { type: "about" },
   ];

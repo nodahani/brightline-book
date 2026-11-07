@@ -17,11 +17,14 @@ import { isKnown, navigate, onRouteChange, parseHash } from "./router.js";
 import {
   aboutView,
   anchorsIn,
+  bindNextStep,
+  bindPlan,
   chapterView,
   coverView,
   pageNumber,
   pageTitle,
   runningHead,
+  startView,
   stepLabel,
   tocView,
 } from "./views.js";
@@ -176,6 +179,8 @@ function renderPage() {
 
   if (isCover) {
     content.innerHTML = coverView(book);
+  } else if (route.type === "start") {
+    content.innerHTML = startView(book);
   } else if (route.type === "about") {
     content.innerHTML = aboutView(book);
   } else {
@@ -185,6 +190,12 @@ function renderPage() {
 
   // شناسه‌گذاری عنوان‌ها تا لینک‌های فهرست به بخش درست برسند.
   anchorsIn(content);
+
+  // نقشهٔ مسیر: تیک‌ها و نوار پیشرفت.
+  if (route.type === "start") bindPlan(content);
+
+  // انتهای هر فصل: «قدم بعدی تو».
+  bindNextStep(content);
 
   // برگهٔ عنوان باید همیشه از بالا دیده شود — وگرنه جلد نیمه‌کاره می‌ماند.
   if (isCover) {

@@ -99,6 +99,22 @@ body.is-zen .shell .doc-sheet {
   display: none;
 }
 
+/* «از اینجا شروع کن» — تنها ورودی برجستهٔ بالای فهرست */
+.sb__link--start {
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.sb__link--start .sb__label::before {
+  content: "→";
+  margin-inline-end: 0.45em;
+  font-size: 0.9em;
+}
+
+.sb__link--start.is-active {
+  background: var(--accent-soft);
+}
+
 .sidebar__brand {
   display: flex;
   flex: 1;
@@ -645,6 +661,20 @@ body.is-zen .shell .topbar {
   height: 15px;
 }
 
+/* پیوند آرام به نقشهٔ مسیر — زیر دکمهٔ اصلی، بی‌آنکه رقابت کند */
+.cover__extras {
+  margin-top: 0.95rem;
+  font-size: 0.82rem;
+  color: var(--ink-faint);
+  text-decoration-color: var(--rule);
+  text-underline-offset: 4px;
+}
+
+.cover__extras:hover {
+  color: var(--accent);
+  text-decoration-color: currentColor;
+}
+
 /* --- نقشهٔ راه --- */
 
 .cover__roadmap {
@@ -818,6 +848,9 @@ body.is-zen .shell .topbar {
   background: var(--bg-deep);
   border-radius: 4px;
   unicode-bidi: isolate;
+  /* آدرس‌های بلند باید بشکنند، نه از کادر بزنند بیرون */
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
 .doc__body hr {
@@ -952,195 +985,7 @@ body.is-zen .shell .topbar {
   color: var(--accent);
 }
 
-/* ---------- جعبهٔ «از اینجا شروع کن» ---------- */
-
-.startbox {
-  margin: 1.7em 0;
-  padding: 1.2em 1.3em;
-  background: var(--accent-soft);
-  border-radius: var(--radius-md);
-}
-
-.startbox__label {
-  margin: 0 0 0.55em;
-  font-size: 0.76em;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  color: var(--accent);
-}
-
-.startbox__text {
-  margin: 0;
-  font-size: 0.96em;
-  line-height: 1.95;
-  color: var(--ink-soft);
-}
-
-.startbox__text strong {
-  color: var(--ink);
-}
-
-/* ---------- جدول زمان: سبک، بدون ترس ---------- */
-
-.times {
-  margin: 1.9em 0;
-  padding: 1.15em 1.25em 1.2em;
-  border: 1px solid var(--rule);
-  border-radius: var(--radius-md);
-}
-
-.times__title {
-  display: flex;
-  gap: 0.45em;
-  align-items: center;
-  margin: 0 0 1em;
-  font-size: 0.8em;
-  font-weight: 700;
-  letter-spacing: 0.03em;
-  color: var(--ink);
-}
-
-/* ساعتِ کوچک: دایره با عقربه — با CSS، بدون تصویر */
-.times__clock {
-  position: relative;
-  display: inline-block;
-  flex: 0 0 auto;
-  width: 13px;
-  height: 13px;
-  border: 1.5px solid var(--accent);
-  border-radius: 50%;
-  opacity: 0.8;
-}
-
-.times__clock::before,
-.times__clock::after {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  background: var(--accent);
-  transform-origin: 0 0;
-}
-
-.times__clock::before {
-  width: 1.5px;
-  height: 3.4px;
-  transform: translate(-1px, -3.4px);
-}
-
-.times__clock::after {
-  width: 3px;
-  height: 1.5px;
-  transform: translate(-1px, -1px) rotate(30deg);
-}
-
-.times__list {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.times__row {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) 4.2rem 3.4rem;
-  gap: 0.7em;
-  align-items: center;
-  padding: 0.42em 0;
-}
-
-.times__row + .times__row {
-  border-top: 1px solid var(--rule);
-}
-
-.times__name {
-  font-size: 0.9em;
-  line-height: 1.6;
-  color: var(--ink-soft);
-}
-
-.times__bar {
-  height: 4px;
-  overflow: hidden;
-  background: var(--rule);
-  border-radius: 999px;
-}
-
-/* نوار خیلی کم‌رنگ است؛ عدد مهم است، نه حجم رنگ */
-.times__fill {
-  display: block;
-  width: var(--w, 0%);
-  height: 100%;
-  background: var(--accent-2);
-  border-radius: inherit;
-  opacity: 0.55;
-}
-
-.times__val {
-  font-size: 0.82em;
-  font-weight: 600;
-  color: var(--ink);
-  text-align: end;
-  font-variant-numeric: tabular-nums;
-}
-
-.times__row--total .times__name,
-.times__row--total .times__val {
-  font-weight: 700;
-  color: var(--ink);
-}
-
-.times__row--total .times__fill {
-  opacity: 0.85;
-}
-
-.times__foot {
-  margin: 0.95em 0 0;
-  padding-top: 0.85em;
-  font-size: 0.84em;
-  line-height: 1.85;
-  color: var(--ink-faint);
-  border-top: 1px solid var(--rule);
-}
-
-/* ---------- فهرست دستاورد ---------- */
-
-.gains {
-  margin: 0 0 1.2em;
-  padding: 0;
-  list-style: none;
-}
-
-.gains li {
-  position: relative;
-  margin-bottom: 0.55em;
-  padding-inline-start: 1.5em;
-  font-size: 0.96em;
-  line-height: 1.9;
-  color: var(--ink-soft);
-}
-
-.gains li::before {
-  content: "✓";
-  position: absolute;
-  inset-inline-start: 0.1em;
-  top: 0;
-  font-size: 0.9em;
-  font-weight: 700;
-  color: var(--accent);
-}
-
-.gains li strong {
-  color: var(--ink);
-}
-
-/* ---------- سه راه شروع ---------- */
-
-.startpaths {
-  margin: 1.8em 0;
-  padding: 1.15em 1.25em 1.2em;
-  background: var(--paper-2);
-  border-radius: var(--radius-md);
-}
+/* ---------- جعبهٔ «از اینجا شروع کن» و جدول زمان ---------- */
 
 .startpaths__lead {
   margin: 0 0 0.8em;
@@ -1148,40 +993,6 @@ body.is-zen .shell .topbar {
   font-weight: 700;
   color: var(--ink);
 }
-
-.startpaths__list {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.startpaths__list li {
-  margin-bottom: 0.6em;
-  padding-inline-start: 0.9em;
-  font-size: 0.92em;
-  line-height: 1.85;
-  color: var(--ink-soft);
-  border-inline-start: 2px solid var(--rule);
-}
-
-.startpaths__list li strong {
-  color: var(--ink);
-}
-
-.startpaths__foot {
-  margin: 1em 0 0;
-  padding-top: 0.9em;
-  font-size: 0.88em;
-  line-height: 1.9;
-  color: var(--ink-soft);
-  border-top: 1px solid var(--rule);
-}
-
-.pin {
-  font-size: 0.95em;
-}
-
-/* ---------- جعبهٔ «این کتاب چه کاری می‌کند» ---------- */
 
 .startbox {
   margin: 1.7em 0;
@@ -1205,12 +1016,6 @@ body.is-zen .shell .topbar {
   color: var(--ink-soft);
 }
 
-.startbox__text strong {
-  color: var(--ink);
-}
-
-/* ---------- جدول زمان: سبک، بدون ترس ---------- */
-
 .times {
   margin: 1.9em 0;
   padding: 1.05em 1.2em 1.15em;
@@ -1229,7 +1034,6 @@ body.is-zen .shell .topbar {
   color: var(--ink);
 }
 
-/* ساعتِ کوچک: دایره با دو عقربه — با CSS، بدون تصویر */
 .times__clock {
   position: relative;
   display: inline-block;
@@ -1239,29 +1043,6 @@ body.is-zen .shell .topbar {
   border: 1.5px solid var(--accent);
   border-radius: 50%;
   opacity: 0.85;
-}
-
-.times__clock::before,
-.times__clock::after {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  background: var(--accent);
-  border-radius: 1px;
-  transform-origin: 0 50%;
-}
-
-.times__clock::before {
-  width: 1.4px;
-  height: 3px;
-  margin: -1.5px 0 0 -0.7px;
-}
-
-.times__clock::after {
-  width: 2.6px;
-  height: 1.4px;
-  margin: -0.7px 0 0 0;
 }
 
 .times__list {
@@ -1292,7 +1073,6 @@ body.is-zen .shell .topbar {
   border-radius: 999px;
 }
 
-/* نوار کم‌رنگ است؛ عدد مهم است، نه حجم رنگ */
 .times__fill {
   display: block;
   width: var(--w, 0%);
@@ -1320,38 +1100,11 @@ body.is-zen .shell .topbar {
   border-top: 1px solid var(--rule);
 }
 
-/* ---------- فهرست دستاورد ---------- */
-
 .gains {
   margin: 0 0 1.2em;
   padding: 0;
   list-style: none;
 }
-
-.gains li {
-  position: relative;
-  margin-bottom: 0.6em;
-  padding-inline-start: 1.45em;
-  font-size: 0.96em;
-  line-height: 1.9;
-  color: var(--ink-soft);
-}
-
-.gains li::before {
-  content: "✓";
-  position: absolute;
-  inset-inline-start: 0.05em;
-  top: 0;
-  font-size: 0.86em;
-  font-weight: 700;
-  color: var(--accent);
-}
-
-.gains li strong {
-  color: var(--ink);
-}
-
-/* ---------- سه راه شروع ---------- */
 
 .startpaths {
   margin: 1.8em 0;
@@ -1364,19 +1117,6 @@ body.is-zen .shell .topbar {
   margin: 0;
   padding: 0;
   list-style: none;
-}
-
-.startpaths__list li {
-  margin-bottom: 0.55em;
-  padding-inline-start: 0.9em;
-  font-size: 0.92em;
-  line-height: 1.9;
-  color: var(--ink-soft);
-  border-inline-start: 2px solid var(--rule);
-}
-
-.startpaths__list li strong {
-  color: var(--ink);
 }
 
 .startpaths__foot {
@@ -1392,20 +1132,358 @@ body.is-zen .shell .topbar {
   font-size: 0.95em;
 }
 
-/* ---------- سطر منبع ---------- */
+
+/* ---------- مقدمهٔ استاندارد فصل (چرا / خطر) ---------- */
+
+.lead {
+  display: grid;
+  gap: 0.75em;
+  margin: 0 0 2em;
+  padding: 1.2em 1.3em;
+  font-size: 0.94em;
+  line-height: 1.95;
+  color: var(--ink-soft);
+  background: var(--paper-2);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-md);
+}
+
+.lead__row {
+  display: grid;
+  grid-template-columns: 5.2rem minmax(0, 1fr);
+  gap: 0.7em;
+  align-items: start;
+}
+
+.lead__key {
+  padding-top: 0.12em;
+  font-size: 0.74em;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  line-height: 1.7;
+  color: var(--accent);
+}
+
+.lead__val {
+  margin: 0;
+  font-size: 1em;
+  line-height: 1.9;
+}
+
+.lead__val strong {
+  color: var(--ink);
+}
+
+/* کاری که این فصل از تو می‌خواهد — خط آخر، برجسته‌تر */
+.lead__row--do {
+  padding-top: 0.7em;
+  border-top: 1px solid var(--rule);
+}
+
+.lead__row--do .lead__val {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+/* زمان، در مقدمهٔ فصل: برچسبی کوچک زیر جمله — نه چسبیده به آن */
+.lead__val .map__time {
+  display: block;
+  width: fit-content;
+  max-width: 100%;
+  margin: 0.55em 0 0;
+  white-space: normal;
+  padding: 0.15em 0.6em;
+  font-size: 0.78em;
+  font-weight: 600;
+  color: var(--ink-soft);
+  background: var(--paper);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-pill);
+}
+
+/* ---------- نقشهٔ مسیر ---------- */
+
+.map__intro {
+  margin: 0 0 1.3em;
+  font-size: 0.95em;
+  line-height: 1.95;
+  color: var(--ink-soft);
+}
+
+.map {
+  display: grid;
+  gap: 0;
+  margin: 0 0 1.6em;
+  padding: 0;
+  list-style: none;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.map__day {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6em;
+  align-items: baseline;
+  padding: 0.55em 1.1em;
+  font-size: 0.75em;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: var(--accent);
+  background: var(--accent-soft);
+}
+
+/* یادداشت روز، کنار عنوانش — نه پایین فهرست */
+.map__day-note {
+  font-weight: 500;
+  letter-spacing: 0;
+  color: var(--ink-soft);
+}
+
+.map__list {
+  margin: 0;
+  padding: 0.2em 1.1em 0.9em;
+  list-style: none;
+}
+
+.map__list > li {
+  position: relative;
+  padding-block: 0.55em;
+  font-size: 0.94em;
+  line-height: 1.8;
+}
+
+.map__list > li + li {
+  border-top: 1px dashed var(--rule);
+}
+
+/* فهرست ساده (بدون تیک): شمارهٔ فارسی می‌گیرد */
+.map__list--plain {
+  counter-reset: task;
+}
+
+.map__list--plain > li {
+  padding-inline-start: 2.15em;
+  counter-increment: task;
+}
+
+.map__list--plain > li::before {
+  content: counter(task, persian);
+  position: absolute;
+  inset-inline-start: 0;
+  top: 0.85em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.55em;
+  height: 1.55em;
+  font-size: 0.7em;
+  font-weight: 700;
+  color: var(--ink-faint);
+  background: var(--paper);
+  border: 1px solid var(--rule);
+  border-radius: 50%;
+}
+
+.map__what {
+  display: block;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.map__why {
+  display: block;
+  font-size: 0.88em;
+  color: var(--ink-soft);
+}
+
+/* برچسب زمان کنار هر کار، سبک و بی‌سر‌و‌صدا */
+.map__time {
+  margin-inline-start: 0.55em;
+  font-size: 0.78em;
+  font-weight: 500;
+  color: var(--ink-faint);
+  white-space: nowrap;
+}
+
+/* هر کار: تیک در سمت راست، متن در ستون خودش */
+.map__check {
+  display: flex;
+  gap: 0.6em;
+  align-items: flex-start;
+  cursor: pointer;
+}
+
+.map__body {
+  display: block;
+  min-width: 0;
+}
+
+.map__check input {
+  flex: none;
+  width: 1.15rem;
+  height: 1.15rem;
+  margin: 0.32em 0 0;
+  accent-color: var(--accent);
+  cursor: pointer;
+}
+
+/* خط‌خوردگیِ نام کار وقتی تیک خورده — فقط روی عنوان، نه توضیح */
+.map__check input:checked ~ .map__body .map__what {
+  color: var(--ink-faint);
+  text-decoration: line-through;
+  text-decoration-color: var(--rule);
+}
+
+.map__go {
+  display: inline-block;
+  margin-top: 0.25em;
+  margin-inline-start: 1.75em;
+  font-size: 0.8em;
+  color: var(--accent);
+  text-decoration-color: color-mix(in oklab, var(--accent) 35%, transparent);
+  text-underline-offset: 3px;
+}
+
+.map__go:hover {
+  text-decoration-color: var(--accent);
+}
+
+/* ---------- قدم بعدی، انتهای هر فصل ---------- */
+
+.nextstep {
+  display: grid;
+  gap: 0.4em;
+  margin: 2.2em 0 0;
+  padding: 1.1em 1.2em;
+  background: var(--paper-2);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-md);
+}
+
+.nextstep__label {
+  margin: 0;
+  font-size: 0.72em;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--accent);
+}
+
+.nextstep.is-done .nextstep__label {
+  color: var(--ink-faint);
+}
+
+.nextstep__what {
+  margin: 0;
+  font-size: 1em;
+  font-weight: 700;
+  line-height: 1.7;
+  color: var(--ink);
+}
+
+.nextstep.is-done .nextstep__what {
+  color: var(--ink-soft);
+  text-decoration: line-through;
+  text-decoration-color: var(--rule);
+}
+
+.nextstep__why {
+  margin: 0;
+  font-size: 0.87em;
+  line-height: 1.85;
+  color: var(--ink-soft);
+}
+
+.nextstep__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.9em;
+  align-items: center;
+  margin: 0.5em 0 0;
+}
+
+.nextstep__done {
+  padding: 0.5em 1.1em;
+  font: inherit;
+  font-size: 0.85em;
+  font-weight: 600;
+  color: var(--paper);
+  background: var(--accent);
+  border: 0;
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+}
+
+.nextstep__done[aria-pressed="true"] {
+  color: var(--accent);
+  background: transparent;
+  box-shadow: inset 0 0 0 1px var(--accent);
+}
+
+.nextstep__done:hover {
+  filter: brightness(1.08);
+}
+
+.nextstep__map {
+  font-size: 0.82em;
+  color: var(--ink-soft);
+  text-underline-offset: 3px;
+}
+
+.nextstep__map:hover {
+  color: var(--accent);
+}
+
+/* ---------- پیشرفت نقشه ---------- */
+
+.map__progress {
+  display: flex;
+  gap: 0.8em;
+  align-items: center;
+  margin: 0 0 1.4em;
+  font-size: 0.84em;
+  color: var(--ink-soft);
+}
+
+.map__bar {
+  flex: 1;
+  height: 5px;
+  overflow: hidden;
+  background: var(--rule);
+  border-radius: 999px;
+}
+
+.map__bar > span {
+  display: block;
+  height: 100%;
+  background: var(--accent-2);
+  border-radius: inherit;
+  transition: width var(--dur-mid) var(--ease-out);
+}
+
+.map__count {
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- منابع ---------- */
 
 .srcs {
-  margin: 2em 0 0;
-  padding-top: 0.9em;
-  font-size: 0.76em;
+  margin: 2.4em 0 0;
+  padding-top: 1em;
+  font-size: 0.78em;
   line-height: 1.9;
   color: var(--ink-faint);
   border-top: 1px solid var(--rule);
 }
 
 .srcs__label {
-  margin: 0 0 0.3em;
+  margin: 0 0 0.5em;
+  font-size: 0.92em;
   font-weight: 700;
+  letter-spacing: 0.02em;
+  color: var(--ink-soft);
 }
 
 .srcs__list {
@@ -1415,8 +1493,25 @@ body.is-zen .shell .topbar {
 }
 
 .srcs__list li {
-  margin-bottom: 0.15em;
-  line-height: 1.85;
+  margin-bottom: 0.45em;
+  padding-inline-start: 0.9em;
+  border-inline-start: 1px solid var(--rule);
+}
+
+.srcs__list a {
+  color: var(--accent);
+  text-underline-offset: 2px;
+}
+
+.srcs__list a:hover {
+  text-decoration: underline;
+}
+
+/* راهنماهای بلندتر که زیر همین فهرست می‌آیند */
+.srcs__more {
+  margin: 1.2em 0 0;
+  padding-top: 0.9em;
+  border-top: 1px dashed var(--rule);
 }
 
 /* فقط در عرض‌های کافی، خط دوطرفه؛ در موبایل «رودخانه» می‌سازد. */
@@ -1877,6 +1972,41 @@ body.is-zen .zen-exit:not([hidden]) {
 }
 
 /* ---------- چاپ ---------- */
+
+/* نقشهٔ مسیر در صفحه‌های باریک: تیک و زمان کوچک‌تر، متن جای بیشتر */
+@media (max-width: 979px) {
+  .map__list {
+    padding-inline: 0.85em;
+  }
+
+  .map__list > li {
+    font-size: 0.9em;
+  }
+
+  .map__check {
+    gap: 0.45em;
+  }
+
+  .map__check input {
+    width: 1.05rem;
+    height: 1.05rem;
+  }
+
+  .map__time {
+    display: block;
+    margin-inline-start: 0;
+    margin-top: 0.15em;
+    font-size: 0.76em;
+  }
+
+  .map__go {
+    margin-inline-start: 1.5em;
+  }
+
+  .map__day {
+    font-size: 0.72em;
+  }
+}
 
 @media print {
   .sidebar,

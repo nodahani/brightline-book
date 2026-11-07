@@ -7,6 +7,7 @@
 
 const ROUTES = {
   cover: () => ({ type: "cover" }),
+  start: () => ({ type: "start" }),
   about: () => ({ type: "about" }),
   chapter: (id, section) =>
     id ? { type: "chapter", id, section: section || null } : { type: "cover" },
@@ -42,6 +43,8 @@ export function toHash(route) {
       const base = `#/chapter/${encodeURIComponent(route.id)}`;
       return route.section ? `${base}/${encodeURIComponent(route.section)}` : base;
     }
+    case "start":
+      return "#/start";
     case "about":
       return "#/about";
     default:
