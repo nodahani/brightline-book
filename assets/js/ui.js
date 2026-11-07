@@ -83,13 +83,28 @@ export function cyclePalette() {
   return next;
 }
 
-/** یک دکمه، دو تنظیم: روشن/تاریک + پالت. */
+/**
+ * چرخهٔ کامل پوسته‌ها: ۴ پالت × ۲ تم = ۸ حالت، یکی‌یکی و بدون تکرار.
+ *
+ * نسخهٔ قبلی هم‌زمان پالت و تم را جلو می‌برد. چون هر دو با هم عوض می‌شدند،
+ * فقط ۴ حالت از ۸ حالت دیده می‌شد (همیشه روشن/تاریکِ یک جفتِ ثابت) و کاربر
+ * هیچ‌وقت به بقیه نمی‌رسید. حالا اول همهٔ پالت‌ها با تم فعلی می‌آیند، بعد تم
+ * عوض می‌شود و همان مسیر تکرار می‌شود.
+ */
 export function cycleSkin() {
-  const theme = toggleTheme();
-  // با هر بار زدن دکمه، پالت هم جلو می‌رود تا کاربر همهٔ حالت‌ها را ببیند.
   const palette = cyclePalette();
-  return { theme, palette };
+
+  // اگر پالت به اول برگشت، یعنی یک دور کامل شد: حالا تم را عوض کن.
+  if (palette.id === PALETTES[0].id) {
+    const theme = toggleTheme();
+    return { theme, palette };
+  }
+
+  return { theme: currentTheme(), palette };
 }
+
+export const currentTheme = () =>
+  document.documentElement.dataset.theme === "dark" ? "dark" : "light";
 
 export const paletteLabel = (id) => paletteOf(id).label;
 

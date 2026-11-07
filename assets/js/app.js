@@ -407,6 +407,13 @@ function bindChrome(search) {
 function handleSkin() {
   const { theme, palette } = cycleSkin();
   toast(`${paletteLabel(palette.id)} · ${theme === "dark" ? "تاریک" : "روشن"}`);
+
+  const button = $("#btnTheme");
+  if (button) {
+    button.title = `پوستهٔ بعدی (P) — الان: ${paletteLabel(palette.id)}، ${
+      theme === "dark" ? "تاریک" : "روشن"
+    }`;
+  }
 }
 
 function handleZen() {
@@ -479,15 +486,28 @@ async function init() {
 
   // مسیر اولیه
   const initial = parseHash();
-  route = isKnown(book, initial) ? initial : { type: "cover" };
-  if (!isKnown(book, initial)) {
+  const known = isKnown(book, initial);
+  route = known ? initial : { type: "cover" };
+
+  if (!known && initial.type !== "cover") {
+    // مسیر ناموجود بی‌صدا به جلد نمی‌پرد؛ می‌گوید چه شد.
+    // (اگر پیوند شکسته در پیام یا نشانک کسی مانده، همان‌جا می‌فهمد.)
+    toast("این نشانی پیدا نشد — به جلد برگشتی.");
     navigate(route, { replace: true });
   }
 
   render();
 
   onRouteChange((next) => {
-    const safe = isKnown(book, next) ? next : { type: "cover" };
+    const valid = isKnown(book, next);
+    const safe = valid ? next : { type: "cover" };
+
+    // همان قاعده برای جابه‌جاییِ وسط کار: نشانی ناموجود، بی‌صدا جلد نمی‌شود.
+    if (!valid && next.type !== "cover") {
+      toast("این نشانی پیدا نشد — به جلد برگشتی.");
+      // نشانی شکسته را از نوار آدرس بردار، وگرنه رفرش همان را تکرار می‌کند.
+      navigate(safe, { replace: true });
+    }
 
     // کلیک روی بخشی از همان فصلِ باز: مسیر عوض نمی‌شود، پس دستی اسکرول کن.
     if (

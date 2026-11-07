@@ -2056,4 +2056,19 @@ body.is-zen .zen-exit:not([hidden]) {
   .doc__body li {
     break-inside: avoid;
   }
+
+  /* تعاملی‌ها در کاغذ معنا ندارند: تیک، دکمه و پیوند نقشه چاپ نمی‌شوند. */
+  .nextstep__actions,
+  .map__check input,
+  .map__go {
+    display: none;
+  }
+
+  .nextstep {
+    padding: 0.8em 0;
+    background: none;
+    border: 0;
+    border-top: 1px solid #ccc;
+    border-radius: 0;
+  }
 }

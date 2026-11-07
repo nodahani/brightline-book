@@ -135,7 +135,7 @@ html[data-palette="moon"] {
   --paper-2: #ececeb;
   --ink: #1c1d20;
   --ink-soft: #5a5d64;
-  --ink-faint: #93969d;
+  --ink-faint: #82858b;
   --accent: #3f5d8a;
   --accent-2: #a58652;
   --accent-soft: rgb(63 93 138 / 10%);
@@ -180,7 +180,7 @@ html[data-palette="paper"] {
   --paper-2: #f4f3f0;
   --ink: #1e1c19;
   --ink-soft: #605c55;
-  --ink-faint: #9a958c;
+  --ink-faint: #8b867e;
   --accent: #6b5744;
   --accent-2: #b08b4c;
   --accent-soft: rgb(107 87 68 / 9%);
@@ -225,7 +225,7 @@ html[data-palette="charcoal"] {
   --paper-2: #f3f2f0;
   --ink: #191817;
   --ink-soft: #5d5a56;
-  --ink-faint: #99958f;
+  --ink-faint: #8f8b85;
   --accent: #7a4a3a;
   --accent-2: #a98a4e;
   --accent-soft: rgb(122 74 58 / 9%);
