@@ -51,22 +51,9 @@ function coverRoadmap(chapters, parts) {
     </ol>`;
 }
 
-/** واژه‌های شناسنامه: ۸ فصل · حدود ۵۰ دقیقه خواندن */
-function coverStats(chapters) {
-  const minutes = chapters.reduce(
-    (sum, chapter) => sum + readingMinutes(chapter.body || ""),
-    0,
-  );
-  return [
-    `${fa(chapters.length)} فصل`,
-    minutes ? `حدود ${fa(minutes)} دقیقه` : "",
-  ].filter(Boolean);
-}
-
 /**
  * سطر نشانِ کتاب — هم می‌گوید کتاب است، هم جلدِ چندمِ کدام مجموعه.
  *   «جلد ۱ از مجموعهٔ «خط روشن»»
- * اگر سری تعریف نشده باشد فقط «جلد ۱» می‌آید.
  */
 function coverSeries(meta) {
   const series = meta.series || "";
@@ -83,6 +70,14 @@ function coverSeries(meta) {
   return line ? `<p class="cover__series">${escapeHtml(line)}</p>` : "";
 }
 
+/** نشان جلد: کتابِ باز در حلقهٔ نازک. */
+const coverMark = () => `
+  <div class="cover__mark">
+    <svg viewBox="0 0 72 72" aria-hidden="true">
+      <use href="#i-mark"></use>
+    </svg>
+  </div>`;
+
 export function coverView(book) {
   const { meta, chapters, parts, cover } = book;
   const first = chapters[0];
@@ -91,34 +86,31 @@ export function coverView(book) {
 
   return `
     <div class="cover">
-      ${coverSeries(meta)}
+      <div class="cover__frame" aria-hidden="true"></div>
 
-      <header class="cover__head">
-        <h1 class="cover__title">${escapeHtml(meta.title || "")}</h1>
-        ${meta.subtitle ? `<p class="cover__subtitle">${escapeHtml(meta.subtitle)}</p>` : ""}
-      </header>
+      <div class="cover__inner">
+        ${coverMark()}
+        ${coverSeries(meta)}
 
-      <div class="cover__rule" aria-hidden="true"></div>
+        <header class="cover__head">
+          <h1 class="cover__title">${escapeHtml(meta.title || "")}</h1>
+          ${meta.subtitle ? `<p class="cover__subtitle">${escapeHtml(meta.subtitle)}</p>` : ""}
+        </header>
 
-      ${
-        data.kicker
-          ? `<p class="cover__kicker">${escapeHtml(data.kicker)}</p>`
-          : ""
-      }
+        ${
+          data.kicker
+            ? `<p class="cover__kicker">${escapeHtml(data.kicker)}</p>`
+            : ""
+        }
 
-      ${
-        reasons.length
-          ? `<ul class="cover__reasons">
-        ${reasons.map((reason) => `<li>${escapeHtml(reason)}</li>`).join("")}
-      </ul>`
-          : ""
-      }
+        ${
+          reasons.length
+            ? `<ul class="cover__reasons">
+          ${reasons.map((reason) => `<li>${escapeHtml(reason)}</li>`).join("")}
+        </ul>`
+            : ""
+        }
 
-      ${
-        data.note ? `<p class="cover__note">${escapeHtml(data.note)}</p>` : ""
-      }
-
-      <footer class="cover__foot">
         ${
           first
             ? `<a class="cover__start" href="#/chapter/${encodeURIComponent(first.id)}">
@@ -130,31 +122,12 @@ export function coverView(book) {
 
         ${coverRoadmap(chapters, parts)}
 
-        <p class="cover__byline">
-          ${
-            meta.author
-              ? `<span class="cover__author"><span class="cover__author-label">نویسنده</span>${escapeHtml(meta.author)}</span>`
-              : ""
-          }
-          ${
-            data.justification
-              ? `<span class="cover__why">${escapeHtml(data.justification)}</span>`
-              : ""
-          }
-          ${
-            data.justificationNote
-              ? `<span class="cover__why-note">${escapeHtml(data.justificationNote)}</span>`
-              : ""
-          }
-        </p>
-
-        <p class="cover__meta">
-          ${[...coverStats(chapters), meta.year || ""]
-            .filter(Boolean)
-            .map((item) => `<span>${escapeHtml(String(item))}</span>`)
-            .join("")}
-        </p>
-      </footer>
+        ${
+          meta.author
+            ? `<p class="cover__author">${escapeHtml(meta.author)}</p>`
+            : ""
+        }
+      </div>
     </div>`;
 }
 

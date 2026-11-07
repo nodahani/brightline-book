@@ -55,8 +55,15 @@ function renderSidebar() {
   const container = $("#sidebarContent");
   if (container) container.innerHTML = tocView(book, route);
 
+  // نشان کوچک + نام، تا فهرست کناری هم امضای کتاب را داشته باشد.
   const brand = $("#sidebarTitle");
-  if (brand) brand.textContent = book.meta.title || "";
+  if (brand) {
+    brand.innerHTML =
+      '<svg class="sidebar__logo" aria-hidden="true"><use href="#i-mark"></use></svg>' +
+      '<span class="sidebar__name"></span>';
+    const name = brand.querySelector(".sidebar__name");
+    if (name) name.textContent = book.meta.title || "";
+  }
 
   // فصل جاری را در دید نگه دار، ولی هرگز بالای فهرست را نبُر.
   const panel = $("#sidebarScroll");
