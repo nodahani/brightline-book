@@ -122,11 +122,11 @@ body.is-zen .shell .doc-sheet {
 }
 
 .sidebar__foot {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  align-items: stretch;
-  gap: 0.25rem;
-  padding: 0.5rem 0.6rem 0.6rem;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.4rem;
+  padding: 0.55rem 0.9rem 0.75rem;
   border-top: 1px solid var(--rule);
 }
 
@@ -304,54 +304,49 @@ body.is-zen .shell .doc-sheet {
 
 .foot-btn {
   display: inline-flex;
-  flex-direction: row;
+  flex: none;
   align-items: center;
   justify-content: center;
-  gap: 0.4em;
-  min-width: 0;
-  padding: 0.55em 0.5em;
-  font-family: inherit;
-  font-size: 0.8em;
-  font-weight: 500;
-  line-height: 1.2;
+  width: 2.25rem;
+  height: 2.25rem;
+  padding: 0;
   color: var(--ink-soft);
-  white-space: nowrap;
   background: transparent;
-  border: 1px solid transparent;
-  border-radius: var(--radius-sm);
+  border: 1px solid var(--rule);
+  border-radius: 50%;
   cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
   transition:
-    background-color var(--dur-fast) ease,
     color var(--dur-fast) ease,
-    border-color var(--dur-fast) ease;
+    background-color var(--dur-fast) ease,
+    border-color var(--dur-fast) ease,
+    transform var(--dur-fast) ease;
 }
 
 .foot-btn:hover {
-  color: var(--ink);
+  color: var(--accent);
   background: var(--accent-soft);
-  border-color: var(--rule);
+  border-color: var(--accent);
+}
+
+.foot-btn:active {
+  transform: scale(0.94);
 }
 
 .foot-btn:focus-visible {
   outline: 2px solid var(--accent);
-  outline-offset: 1px;
+  outline-offset: 2px;
 }
 
 .foot-btn svg {
-  flex: none;
-  width: 1.15em;
-  height: 1.15em;
-}
-
-.foot-btn span {
-  overflow: hidden;
-  text-overflow: ellipsis;
+  width: 1.05rem;
+  height: 1.05rem;
 }
 
 .foot-btn[aria-pressed="true"] {
   color: var(--accent);
   background: var(--accent-soft);
-  border-color: transparent;
+  border-color: var(--accent);
 }
 
 /* ---------- پردهٔ پشت منو (موبایل) ---------- */

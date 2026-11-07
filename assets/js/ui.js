@@ -10,11 +10,14 @@ const THEME_KEY = "khat-roshan/theme";
 const PALETTE_KEY = "khat-roshan/palette";
 
 const THEMES = ["light", "dark"];
+
+// یک دکمه برای هر دو کار: روشن/تاریک عوض می‌شود و بعد پالت جلو می‌رود.
+// هر پالت نسخهٔ روشن و تاریک دارد، پس این دو تنظیم با هم یک «پوسته» می‌سازند.
 const PALETTES = [
-  { id: "sepia", label: "سپیا" },
-  { id: "moon", label: "مهتاب" },
-  { id: "paper", label: "کاغذ" },
-  { id: "charcoal", label: "زغال" },
+  { id: "sepia", label: "سپیا", icon: "#i-sun" },
+  { id: "moon", label: "مهتاب", icon: "#i-moon" },
+  { id: "paper", label: "کاغذ", icon: "#i-palette" },
+  { id: "charcoal", label: "زغال", icon: "#i-expand" },
 ];
 
 /* حافظهٔ مرورگر ممکن است در iframe سندباکس بسته باشد */
@@ -43,13 +46,6 @@ export function applyTheme(theme) {
   const next = THEMES.includes(theme) ? theme : THEMES[0];
   document.documentElement.dataset.theme = next;
 
-  // شناسه روی خودِ <use> است، نه روی <svg> والد؛ هر دو حالت را می‌پذیریم.
-  const iconEl =
-    document.querySelector("#themeIcon") ||
-    document.querySelector("#themeIcon use");
-  if (iconEl)
-    iconEl.setAttribute("href", next === "dark" ? "#i-sun" : "#i-moon");
-
   const meta = document.querySelector('meta[name="theme-color"]');
   if (meta) {
     const bg = getComputedStyle(document.documentElement)
@@ -62,6 +58,12 @@ export function applyTheme(theme) {
 export function applyPalette(id) {
   const palette = paletteOf(id);
   document.documentElement.dataset.palette = palette.id;
+
+  // شناسه روی خودِ <use> است، نه روی <svg> والد؛ هر دو حالت را می‌پذیریم.
+  const iconEl =
+    document.querySelector("#themeIcon") ||
+    document.querySelector("#themeIcon use");
+  if (iconEl) iconEl.setAttribute("href", palette.icon);
 }
 
 export function toggleTheme() {
@@ -79,6 +81,14 @@ export function cyclePalette() {
   applyPalette(next.id);
   store.set(PALETTE_KEY, next.id);
   return next;
+}
+
+/** یک دکمه، دو تنظیم: روشن/تاریک + پالت. */
+export function cycleSkin() {
+  const theme = toggleTheme();
+  // با هر بار زدن دکمه، پالت هم جلو می‌رود تا کاربر همهٔ حالت‌ها را ببیند.
+  const palette = cyclePalette();
+  return { theme, palette };
 }
 
 export const paletteLabel = (id) => paletteOf(id).label;
@@ -234,7 +244,6 @@ export function setupSearch({ dialog, input, results, index }) {
 
 /**
  * @param {{
- *   onStep: (direction: number) => void,
  *   onSearch: () => void,
  *   onTheme: () => void,
  *   onPalette: () => void,
@@ -268,18 +277,6 @@ export function bindGlobalKeys(handlers) {
 
     if (handlers.isTyping() || anyDialogOpen()) return;
 
-    switch (event.key) {
-      case "ArrowLeft":
-        event.preventDefault();
-        handlers.onStep(1);
-        break;
-      case "ArrowRight":
-        event.preventDefault();
-        handlers.onStep(-1);
-        break;
-      default:
-        break;
-    }
 
     switch (event.key.toLowerCase()) {
       case "t":
@@ -298,13 +295,45 @@ export function bindGlobalKeys(handlers) {
 }
 
 /** ورق زدن با کشیدن انگشت روی کتاب. */
-export function bindSwipe(element, onStep, { threshold = 60 } = {}) {
+export function bindSwipe(element, onStep, { threshold = 70 } = {}) {
   let startX = null;
+  let startY = null;
+  let ignoring = false;
+
+  const reset = () => {
+    startX = null;
+    startY = null;
+    ignoring = false;
+  };
 
   element.addEventListener(
     "touchstart",
     (event) => {
+      // لمس چند‌انگشتی (زوم) هرگز نباید صفحه را عوض کند.
+      if (event.touches.length > 1) {
+        ignoring = true;
+        return;
+      }
+      ignoring = false;
       startX = event.touches[0].clientX;
+      startY = event.touches[0].clientY;
+    },
+    { passive: true },
+  );
+
+  // اگر کاربر در حین کشیدن عمودی اسکرول کند، اصلاً ورق نمی‌زنیم.
+  element.addEventListener(
+    "touchmove",
+    (event) => {
+      if (ignoring || startX === null) return;
+      if (event.touches.length > 1) {
+        ignoring = true;
+        reset();
+        return;
+      }
+      const dx = Math.abs(event.touches[0].clientX - startX);
+      const dy = Math.abs(event.touches[0].clientY - startY);
+      if (dy > 12 && dy > dx) ignoring = true;
     },
     { passive: true },
   );
@@ -312,14 +341,23 @@ export function bindSwipe(element, onStep, { threshold = 60 } = {}) {
   element.addEventListener(
     "touchend",
     (event) => {
-      if (startX === null) return;
-      const delta = event.changedTouches[0].clientX - startX;
-      startX = null;
-      if (Math.abs(delta) < threshold) return;
-      onStep(delta > 0 ? -1 : 1);
+      if (ignoring || startX === null) return reset();
+
+      const touch = event.changedTouches[0];
+      const dx = touch.clientX - startX;
+      const dy = touch.clientY - startY;
+      reset();
+
+      // حرکت باید افقیِ غالب باشد؛ یک اسکرول عمودیِ کج نباید فصل را عوض کند.
+      if (Math.abs(dx) < threshold) return;
+      if (Math.abs(dx) < Math.abs(dy) * 2) return;
+
+      onStep(dx > 0 ? -1 : 1);
     },
     { passive: true },
   );
+
+  element.addEventListener("touchcancel", reset, { passive: true });
 }
 
 /* ---------- پیام خطا ---------- */

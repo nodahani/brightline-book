@@ -31,13 +31,12 @@ import {
   bindGlobalKeys,
   bindSwipe,
   closeDialogs,
-  cyclePalette,
+  cycleSkin,
   initTheme,
   paletteLabel,
   setupSearch,
   showFatal,
   toast,
-  toggleTheme,
   toggleZen,
 } from "./ui.js";
 
@@ -337,14 +336,8 @@ function bindChrome(search) {
     .matchMedia(DESKTOP)
     .addEventListener("change", (event) => setSidebar(event.matches));
 
-  $("#btnTheme")?.addEventListener("click", () => {
-    toggleTheme();
-  });
-
-  $("#btnPalette")?.addEventListener("click", () => {
-    const next = cyclePalette();
-    toast(`پالت: ${paletteLabel(next.id)}`);
-  });
+  // یک دکمه برای پوسته: روشن/تاریک + پالت
+  $("#btnTheme")?.addEventListener("click", handleSkin);
 
   $("#btnZen")?.addEventListener("click", handleZen);
   $("#btnZenExit")?.addEventListener("click", handleZen);
@@ -375,6 +368,12 @@ function bindChrome(search) {
       }
     });
   });
+}
+
+/** پوسته را جلو می‌برد و نتیجه را در یک توست نشان می‌دهد. */
+function handleSkin() {
+  const { theme, palette } = cycleSkin();
+  toast(`${paletteLabel(palette.id)} · ${theme === "dark" ? "تاریک" : "روشن"}`);
 }
 
 function handleZen() {
@@ -417,13 +416,9 @@ async function init() {
   bindChrome(search);
 
   bindGlobalKeys({
-    onStep: step,
     onSearch: search.open,
-    onTheme: toggleTheme,
-    onPalette: () => {
-      const next = cyclePalette();
-      toast(`پالت: ${paletteLabel(next.id)}`);
-    },
+    onTheme: handleSkin,
+    onPalette: handleSkin,
     onZen: handleZen,
     onSidebarClose: () => setSidebar(false),
     isTyping: () =>
