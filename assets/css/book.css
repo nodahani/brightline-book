@@ -727,7 +727,9 @@ body.is-zen .shell .topbar {
 
 .doc__body p {
   margin: 0 0 1.15em;
-  text-align: justify;
+  /* هم‌ترازی دوطرفه فقط جایی که خط به‌قدر کافی بلند است؛ در عرض کم
+     فاصله‌های کشیده «رودخانه» می‌سازند و خواندن را کند می‌کنند. */
+  text-align: start;
   text-justify: inter-word;
 }
 
@@ -948,6 +950,480 @@ body.is-zen .shell .topbar {
   content: "✓ ";
   font-weight: 700;
   color: var(--accent);
+}
+
+/* ---------- جعبهٔ «از اینجا شروع کن» ---------- */
+
+.startbox {
+  margin: 1.7em 0;
+  padding: 1.2em 1.3em;
+  background: var(--accent-soft);
+  border-radius: var(--radius-md);
+}
+
+.startbox__label {
+  margin: 0 0 0.55em;
+  font-size: 0.76em;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--accent);
+}
+
+.startbox__text {
+  margin: 0;
+  font-size: 0.96em;
+  line-height: 1.95;
+  color: var(--ink-soft);
+}
+
+.startbox__text strong {
+  color: var(--ink);
+}
+
+/* ---------- جدول زمان: سبک، بدون ترس ---------- */
+
+.times {
+  margin: 1.9em 0;
+  padding: 1.15em 1.25em 1.2em;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-md);
+}
+
+.times__title {
+  display: flex;
+  gap: 0.45em;
+  align-items: center;
+  margin: 0 0 1em;
+  font-size: 0.8em;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  color: var(--ink);
+}
+
+/* ساعتِ کوچک: دایره با عقربه — با CSS، بدون تصویر */
+.times__clock {
+  position: relative;
+  display: inline-block;
+  flex: 0 0 auto;
+  width: 13px;
+  height: 13px;
+  border: 1.5px solid var(--accent);
+  border-radius: 50%;
+  opacity: 0.8;
+}
+
+.times__clock::before,
+.times__clock::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  background: var(--accent);
+  transform-origin: 0 0;
+}
+
+.times__clock::before {
+  width: 1.5px;
+  height: 3.4px;
+  transform: translate(-1px, -3.4px);
+}
+
+.times__clock::after {
+  width: 3px;
+  height: 1.5px;
+  transform: translate(-1px, -1px) rotate(30deg);
+}
+
+.times__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.times__row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 4.2rem 3.4rem;
+  gap: 0.7em;
+  align-items: center;
+  padding: 0.42em 0;
+}
+
+.times__row + .times__row {
+  border-top: 1px solid var(--rule);
+}
+
+.times__name {
+  font-size: 0.9em;
+  line-height: 1.6;
+  color: var(--ink-soft);
+}
+
+.times__bar {
+  height: 4px;
+  overflow: hidden;
+  background: var(--rule);
+  border-radius: 999px;
+}
+
+/* نوار خیلی کم‌رنگ است؛ عدد مهم است، نه حجم رنگ */
+.times__fill {
+  display: block;
+  width: var(--w, 0%);
+  height: 100%;
+  background: var(--accent-2);
+  border-radius: inherit;
+  opacity: 0.55;
+}
+
+.times__val {
+  font-size: 0.82em;
+  font-weight: 600;
+  color: var(--ink);
+  text-align: end;
+  font-variant-numeric: tabular-nums;
+}
+
+.times__row--total .times__name,
+.times__row--total .times__val {
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.times__row--total .times__fill {
+  opacity: 0.85;
+}
+
+.times__foot {
+  margin: 0.95em 0 0;
+  padding-top: 0.85em;
+  font-size: 0.84em;
+  line-height: 1.85;
+  color: var(--ink-faint);
+  border-top: 1px solid var(--rule);
+}
+
+/* ---------- فهرست دستاورد ---------- */
+
+.gains {
+  margin: 0 0 1.2em;
+  padding: 0;
+  list-style: none;
+}
+
+.gains li {
+  position: relative;
+  margin-bottom: 0.55em;
+  padding-inline-start: 1.5em;
+  font-size: 0.96em;
+  line-height: 1.9;
+  color: var(--ink-soft);
+}
+
+.gains li::before {
+  content: "✓";
+  position: absolute;
+  inset-inline-start: 0.1em;
+  top: 0;
+  font-size: 0.9em;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.gains li strong {
+  color: var(--ink);
+}
+
+/* ---------- سه راه شروع ---------- */
+
+.startpaths {
+  margin: 1.8em 0;
+  padding: 1.15em 1.25em 1.2em;
+  background: var(--paper-2);
+  border-radius: var(--radius-md);
+}
+
+.startpaths__lead {
+  margin: 0 0 0.8em;
+  font-size: 0.86em;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.startpaths__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.startpaths__list li {
+  margin-bottom: 0.6em;
+  padding-inline-start: 0.9em;
+  font-size: 0.92em;
+  line-height: 1.85;
+  color: var(--ink-soft);
+  border-inline-start: 2px solid var(--rule);
+}
+
+.startpaths__list li strong {
+  color: var(--ink);
+}
+
+.startpaths__foot {
+  margin: 1em 0 0;
+  padding-top: 0.9em;
+  font-size: 0.88em;
+  line-height: 1.9;
+  color: var(--ink-soft);
+  border-top: 1px solid var(--rule);
+}
+
+.pin {
+  font-size: 0.95em;
+}
+
+/* ---------- جعبهٔ «این کتاب چه کاری می‌کند» ---------- */
+
+.startbox {
+  margin: 1.7em 0;
+  padding: 1.15em 1.25em;
+  background: var(--accent-soft);
+  border-radius: var(--radius-md);
+}
+
+.startbox__label {
+  margin: 0 0 0.5em;
+  font-size: 0.74em;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--accent);
+}
+
+.startbox__text {
+  margin: 0;
+  font-size: 0.96em;
+  line-height: 1.95;
+  color: var(--ink-soft);
+}
+
+.startbox__text strong {
+  color: var(--ink);
+}
+
+/* ---------- جدول زمان: سبک، بدون ترس ---------- */
+
+.times {
+  margin: 1.9em 0;
+  padding: 1.05em 1.2em 1.15em;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-md);
+}
+
+.times__title {
+  display: flex;
+  gap: 0.45em;
+  align-items: center;
+  margin: 0 0 0.85em;
+  font-size: 0.78em;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  color: var(--ink);
+}
+
+/* ساعتِ کوچک: دایره با دو عقربه — با CSS، بدون تصویر */
+.times__clock {
+  position: relative;
+  display: inline-block;
+  flex: 0 0 auto;
+  width: 12px;
+  height: 12px;
+  border: 1.5px solid var(--accent);
+  border-radius: 50%;
+  opacity: 0.85;
+}
+
+.times__clock::before,
+.times__clock::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  background: var(--accent);
+  border-radius: 1px;
+  transform-origin: 0 50%;
+}
+
+.times__clock::before {
+  width: 1.4px;
+  height: 3px;
+  margin: -1.5px 0 0 -0.7px;
+}
+
+.times__clock::after {
+  width: 2.6px;
+  height: 1.4px;
+  margin: -0.7px 0 0 0;
+}
+
+.times__list {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 3.6rem 4.1rem;
+  column-gap: 0.75em;
+  row-gap: 0.55em;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.times__row {
+  display: contents;
+}
+
+.times__name {
+  font-size: 0.89em;
+  line-height: 1.6;
+  color: var(--ink-soft);
+}
+
+.times__bar {
+  height: 4px;
+  overflow: hidden;
+  background: var(--rule);
+  border-radius: 999px;
+}
+
+/* نوار کم‌رنگ است؛ عدد مهم است، نه حجم رنگ */
+.times__fill {
+  display: block;
+  width: var(--w, 0%);
+  height: 100%;
+  background: var(--accent-2);
+  border-radius: inherit;
+  opacity: 0.6;
+}
+
+.times__val {
+  font-size: 0.82em;
+  font-weight: 600;
+  color: var(--ink);
+  text-align: end;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+.times__foot {
+  margin: 0.95em 0 0;
+  padding-top: 0.85em;
+  font-size: 0.84em;
+  line-height: 1.9;
+  color: var(--ink-faint);
+  border-top: 1px solid var(--rule);
+}
+
+/* ---------- فهرست دستاورد ---------- */
+
+.gains {
+  margin: 0 0 1.2em;
+  padding: 0;
+  list-style: none;
+}
+
+.gains li {
+  position: relative;
+  margin-bottom: 0.6em;
+  padding-inline-start: 1.45em;
+  font-size: 0.96em;
+  line-height: 1.9;
+  color: var(--ink-soft);
+}
+
+.gains li::before {
+  content: "✓";
+  position: absolute;
+  inset-inline-start: 0.05em;
+  top: 0;
+  font-size: 0.86em;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.gains li strong {
+  color: var(--ink);
+}
+
+/* ---------- سه راه شروع ---------- */
+
+.startpaths {
+  margin: 1.8em 0;
+  padding: 1.1em 1.2em 1.15em;
+  background: var(--paper-2);
+  border-radius: var(--radius-md);
+}
+
+.startpaths__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.startpaths__list li {
+  margin-bottom: 0.55em;
+  padding-inline-start: 0.9em;
+  font-size: 0.92em;
+  line-height: 1.9;
+  color: var(--ink-soft);
+  border-inline-start: 2px solid var(--rule);
+}
+
+.startpaths__list li strong {
+  color: var(--ink);
+}
+
+.startpaths__foot {
+  margin: 0.9em 0 0;
+  padding-top: 0.85em;
+  font-size: 0.88em;
+  line-height: 1.9;
+  color: var(--ink-soft);
+  border-top: 1px solid var(--rule);
+}
+
+.pin {
+  font-size: 0.95em;
+}
+
+/* ---------- سطر منبع ---------- */
+
+.srcs {
+  margin: 2em 0 0;
+  padding-top: 0.9em;
+  font-size: 0.76em;
+  line-height: 1.9;
+  color: var(--ink-faint);
+  border-top: 1px solid var(--rule);
+}
+
+.srcs__label {
+  margin: 0 0 0.3em;
+  font-weight: 700;
+}
+
+.srcs__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.srcs__list li {
+  margin-bottom: 0.15em;
+  line-height: 1.85;
+}
+
+/* فقط در عرض‌های کافی، خط دوطرفه؛ در موبایل «رودخانه» می‌سازد. */
+@media (min-width: 980px) {
+  .doc__body p {
+    text-align: justify;
+  }
 }
 
 /* ---------- هشدار و نکته ---------- */
@@ -1346,6 +1822,23 @@ body.is-zen .zen-exit:not([hidden]) {
   .cover__step:nth-child(n + 3) {
     padding-top: 0.85rem;
     border-top: 1px solid var(--rule);
+  }
+
+  /* در موبایل نام کارها می‌شکند؛ نوار فقط شلوغی می‌شود، عدد بماند. */
+  .times__list {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+
+  .times__bar {
+    display: none;
+  }
+
+  .times__val {
+    font-size: 0.85em;
+  }
+
+  .startpaths__list li {
+    font-size: 0.9em;
   }
 
   .pager {
