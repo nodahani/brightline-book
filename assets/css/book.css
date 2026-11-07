@@ -1354,7 +1354,7 @@ body.is-zen .shell .topbar {
 
 .nextstep {
   display: grid;
-  gap: 0.4em;
+  gap: 0.55em;
   margin: 2.2em 0 0;
   padding: 1.1em 1.2em;
   background: var(--paper-2);
@@ -1374,24 +1374,49 @@ body.is-zen .shell .topbar {
   color: var(--ink-faint);
 }
 
-.nextstep__what {
+/* هر کار: دکمه در ستون خودش، متن کنارش. چشم اول تیک را می‌بیند. */
+.nextstep__list {
+  display: grid;
+  gap: 0.2em;
   margin: 0;
-  font-size: 1em;
+  padding: 0;
+  list-style: none;
+}
+
+.nextstep__item {
+  display: flex;
+  gap: 0.9em;
+  align-items: flex-start;
+  padding-block: 0.45em;
+}
+
+.nextstep__item + .nextstep__item {
+  border-top: 1px dashed var(--rule);
+}
+
+.nextstep__body {
+  display: block;
+  min-width: 0;
+}
+
+.nextstep__what {
+  display: block;
+  font-size: 0.97em;
   font-weight: 700;
   line-height: 1.7;
   color: var(--ink);
 }
 
-.nextstep.is-done .nextstep__what {
+.nextstep__item.is-done .nextstep__what {
   color: var(--ink-soft);
   text-decoration: line-through;
   text-decoration-color: var(--rule);
 }
 
 .nextstep__why {
-  margin: 0;
-  font-size: 0.87em;
-  line-height: 1.85;
+  display: block;
+  font-size: 0.85em;
+  line-height: 1.8;
   color: var(--ink-soft);
 }
 
@@ -1400,14 +1425,16 @@ body.is-zen .shell .topbar {
   flex-wrap: wrap;
   gap: 0.9em;
   align-items: center;
-  margin: 0.5em 0 0;
+  margin: 0.2em 0 0;
 }
 
 .nextstep__done {
-  padding: 0.5em 1.1em;
+  flex: none;
+  padding: 0.45em 1em;
   font: inherit;
-  font-size: 0.85em;
+  font-size: 0.82em;
   font-weight: 600;
+  white-space: nowrap;
   color: var(--paper);
   background: var(--accent);
   border: 0;
@@ -2006,6 +2033,20 @@ body.is-zen .zen-exit:not([hidden]) {
   .map__day {
     font-size: 0.72em;
   }
+
+  /* کارت پایان فصل در عرض کم: دکمه بالای متن، نه کنارش. */
+  .nextstep {
+    padding: 1em;
+  }
+
+  .nextstep__item {
+    flex-direction: column;
+    gap: 0.45em;
+  }
+
+  .nextstep__done {
+    white-space: normal;
+  }
 }
 
 @media print {
@@ -2059,9 +2100,14 @@ body.is-zen .zen-exit:not([hidden]) {
 
   /* تعاملی‌ها در کاغذ معنا ندارند: تیک، دکمه و پیوند نقشه چاپ نمی‌شوند. */
   .nextstep__actions,
+  .nextstep__done,
   .map__check input,
   .map__go {
     display: none;
+  }
+
+  .nextstep__item {
+    display: block;
   }
 
   .nextstep {
@@ -2071,4 +2117,42 @@ body.is-zen .zen-exit:not([hidden]) {
     border-top: 1px solid #ccc;
     border-radius: 0;
   }
+}
+
+
+/* ---------- فهرست سه‌روزهٔ فصل ۸ ---------- */
+
+/*
+ * این فهرست در views.js از همان جدول نقشه ساخته می‌شود، پس ساختارش ساده و
+ * مستقل است: بدون تیک، بدون کادر دور، فقط روزها و کارها با پیوند به آموزش.
+ */
+.plan {
+  display: grid;
+  gap: 0.4em;
+  margin: 0 0 1.6em;
+}
+
+.plan .map__day {
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-md);
+  background: var(--accent-soft);
+}
+
+.plan .map__list {
+  padding: 0.2em 1.1em 0.9em;
+}
+
+.plan .map__what {
+  text-decoration-color: color-mix(in oklab, var(--accent) 35%, transparent);
+  text-underline-offset: 3px;
+}
+
+.plan .map__what:hover {
+  color: var(--accent);
+  text-decoration-color: var(--accent);
+}
+
+.plan .map__time {
+  display: inline-block;
+  margin-inline-start: 0.55em;
 }

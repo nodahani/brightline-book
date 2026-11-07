@@ -21,6 +21,7 @@ import {
   bindPlan,
   chapterView,
   coverView,
+  hydratePlanList,
   pageNumber,
   pageTitle,
   runningHead,
@@ -197,6 +198,9 @@ function renderPage() {
   // انتهای هر فصل: «قدم بعدی تو».
   bindNextStep(content);
 
+  // فصل ۸: فهرست سه‌روزه از همان جدول نقشه ساخته می‌شود، نه دستی.
+  hydratePlanList(book, content);
+
   // برگهٔ عنوان باید همیشه از بالا دیده شود — وگرنه جلد نیمه‌کاره می‌ماند.
   if (isCover) {
     content.closest(".doc-sheet")?.scrollIntoView({ block: "start" });
@@ -283,27 +287,48 @@ function render() {
 /** اجرای تابع در فریم بعدی (تا چیدمان نهایی شود). */
 const frameThen = (fn) => () => requestAnimationFrame(fn);
 
+/**
+ * به سرفصلِ مسیر فعلی می‌پرد.
+ *
+ * جای سرفصل پیش از بارگذاری فونت اندازه‌گیری می‌شد و فونت (وزیرمتن) بعد از آن
+ * می‌رسید و متن را جابه‌جا می‌کرد؛ نتیجه این بود که پرش چند ده پیکسل کم
+ * می‌افتاد و به جای سرفصلِ خواسته‌شده، سرفصلِ قبلی بالای صفحه می‌ماند. حالا اگر
+ * فونت هنوز نیامده باشد، یک اندازه‌گیری دیگر بعد از `document.fonts.ready`
+ * انجام می‌شود. پرش عمداً بی‌انیمیشن است: پرشِ نرمی که وسطش دوباره هدف بگیرد،
+ * به چشم می‌آید.
+ */
 function scrollToSection() {
   if (route.type !== "chapter" || !route.section) return;
 
-  const target = document.getElementById(route.section);
   const scroller = $("#docScroll");
-  if (!target || !scroller) return;
+  if (!scroller) return;
 
-  const top =
-    target.getBoundingClientRect().top -
-    scroller.getBoundingClientRect().top +
-    scroller.scrollTop -
-    72; // فضای نوار بالا
+  const jump = () => {
+    if (route.type !== "chapter" || !route.section) return;
 
-  scroller.scrollTo({
-    top,
-    behavior: reduceMotion() ? "auto" : "smooth",
-  });
+    const target = document.getElementById(route.section);
+    if (!target) return;
 
-  // اسکرول برنامه‌ای همیشه رویداد scroll را شلیک نمی‌کند (و وقتی مقصد همان
-  // جای فعلی باشد، اصلاً شلیک نمی‌کند). پس همگام‌سازی را صریح صدا می‌زنیم.
-  settleSidebarSync();
+    const top =
+      target.getBoundingClientRect().top -
+      scroller.getBoundingClientRect().top +
+      scroller.scrollTop -
+      72; // فضای نوار بالا
+
+    scroller.scrollTo({ top, behavior: "auto" });
+
+    // اسکرول برنامه‌ای همیشه رویداد scroll را شلیک نمی‌کند (و وقتی مقصد همان
+    // جای فعلی باشد، اصلاً شلیک نمی‌کند). پس همگام‌سازی فهرست را صریح صدا
+    // می‌زنیم.
+    settleSidebarSync();
+  };
+
+  jump();
+
+  // فونت هنوز نیامده؟ بعد از آمدنش یک‌بار دیگر اندازه بگیر.
+  if (document.fonts && document.fonts.status !== "loaded") {
+    document.fonts.ready.then(jump);
+  }
 }
 
 /**

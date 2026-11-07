@@ -143,103 +143,134 @@ export function coverView(book) {
 const START_PLAN = [
   {
     id: "day-1",
-    title: "روز اول — ۲۰ دقیقه",
+    title: "روز اول",
+    focus: "بستنِ راه‌های ورود",
     note: "این سه کار بیشتر سرقت حساب‌ها را می‌بندد.",
     tasks: [
       {
         id: "mail-recovery",
         what: "روش بازیابی ایمیل اصلی‌ات را ست کن",
         why: "بدون این، اگر رمز را گم کنی یا گوشی‌ات گم شود، صندوقت برای همیشه قفل می‌ماند.",
-        time: "۵ دقیقه",
-        href: "#/chapter/02-imail",
+        minutes: 5,
+        chapter: "02-imail",
+        heading: "۲.۱",
       },
       {
         id: "mail-2fa",
         what: "ورود دومرحله‌ای ایمیل را روشن کن",
         why: "مایکروسافت می‌گوید این کار بیش از ۹۹.۹٪ حملات خودکار به حساب را می‌بندد.",
-        time: "۵ دقیقه",
-        href: "#/chapter/02-imail",
+        minutes: 7,
+        chapter: "02-imail",
+        heading: "۲.۲",
       },
       {
         id: "vault",
         what: "یک پسورد منیجر بساز و تنها رمز اصلی را حفظ کن",
         why: "تکرار رمز، رایج‌ترین راه ورود مهاجم است؛ گاوصندوق آن را تمام می‌کند.",
-        time: "۱۰ دقیقه",
-        href: "#/chapter/02-hesab",
+        minutes: 10,
+        chapter: "02-hesab",
+        heading: "۳.۲",
       },
     ],
   },
   {
     id: "day-2",
-    title: "روز دوم — ۱۵ دقیقه",
+    title: "روز دوم",
+    focus: "حساب‌های مهم",
     note: "حساب‌های مهم را ببند؛ بقیه می‌توانند صبر کنند.",
     tasks: [
       {
         id: "bank-2fa",
         what: "ورود دومرحله‌ای بانک و پیام‌رسان‌ها را روشن کن",
         why: "حساب بانکی و پیام‌رسان، بیشترین ارزش را برای مهاجم دارند.",
-        time: "۸ دقیقه",
-        href: "#/chapter/02-hesab",
+        minutes: 8,
+        chapter: "02-hesab",
+        heading: "۳.۳",
       },
       {
         id: "recovery-sheet",
         what: "کدهای نجات را روی کاغذ بنویس و در دو جای جدا بگذار",
         why: "اگر گوشی گم شود، همین برگه‌ها تنها راه برگشت‌اند.",
-        time: "۷ دقیقه",
-        href: "#/chapter/02-hesab",
+        minutes: 7,
+        chapter: "02-hesab",
+        heading: "۳.۴",
+      },
+      {
+        id: "adblock",
+        what: "یک مسدودکنندهٔ تبلیغ و ردیاب نصب کن",
+        why: "بخش بزرگی از بدافزارها از تبلیغ‌های آلوده می‌آیند.",
+        minutes: 10,
+        chapter: "03-morur",
+        heading: "۴.۱",
       },
     ],
   },
   {
     id: "day-3",
-    title: "روز سوم — ۳۰ دقیقه",
+    title: "روز سوم",
+    focus: "داده و دستگاه",
     note: "این‌ها را یک‌بار انجام می‌دهی، بعد فقط سالی یک‌بار مرور می‌کنی.",
     tasks: [
       {
         id: "backup-1",
         what: "نسخهٔ اول بک‌اپ را بگیر — عکس‌ها و مدارک، نه کل درایو",
         why: "دادهٔ ازدست‌رفته را هیچ رمزی برنمی‌گرداند.",
-        time: "۱۵ دقیقه",
-        href: "#/chapter/04-dade",
+        minutes: 15,
+        chapter: "04-dade",
+        heading: "۵.۱",
       },
       {
         id: "backup-test",
         what: "همان بک‌اپ را یک بار باز کن و مطمئن شو سالم است",
         why: "بک‌اپِ تست‌نشده، بک‌اپ نیست؛ فقط یک امید است.",
-        time: "۵ دقیقه",
-        href: "#/chapter/04-dade",
+        minutes: 5,
+        chapter: "04-dade",
+        heading: "۵.۱",
       },
       {
         id: "updates",
         what: "به‌روزرسانی خودکار سیستم و مرورگر را روشن کن",
         why: "بسیاری از نفوذها از سوراخ‌هایی است که چند ماه قبل وصله شده‌اند.",
-        time: "۵ دقیقه",
-        href: "#/chapter/06-harim",
-      },
-      {
-        id: "adblock",
-        what: "یک مسدودکنندهٔ تبلیغ و ردیاب نصب کن",
-        why: "بخش بزرگی از بدافزارها از تبلیغ‌های آلوده می‌آیند.",
-        time: "۵ دقیقه",
-        href: "#/chapter/03-morur",
+        minutes: 5,
+        chapter: "06-harim",
+        heading: "۷.۳",
       },
     ],
   },
 ];
 
-/**
- * پیوند یک‌طرفهٔ هر فصل به نقشه.
- * هر فصل تازه می‌گوید «حالا کدام کار از نقشه نوبت توست» و با یک کلیک به آن
- *می‌رسد. این ترتیب خطی است — هیچ ارجاع دوسویه‌ای ساخته نمی‌شود.
- */
-const NEXT_STEP = {
-  "01-moghadame": "mail-recovery",
-  "02-imail": "vault",
-  "02-hesab": "recovery-sheet",
-  "03-morur": "updates",
-  "04-dade": "adblock",
-  "05-tahdid": "bank-2fa",
-  "06-harim": "backup-test",
+/** «۵ دقیقه» — یک شکل، برای همهٔ جاها. */
+export const minutesLabel = (minutes) => `${fa(minutes)} دقیقه`;
+
+/** جمع زمانِ یک روز. */
+export const dayMinutes = (day) =>
+  day.tasks.reduce((sum, task) => sum + task.minutes, 0);
+
+/** جمع زمانِ کل نقشه. */
+export const planMinutes = () =>
+  START_PLAN.reduce((sum, day) => sum + dayMinutes(day), 0);
+
+/** کارهای یک فصل، به ترتیب نقشه. */
+export const tasksOfChapter = (chapterId) =>
+  planTasks().filter((task) => task.chapter === chapterId);
+
+/** سرفصلی که این کار را آموزش می‌دهد، از روی شمارهٔ سرفصل. */
+export const sectionOfTask = (book, task) => {
+  const chapter = book.chapters.find((item) => item.id === task.chapter);
+  const heading = String(task.heading || "").trim();
+  if (!chapter || !heading) return null;
+  return (
+    (chapter.sections || []).find(
+      (section) => section.level === 2 && section.text.startsWith(`${heading} `),
+    ) || null
+  );
+};
+
+/** نشانی آموزش یک کار: مستقیم به همان سرفصل، نه اول فصل. */
+export const taskHref = (book, task) => {
+  const base = `#/chapter/${encodeURIComponent(task.chapter)}`;
+  const section = sectionOfTask(book, task);
+  return section ? `${base}/${encodeURIComponent(section.slug)}` : base;
 };
 
 const MAP_KEY = "khat-roshan/map-done";
@@ -306,7 +337,7 @@ export function bindPlan(root) {
   refresh();
 }
 
-export function startView() {
+export function startView(book) {
   const done = readDone();
   const total = planTasks().length;
   const finished = planTasks().filter((task) => done.includes(task.id)).length;
@@ -315,7 +346,8 @@ export function startView() {
   const days = START_PLAN.map(
     (day) => `
       <li class="map__day">
-        ${escapeHtml(day.title)}
+        ${escapeHtml(day.title)} — ${minutesLabel(dayMinutes(day))}
+        ${day.focus ? ` · ${escapeHtml(day.focus)}` : ""}
         ${day.note ? `<span class="map__day-note">${escapeHtml(day.note)}</span>` : ""}
       </li>
       <ul class="map__list">
@@ -328,13 +360,13 @@ export function startView() {
                 done.includes(task.id) ? "checked" : ""
               } />
               <span class="map__body">
-                <span class="map__what">${escapeHtml(task.what)}<span class="map__time">${
-                  escapeHtml(task.time)
-                }</span></span>
+                <span class="map__what">${escapeHtml(task.what)}<span class="map__time">${minutesLabel(
+                  task.minutes,
+                )}</span></span>
                 <span class="map__why">${escapeHtml(task.why)}</span>
               </span>
             </label>
-            <a class="map__go" href="${task.href}">رفتن به آموزش</a>
+            <a class="map__go" href="${taskHref(book, task)}">رفتن به آموزش</a>
           </li>`,
           )
           .join("")}
@@ -492,62 +524,149 @@ export function chapterView(book, chapter) {
         </p>
         <h1 class="doc__title">${escapeHtml(chapter.title)}</h1>
       </header>
-      <div class="doc__body">${chapter.body}${chapterNext(chapter)}</div>
+      <div class="doc__body">${chapter.body}${chapterNext(book, chapter)}</div>
     </article>`;
 }
 
-/** نوار پایانی هر فصل: تنها کار نقشه که به این فصل مربوط است. */
-function chapterNext(chapter) {
-  const taskId = NEXT_STEP[chapter.id];
-  if (!taskId) return "";
+/**
+ * فهرستِ سادهٔ نقشه، برای فصل ۸.
+ *
+ * همین فهرست پیش از این دستی در ۰۷-jam نوشته شده بود و از نقشهٔ واقعی جدا
+ * افتاده بود — ده کار و ۸۰ دقیقه، در حالی که نقشه نُه کار و ۶۵ دقیقه بود، و
+ * دو کارش به بخشِ اشتباهِ کتاب اشاره می‌کرد. حالا از همان START_PLAN ساخته
+ * می‌شود و شمارهٔ بخش را هم از همان کار می‌خواند.
+ *
+ * فهرست بدون تیک است؛ تیک‌زدن کارِ صفحهٔ «از اینجا شروع کن» است و اینجا فقط
+ * مرور است. هر ردیف به همان بخشی می‌پرد که آموزشش می‌دهد.
+ */
+export function hydratePlanList(book, root) {
+  if (!root) return;
 
-  const task = planTasks().find((item) => item.id === taskId);
-  if (!task) return "";
+  const holder = root.querySelector("[data-plan-list]");
+  if (holder) {
+    holder.innerHTML = START_PLAN.map(
+      (day) => `
+      <p class="map__day">
+        ${escapeHtml(day.title)} — ${minutesLabel(dayMinutes(day))}${
+          day.focus ? ` · ${escapeHtml(day.focus)}` : ""
+        }
+      </p>
+      <ol class="map__list map__list--plain">
+        ${day.tasks
+          .map(
+            (task) => `
+          <li>
+            <a class="map__what" href="${taskHref(book, task)}">${escapeHtml(task.what)}</a>
+            <span class="map__time">${minutesLabel(task.minutes)}</span>
+            <span class="map__why">${escapeHtml(task.why)}</span>
+          </li>`,
+          )
+          .join("")}
+      </ol>`,
+    ).join("");
+  }
 
-  const done = readDone().includes(task.id);
+  const total = root.querySelector("[data-plan-time]");
+  if (total) total.textContent = `${minutesLabel(planMinutes())}، در سه روز`;
+
+  // جملهٔ «روی هم …» عددش از همین جدول می‌آید؛ خودِ جمله در HTML می‌ماند و
+  // فقط همان <strong> عوض می‌شود.
+  if (root.querySelector("[data-map-progress]")) {
+    const sum = root.querySelector(".map__intro strong");
+    if (sum) sum.textContent = minutesLabel(planMinutes());
+  }
+}
+
+/**
+ * نوار پایانی هر فصل: کارهای نقشه‌ای که در همین فصل آموزش داده می‌شوند.
+ *
+ * پیش از این یک جدول دستی می‌گفت هر فصل کدام کار را نشان بدهد، و آن جدول با
+ * ترتیب کتاب نمی‌خواند: کارتِ «حفاظت از داده‌ها» به مسدودکنندهٔ تبلیغ (فصل ۴)
+ * اشاره می‌کرد، کارتِ «تهدیدات» به دومرحله‌ایِ بانک (فصل ۳) و کارتِ «حریم
+ * خصوصی» به تستِ بک‌اپ (فصل ۵) — یعنی خواننده را به عقب می‌فرستاد. حالا فقط
+ * فصل‌هایی کارت می‌گیرند که کارشان را خودشان آموزش می‌دهند.
+ */
+function chapterNext(book, chapter) {
+  const tasks = tasksOfChapter(chapter.id);
+  if (!tasks.length) return "";
+
+  const done = readDone();
+  const allDone = tasks.every((task) => done.includes(task.id));
+
+  const rows = tasks
+    .map((task) => {
+      const isDone = done.includes(task.id);
+      return `
+        <li class="nextstep__item${isDone ? " is-done" : ""}">
+          <button type="button" class="nextstep__done" data-task="${escapeHtml(
+            task.id,
+          )}" aria-pressed="${isDone}">
+            ${isDone ? "✓ انجام شده" : "انجامش دادم"}
+          </button>
+          <span class="nextstep__body">
+            <span class="nextstep__what">${escapeHtml(task.what)}<span class="map__time">${minutesLabel(
+              task.minutes,
+            )}</span></span>
+            <span class="nextstep__why">${escapeHtml(task.why)}</span>
+          </span>
+        </li>`;
+    })
+    .join("");
 
   return `
-    <aside class="nextstep${done ? " is-done" : ""}" data-nextstep="${escapeHtml(task.id)}">
-      <p class="nextstep__label">${done ? "انجام شد" : "قدم بعدی تو"}</p>
-      <p class="nextstep__what">${escapeHtml(task.what)}</p>
-      <p class="nextstep__why">${escapeHtml(task.why)}</p>
+    <aside class="nextstep${allDone ? " is-done" : ""}" data-nextstep="${escapeHtml(
+      chapter.id,
+    )}">
+      <p class="nextstep__label">${
+        allDone ? "کارهای این فصل انجام شد" : "کارهای این فصل در نقشه"
+      }</p>
+      <ul class="nextstep__list">${rows}</ul>
       <p class="nextstep__actions">
-        <button type="button" class="nextstep__done" data-task="${escapeHtml(task.id)}" aria-pressed="${done}">
-          ${done ? "✓ انجام شده" : "انجامش دادم"}
-        </button>
         <a class="nextstep__map" href="#/start">دیدن کل نقشه</a>
       </p>
     </aside>`;
 }
 
 /**
- * دکمهٔ «انجامش دادم» را زنده می‌کند. همان ذخیره‌سازی نقشه، بدون کد دوم.
+ * هر دکمهٔ «انجامش دادم» را زنده می‌کند — در کارت فصل و در نقشه، هر دو.
+ * همان ذخیره‌سازی، بدون کد دوم.
  */
 export function bindNextStep(root) {
-  const card = root.querySelector(".nextstep");
-  if (!card) return;
+  const buttons = [...root.querySelectorAll(".nextstep__done")];
+  if (!buttons.length) return;
 
-  const id = card.dataset.nextstep;
-  const button = card.querySelector(".nextstep__done");
-  if (!button) return;
+  buttons.forEach((button) => {
+    button.addEventListener("click", () => {
+      const id = button.dataset.task;
+      if (!id) return;
 
-  button.addEventListener("click", () => {
-    const current = readDone();
-    const nowDone = !current.includes(id);
-    const next = nowDone
-      ? [...new Set([...current, id])]
-      : current.filter((item) => item !== id);
+      const current = readDone();
+      const nowDone = !current.includes(id);
+      const next = nowDone
+        ? [...new Set([...current, id])]
+        : current.filter((item) => item !== id);
 
-    writeDone(next);
-    card.classList.toggle("is-done", nowDone);
-    button.setAttribute("aria-pressed", String(nowDone));
-    button.textContent = nowDone ? "✓ انجام شده" : "انجامش دادم";
-    const label = card.querySelector(".nextstep__label");
-    if (label) label.textContent = nowDone ? "انجام شد" : "قدم بعدی تو";
+      writeDone(next);
+
+      button.setAttribute("aria-pressed", String(nowDone));
+      button.textContent = nowDone ? "✓ انجام شده" : "انجامش دادم";
+      button.closest(".nextstep__item")?.classList.toggle("is-done", nowDone);
+
+      const card = button.closest(".nextstep");
+      if (!card) return;
+      const allDone = [...card.querySelectorAll(".nextstep__done")].every(
+        (item) => item.getAttribute("aria-pressed") === "true",
+      );
+      card.classList.toggle("is-done", allDone);
+      const label = card.querySelector(".nextstep__label");
+      if (label) {
+        label.textContent = allDone
+          ? "کارهای این فصل انجام شد"
+          : "کارهای این فصل در نقشه";
+      }
+    });
   });
 }
-
-/* ---------- درباره ---------- */
 
 export function aboutView(book) {
   const { meta, chapters, parts, about } = book;
