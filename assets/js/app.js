@@ -179,6 +179,11 @@ function renderPage() {
   // شناسه‌گذاری عنوان‌ها تا لینک‌های فهرست به بخش درست برسند.
   anchorsIn(content);
 
+  // برگهٔ عنوان باید همیشه از بالا دیده شود — وگرنه جلد نیمه‌کاره می‌ماند.
+  if (isCover) {
+    content.closest(".doc-sheet")?.scrollIntoView({ block: "start" });
+  }
+
   const scroller = $("#docScroll");
   if (scroller) scroller.scrollTop = 0;
 

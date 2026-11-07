@@ -169,6 +169,7 @@ export async function loadBook({ base = "content/" } = {}) {
     parts: manifest.parts || [],
     chapters: withBody,
     about,
+    cover: manifest.cover || {},
   };
 }
 

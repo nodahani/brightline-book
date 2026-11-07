@@ -21,38 +21,7 @@ export const icon = (name, className = "") =>
 
 /* ---------- صفحهٔ عنوان (جلد) ---------- */
 
-/** سه چیزی که این کتاب عملاً جلویش را می‌گیرد. */
-const COVER_PROMISES = [
-  {
-    icon: "key",
-    title: "حسابت دزدیده نشود",
-    text: "ایمیل، رمز و ورود دومرحله‌ای — سه لایه‌ای که بیشتر سرقت‌ها را می‌بندد.",
-  },
-  {
-    icon: "hdd",
-    title: "داده‌ات از دست نرود",
-    text: "بک‌اپی که یک‌بار واقعاً بازگردانی کرده‌ای، نه یک امید.",
-  },
-  {
-    icon: "shield",
-    title: "فریب نخوری",
-    text: "فیشینگ، درگاه جعلی و پیام‌های «فوری» را از هم تشخیص بده.",
-  },
-];
-
-/** نشان جلد: سپر با خط روشن. */
-const coverMark = () => `
-  <svg class="cover__mark" viewBox="0 0 64 64" aria-hidden="true" fill="none">
-    <path d="M32 5 9 14.5v17.4C9 45.6 19 55.7 32 59c13-3.3 23-13.4 23-27.1V14.5L32 5Z"
-          stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/>
-    <path d="M21 32.8 28.6 40.4 43.5 22.8"
-          stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-  </svg>`;
-
-/**
- * نقشهٔ راه جلد: هر بخش با بازهٔ شمارهٔ فصل‌هایش.
- * بازه از موقعیت فصل‌ها ساخته می‌شود، نه از رقم فارسی داخل label.
- */
+/** نقشهٔ راه جلد: هر بخش با بازهٔ شمارهٔ فصل‌هایش. */
 function coverRoadmap(chapters, parts) {
   const rows = parts
     .map((part) => {
@@ -72,7 +41,6 @@ function coverRoadmap(chapters, parts) {
         .map(
           (row) => `
         <li class="cover__step">
-          <span class="cover__step-dot" aria-hidden="true"></span>
           <span class="cover__step-name">${escapeHtml(row.title)}</span>
           <span class="cover__step-num">${
             row.from === row.to ? fa(row.from) : `${fa(row.from)}–${fa(row.to)}`
@@ -83,47 +51,108 @@ function coverRoadmap(chapters, parts) {
     </ol>`;
 }
 
-export function coverView(book) {
-  const { meta, chapters, parts } = book;
-  const first = chapters[0];
+/** واژه‌های شناسنامه: ۸ فصل · حدود ۵۰ دقیقه خواندن */
+function coverStats(chapters) {
   const minutes = chapters.reduce(
     (sum, chapter) => sum + readingMinutes(chapter.body || ""),
     0,
   );
+  return [
+    `${fa(chapters.length)} فصل`,
+    minutes ? `حدود ${fa(minutes)} دقیقه` : "",
+  ].filter(Boolean);
+}
+
+/**
+ * سطر نشانِ کتاب — هم می‌گوید کتاب است، هم جلدِ چندمِ کدام مجموعه.
+ *   «جلد ۱ از مجموعهٔ «خط روشن»»
+ * اگر سری تعریف نشده باشد فقط «جلد ۱» می‌آید.
+ */
+function coverSeries(meta) {
+  const series = meta.series || "";
+  const volume = meta.volume ? `جلد ${fa(meta.volume)}` : "";
+
+  let head = "";
+  if (volume && series) head = `${volume} از مجموعهٔ «${series}»`;
+  else if (volume) head = volume;
+  else if (series && series !== meta.title) head = `«${series}»`;
+
+  const tail = meta.volumeTitle || "";
+  const line = [head, tail].filter(Boolean).join(" — ");
+
+  return line ? `<p class="cover__series">${escapeHtml(line)}</p>` : "";
+}
+
+export function coverView(book) {
+  const { meta, chapters, parts, cover } = book;
+  const first = chapters[0];
+  const data = cover || {};
+  const reasons = Array.isArray(data.reasons) ? data.reasons.filter(Boolean) : [];
 
   return `
     <div class="cover">
+      ${coverSeries(meta)}
+
       <header class="cover__head">
-        ${coverMark()}
         <h1 class="cover__title">${escapeHtml(meta.title || "")}</h1>
-        ${meta.subtitle ? `<p class="cover__kicker">${escapeHtml(meta.subtitle)}</p>` : ""}
+        ${meta.subtitle ? `<p class="cover__subtitle">${escapeHtml(meta.subtitle)}</p>` : ""}
       </header>
 
-      <ul class="cover__promises">
-        ${COVER_PROMISES.map(
-          (item) => `
-          <li class="cover__promise">
-            <span class="cover__promise-icon">${icon(item.icon)}</span>
-            <span class="cover__promise-title">${escapeHtml(item.title)}</span>
-            <span class="cover__promise-text">${escapeHtml(item.text)}</span>
-          </li>`,
-        ).join("")}
-      </ul>
+      <div class="cover__rule" aria-hidden="true"></div>
 
-      ${coverRoadmap(chapters, parts)}
+      ${
+        data.kicker
+          ? `<p class="cover__kicker">${escapeHtml(data.kicker)}</p>`
+          : ""
+      }
+
+      ${
+        reasons.length
+          ? `<ul class="cover__reasons">
+        ${reasons.map((reason) => `<li>${escapeHtml(reason)}</li>`).join("")}
+      </ul>`
+          : ""
+      }
+
+      ${
+        data.note ? `<p class="cover__note">${escapeHtml(data.note)}</p>` : ""
+      }
 
       <footer class="cover__foot">
         ${
           first
             ? `<a class="cover__start" href="#/chapter/${encodeURIComponent(first.id)}">
-                 شروع خواندن ${icon("arrow-start")}
+                 <span>شروع خواندن</span>
+                 ${icon("arrow-start", "cover__start-icon")}
                </a>`
             : ""
         }
+
+        ${coverRoadmap(chapters, parts)}
+
+        <p class="cover__byline">
+          ${
+            meta.author
+              ? `<span class="cover__author"><span class="cover__author-label">نویسنده</span>${escapeHtml(meta.author)}</span>`
+              : ""
+          }
+          ${
+            data.justification
+              ? `<span class="cover__why">${escapeHtml(data.justification)}</span>`
+              : ""
+          }
+          ${
+            data.justificationNote
+              ? `<span class="cover__why-note">${escapeHtml(data.justificationNote)}</span>`
+              : ""
+          }
+        </p>
+
         <p class="cover__meta">
-          ${meta.author ? `<span>${escapeHtml(meta.author)}</span>` : ""}
-          ${meta.year ? `<span>${escapeHtml(meta.year)}</span>` : ""}
-          <span>${fa(chapters.length)} فصل · حدود ${fa(minutes)} دقیقه</span>
+          ${[...coverStats(chapters), meta.year || ""]
+            .filter(Boolean)
+            .map((item) => `<span>${escapeHtml(String(item))}</span>`)
+            .join("")}
         </p>
       </footer>
     </div>`;
