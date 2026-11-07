@@ -19,28 +19,113 @@ export const escapeHtml = (value = "") =>
 export const icon = (name, className = "") =>
   `<svg class="${className}" aria-hidden="true"><use href="#i-${name}"></use></svg>`;
 
-/* ---------- صفحهٔ عنوان ---------- */
+/* ---------- صفحهٔ عنوان (جلد) ---------- */
 
-export function coverView(book) {
-  const { meta, chapters } = book;
-  const first = chapters[0];
+/** سه چیزی که این کتاب عملاً جلویش را می‌گیرد. */
+const COVER_PROMISES = [
+  {
+    icon: "key",
+    title: "حسابت دزدیده نشود",
+    text: "ایمیل، رمز و ورود دومرحله‌ای — سه لایه‌ای که بیشتر سرقت‌ها را می‌بندد.",
+  },
+  {
+    icon: "hdd",
+    title: "داده‌ات از دست نرود",
+    text: "بک‌اپی که یک‌بار واقعاً بازگردانی کرده‌ای، نه یک امید.",
+  },
+  {
+    icon: "shield",
+    title: "فریب نخوری",
+    text: "فیشینگ، درگاه جعلی و پیام‌های «فوری» را از هم تشخیص بده.",
+  },
+];
+
+/** نشان جلد: سپر با خط روشن. */
+const coverMark = () => `
+  <svg class="cover__mark" viewBox="0 0 64 64" aria-hidden="true" fill="none">
+    <path d="M32 5 9 14.5v17.4C9 45.6 19 55.7 32 59c13-3.3 23-13.4 23-27.1V14.5L32 5Z"
+          stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/>
+    <path d="M21 32.8 28.6 40.4 43.5 22.8"
+          stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>`;
+
+/**
+ * نقشهٔ راه جلد: هر بخش با بازهٔ شمارهٔ فصل‌هایش.
+ * بازه از موقعیت فصل‌ها ساخته می‌شود، نه از رقم فارسی داخل label.
+ */
+function coverRoadmap(chapters, parts) {
+  const rows = parts
+    .map((part) => {
+      const at = chapters.reduce(
+        (acc, chapter, i) => (chapter.part === part.id ? [...acc, i + 1] : acc),
+        [],
+      );
+      return at.length ? { title: part.title, from: at[0], to: at[at.length - 1] } : null;
+    })
+    .filter(Boolean);
+
+  if (!rows.length) return "";
 
   return `
-    <div class="doc-title">
-      <p class="doc-title__eyebrow">${escapeHtml(meta.siteName || "")}</p>
-      <h1 class="doc-title__heading">${escapeHtml(meta.title || "")}</h1>
-      ${meta.subtitle ? `<p class="doc-title__subtitle">${escapeHtml(meta.subtitle)}</p>` : ""}
-      <p class="doc-title__meta">
-        ${meta.author ? `<span>${escapeHtml(meta.author)}</span>` : ""}
-        <span>${escapeHtml(meta.year || "")}${meta.year ? " · " : ""}${fa(chapters.length)} فصل</span>
-      </p>
-      ${
-        first
-          ? `<a class="doc-title__start" href="#/chapter/${encodeURIComponent(first.id)}">
-               شروع خواندن ${icon("arrow-start")}
-             </a>`
-          : ""
-      }
+    <ol class="cover__roadmap">
+      ${rows
+        .map(
+          (row) => `
+        <li class="cover__step">
+          <span class="cover__step-dot" aria-hidden="true"></span>
+          <span class="cover__step-name">${escapeHtml(row.title)}</span>
+          <span class="cover__step-num">${
+            row.from === row.to ? fa(row.from) : `${fa(row.from)}–${fa(row.to)}`
+          }</span>
+        </li>`,
+        )
+        .join("")}
+    </ol>`;
+}
+
+export function coverView(book) {
+  const { meta, chapters, parts } = book;
+  const first = chapters[0];
+  const minutes = chapters.reduce(
+    (sum, chapter) => sum + readingMinutes(chapter.body || ""),
+    0,
+  );
+
+  return `
+    <div class="cover">
+      <header class="cover__head">
+        ${coverMark()}
+        <h1 class="cover__title">${escapeHtml(meta.title || "")}</h1>
+        ${meta.subtitle ? `<p class="cover__kicker">${escapeHtml(meta.subtitle)}</p>` : ""}
+      </header>
+
+      <ul class="cover__promises">
+        ${COVER_PROMISES.map(
+          (item) => `
+          <li class="cover__promise">
+            <span class="cover__promise-icon">${icon(item.icon)}</span>
+            <span class="cover__promise-title">${escapeHtml(item.title)}</span>
+            <span class="cover__promise-text">${escapeHtml(item.text)}</span>
+          </li>`,
+        ).join("")}
+      </ul>
+
+      ${coverRoadmap(chapters, parts)}
+
+      <footer class="cover__foot">
+        ${
+          first
+            ? `<a class="cover__start" href="#/chapter/${encodeURIComponent(first.id)}">
+                 شروع خواندن ${icon("arrow-start")}
+               </a>`
+            : ""
+        }
+        <p class="cover__meta">
+          ${meta.author ? `<span>${escapeHtml(meta.author)}</span>` : ""}
+          ${meta.year ? `<span>${escapeHtml(meta.year)}</span>` : ""}
+          <span>${fa(chapters.length)} فصل · حدود ${fa(minutes)} دقیقه</span>
+        </p>
+      </footer>
     </div>`;
 }
 

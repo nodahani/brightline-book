@@ -416,57 +416,168 @@ body.is-zen .shell .topbar {
   background: var(--paper);
 }
 
-/* ---------- صفحهٔ عنوان ---------- */
+/* ---------- صفحهٔ عنوان (جلد) ---------- */
 
-.doc-title {
+.cover {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  min-height: min(62vh, 520px);
+  max-width: 30rem;
+  margin: 0 auto;
+  padding-top: clamp(0.4rem, 3vh, 2rem);
   text-align: center;
 }
 
-.doc-title__eyebrow {
-  margin: 0 0 1.4em;
-  font-size: 11px;
-  letter-spacing: 0.22em;
-  color: var(--ink-faint);
-  text-transform: uppercase;
+/* --- نشان و عنوان --- */
+
+.cover__head {
+  position: relative;
+  isolation: isolate;
+  width: 100%;
 }
 
-.doc-title__heading {
-  margin: 0;
-  font-size: clamp(2rem, 5vw, 2.9rem);
+/* هالهٔ نرم پشت نشان — بدون تصویر خارجی. */
+.cover__head::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: -1rem -2rem auto;
+  height: 14rem;
+  background: radial-gradient(ellipse 50% 50% at 50% 50%, var(--accent-soft), transparent 100%);
+  pointer-events: none;
+}
+
+.cover__mark {
+  width: 58px;
+  height: 58px;
+  color: var(--accent);
+  opacity: 0.92;
+}
+
+.cover__title {
+  margin: 0.55em 0 0;
+  font-size: clamp(2.1rem, 6vw, 2.75rem);
   font-weight: 700;
-  line-height: 1.35;
+  line-height: 1.25;
   letter-spacing: -0.02em;
   color: var(--ink);
 }
 
-.doc-title__subtitle {
-  max-width: 26em;
-  margin: 1em 0 0;
-  font-size: 1.02em;
-  line-height: 1.9;
+.cover__kicker {
+  max-width: 22em;
+  margin: 0.85em 0 0;
+  font-size: 0.95rem;
+  line-height: 1.95;
+  color: var(--ink-soft);
+  text-wrap: balance;
+}
+
+/* --- سه قولِ کتاب --- */
+
+.cover__promises {
+  display: grid;
+  gap: 0.5rem;
+  width: 100%;
+  margin: 2rem 0 0;
+  padding: 0;
+  list-style: none;
+  text-align: start;
+}
+
+.cover__promise {
+  display: grid;
+  grid-template-columns: 2.1rem 1fr;
+  column-gap: 0.7rem;
+  row-gap: 0.15rem;
+  padding: 0.7rem 0.85rem;
+  background: var(--accent-soft);
+  border-radius: 0.7rem;
+}
+
+.cover__promise-icon {
+  grid-row: span 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.1rem;
+  height: 2.1rem;
+  color: var(--accent);
+}
+
+.cover__promise-icon svg {
+  width: 1.3rem;
+  height: 1.3rem;
+}
+
+.cover__promise-title {
+  font-size: 0.9rem;
+  font-weight: 600;
+  line-height: 1.55;
+  color: var(--ink);
+}
+
+.cover__promise-text {
+  font-size: 0.79rem;
+  line-height: 1.7;
   color: var(--ink-soft);
 }
 
-.doc-title__meta {
-  display: flex;
-  gap: 0.9em;
-  margin: 2em 0 0;
-  font-size: 0.83em;
-  color: var(--ink-faint);
+/* --- نقشهٔ راه: چهار بخش، به‌صورت نوار محتوا --- */
+
+.cover__roadmap {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  width: 100%;
+  margin: 1.9rem 0 0;
+  padding: 0.9rem 0 0;
+  list-style: none;
+  border-top: 1px solid var(--rule);
 }
 
-.doc-title__start {
+.cover__step {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  padding: 0 0.4rem;
+  text-align: center;
+}
+
+.cover__step + .cover__step {
+  border-inline-start: 1px solid var(--rule);
+}
+
+.cover__step-dot {
+  display: none;
+}
+
+.cover__step-name {
+  font-size: 0.76rem;
+  font-weight: 600;
+  line-height: 1.5;
+  color: var(--ink);
+}
+
+.cover__step-num {
+  font-size: 0.72rem;
+  color: var(--ink-faint);
+  font-variant-numeric: tabular-nums;
+}
+
+/* --- دکمه و شناسنامه --- */
+
+.cover__foot {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 2rem;
+}
+
+.cover__start {
   display: inline-flex;
   align-items: center;
   gap: 0.5em;
-  margin-top: 2.4em;
-  padding: 0.68em 1.5em;
-  font-size: 0.9em;
+  padding: 0.72em 1.6em;
+  font-size: 0.92em;
   font-weight: 600;
   color: var(--paper);
   text-decoration: none;
@@ -477,14 +588,30 @@ body.is-zen .shell .topbar {
     filter var(--dur-fast) ease;
 }
 
-.doc-title__start:hover {
+.cover__start:hover {
   filter: brightness(1.08);
   transform: translateY(-1px);
 }
 
-.doc-title__start svg {
+.cover__start svg {
   width: 15px;
   height: 15px;
+}
+
+.cover__meta {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.55em;
+  margin: 1.3em 0 0;
+  font-size: 0.78em;
+  color: var(--ink-faint);
+}
+
+.cover__meta span + span::before {
+  content: "·";
+  margin-inline-end: 0.55em;
+  opacity: 0.6;
 }
 
 /* ---------- فصل ---------- */
@@ -1041,6 +1168,37 @@ body.is-zen .zen-exit:not([hidden]) {
     padding: 1.6rem 1.15rem 2rem;
   }
 
+  .cover {
+    padding-top: 0;
+  }
+
+  .cover__mark {
+    width: 50px;
+    height: 50px;
+  }
+
+  .cover__promises {
+    margin-top: 1.6rem;
+  }
+
+  .cover__promise {
+    padding: 0.65rem 0.75rem;
+  }
+
+  .cover__roadmap {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    row-gap: 0.9rem;
+  }
+
+  .cover__step:nth-child(3) {
+    border-inline-start: 0;
+  }
+
+  .cover__step:nth-child(n + 3) {
+    padding-top: 0.9rem;
+    border-top: 1px solid var(--rule);
+  }
+
   .pager {
     grid-template-columns: 1fr;
     padding: 0 1.15rem 1.8rem;
@@ -1081,6 +1239,15 @@ body.is-zen .zen-exit:not([hidden]) {
 
   .doc__body {
     font-size: 11pt;
+  }
+
+  /* جلد در چاپ: از لبهٔ کاغذ فاصله بگیرد و دکمه چاپ نشود. */
+  .cover {
+    padding-top: 1.6rem;
+  }
+
+  .cover__start {
+    display: none;
   }
 
   .doc__body h2,
