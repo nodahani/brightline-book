@@ -75,21 +75,17 @@
           d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"
         />
       </symbol>
-      <symbol
-        id="i-palette"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="1.7"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-      >
-        <path
-          d="M12 3a9 9 0 1 0 0 18c1.1 0 1.8-.8 1.8-1.8 0-.5-.2-.9-.5-1.2-.3-.3-.5-.7-.5-1.2 0-1 .8-1.8 1.8-1.8H17a4 4 0 0 0 4-4c0-4.4-4-8-9-8z"
-        />
-        <circle cx="7.5" cy="11.5" r="1.2" />
-        <circle cx="10.5" cy="7.5" r="1.2" />
-        <circle cx="15" cy="8" r="1.2" />
+      <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              stroke-width="1.8" stroke-linecap="round">
+        <circle cx="12" cy="12" r="4" />
+        <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" />
+      </symbol>
+
+      <symbol id="i-leaf" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M6 3h8l4 4v14H6z" />
+        <path d="M14 3v4h4" />
+        <path d="M9 11h6M9 15h6" />
       </symbol>
       <symbol
         id="i-expand"
@@ -198,7 +194,7 @@
             ><span class="tool-btn__text">جست‌وجو</span>
           </button>
           <button class="tool-btn" id="btnPalette" title="تغییر پالت رنگ (P)">
-            <svg><use href="#i-palette" /></svg
+            <svg><use href="#i-leaf" /></svg
             ><span class="tool-btn__text">رنگ</span>
           </button>
           <button

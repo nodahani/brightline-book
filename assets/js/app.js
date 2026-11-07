@@ -36,8 +36,10 @@ import {
   bindGlobalKeys,
   bindSwipe,
   closeDialogs,
+  applyPalette,
   cycleSkin,
   initTheme,
+  paletteHint,
   paletteLabel,
   setupSearch,
   showFatal,
@@ -431,14 +433,28 @@ function bindChrome(search) {
 /** پوسته را جلو می‌برد و نتیجه را در یک توست نشان می‌دهد. */
 function handleSkin() {
   const { theme, palette } = cycleSkin();
-  toast(`${paletteLabel(palette.id)} · ${theme === "dark" ? "تاریک" : "روشن"}`);
+  const isDark = theme === "dark";
 
+  toast(`${paletteLabel(palette.id)} · ${isDark ? "تاریک" : "روشن"}`);
+
+  // آیکون و عنوان دکمه، حالت تازه را نشان می‌دهند.
   const button = $("#btnTheme");
   if (button) {
-    button.title = `پوستهٔ بعدی (P) — الان: ${paletteLabel(palette.id)}، ${
-      theme === "dark" ? "تاریک" : "روشن"
-    }`;
+    button.title = `${paletteLabel(palette.id)}، ${isDark ? "تاریک" : "روشن"}${
+      paletteHint(palette.id) ? ` — ${paletteHint(palette.id)}` : ""
+    } · دکمهٔ بعدی (P)`;
   }
+}
+
+/** عنوان دکمهٔ پوسته را با حالت فعلی هم‌گام می‌کند (برای بار اول هم). */
+function syncSkinButton() {
+  const button = $("#btnTheme");
+  if (!button) return;
+  const palette = document.documentElement.dataset.palette || "sepia";
+  applyPalette(palette);
+  button.title = `${paletteLabel(palette)}، ${
+    document.documentElement.dataset.theme === "dark" ? "تاریک" : "روشن"
+  }${paletteHint(palette) ? ` — ${paletteHint(palette)}` : ""} · دکمهٔ بعدی (P)`;
 }
 
 function handleZen() {
@@ -454,6 +470,7 @@ function handleZen() {
 
 async function init() {
   initTheme();
+  syncSkinButton();
 
   try {
     book = await loadBook();

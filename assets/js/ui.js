@@ -14,10 +14,10 @@ const THEMES = ["light", "dark"];
 // یک دکمه برای هر دو کار: روشن/تاریک عوض می‌شود و بعد پالت جلو می‌رود.
 // هر پالت نسخهٔ روشن و تاریک دارد، پس این دو تنظیم با هم یک «پوسته» می‌سازند.
 const PALETTES = [
-  { id: "sepia", label: "سپیا", icon: "#i-sun" },
-  { id: "moon", label: "مهتاب", icon: "#i-moon" },
-  { id: "paper", label: "کاغذ", icon: "#i-palette" },
-  { id: "charcoal", label: "زغال", icon: "#i-expand" },
+  { id: "sepia", label: "سپیا", icon: "#i-sun", hint: "کرم گرم، مثل کاغذ کتاب" },
+  { id: "moon", label: "مهتاب", icon: "#i-moon", hint: "خاکستری سرد، نور کم" },
+  { id: "paper", label: "کاغذ", icon: "#i-leaf", hint: "سفید تمیز، مثل برگه" },
+  { id: "charcoal", label: "زغال", icon: "#i-coal", hint: "تیره و کم‌کنتراست" },
 ];
 
 /* حافظهٔ مرورگر ممکن است در iframe سندباکس بسته باشد */
@@ -107,6 +107,10 @@ export const currentTheme = () =>
   document.documentElement.dataset.theme === "dark" ? "dark" : "light";
 
 export const paletteLabel = (id) => paletteOf(id).label;
+
+/** توضیح یک‌خطی پالت، برای tooltip دکمه. */
+export const paletteHint = (id) => paletteOf(id).hint;
+export const paletteIcon = (id) => paletteOf(id).icon;
 
 export function initTheme(defaultPalette = "sepia") {
   const savedTheme = store.get(THEME_KEY);
