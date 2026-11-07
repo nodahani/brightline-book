@@ -283,13 +283,19 @@
         </div>
 
         <nav class="pager" id="pager" aria-label="پیمایش فصل‌ها">
-          <button class="pager__btn" id="btnPrev">
-            <span class="pager__dir">قبلی</span>
-            <span class="pager__name" id="prevLabel"></span>
+          <button class="pager__btn" id="btnPrev" type="button">
+            <svg class="pager__chev" aria-hidden="true"><use href="#i-chev-right"></use></svg>
+            <span class="pager__text">
+              <span class="pager__dir">قبلی</span>
+              <span class="pager__name" id="prevLabel"></span>
+            </span>
           </button>
-          <button class="pager__btn pager__btn--end" id="btnNext">
-            <span class="pager__dir">بعدی</span>
-            <span class="pager__name" id="nextLabel"></span>
+          <button class="pager__btn pager__btn--next" id="btnNext" type="button">
+            <span class="pager__text">
+              <span class="pager__dir">بعدی</span>
+              <span class="pager__name" id="nextLabel"></span>
+            </span>
+            <svg class="pager__chev" aria-hidden="true"><use href="#i-chev-left"></use></svg>
           </button>
         </nav>
 

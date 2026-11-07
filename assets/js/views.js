@@ -287,6 +287,24 @@ export function pageTitle(book, route) {
   return book.meta.title || "";
 }
 
+/**
+ * عنوان کوتاه برای دکمه‌های قبلی/بعدی.
+ * در دکمه جا کم است، پس فقط «قسمت اصلی» عنوان را می‌دهیم:
+ * «مقدمه — چرا باید نگران باشیم؟» → «مقدمه».
+ */
+export function stepLabel(book, route) {
+  if (!route) return "";
+  if (route.type === "cover") return "جلد";
+  if (route.type === "about") return "دربارهٔ کتاب";
+
+  const chapter = book.chapters.find((c) => c.id === route.id);
+  if (!chapter) return "";
+  if (chapter.running) return chapter.running;
+
+  // اگر running نداشت، پیش از خط تیره یا نقطه را بردار.
+  return String(chapter.title || "").split(/[—–:]|\s-\s/)[0].trim();
+}
+
 export function runningHead(book, route) {
   if (route.type === "chapter") {
     const chapter = book.chapters.find((c) => c.id === route.id);

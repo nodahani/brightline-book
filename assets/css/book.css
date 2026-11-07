@@ -946,50 +946,115 @@ html[data-theme="dark"] .note--warn .note__label {
 /* ---------- دکمهٔ پیمایش پایین سند ---------- */
 
 .pager {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0.7rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem;
   width: 100%;
   max-width: var(--sheet-max);
   margin: 0 auto;
   padding: 0 var(--sheet-pad-x) 2.4rem;
 }
 
+/* خط نازک بین دو دکمه — نوار را به یک واحدِ واحد وصل می‌کند. */
+.pager::before {
+  content: "";
+  order: 1;
+  flex: 1 1 auto;
+  height: 1px;
+  margin: 0 0.2rem;
+  background: var(--rule);
+}
+
 .pager__btn {
   display: flex;
-  flex-direction: column;
-  gap: 0.25em;
-  padding: 0.85em 1em;
+  align-items: center;
+  gap: 0.65rem;
+  flex: 0 1 auto;
+  min-width: 0;
+  max-width: 48%;
+  padding: 0.6rem 0.95rem;
   text-align: start;
   color: var(--ink-soft);
-  background: var(--paper);
+  background: transparent;
   border: 1px solid var(--rule);
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-md);
   cursor: pointer;
   transition:
+    color var(--dur-fast) ease,
     border-color var(--dur-fast) ease,
     background-color var(--dur-fast) ease;
 }
 
-.pager__btn:hover:not([hidden]) {
-  background: var(--bg-deep);
-  border-color: var(--accent-2);
-}
-
-.pager__btn--end {
+.pager__btn--next {
+  order: 2;
   text-align: end;
 }
 
+/* اگر فقط یک جهت هست (جلد یا صفحهٔ آخر)، خطِ وسط معنا ندارد. */
+.pager:has(.pager__btn[hidden])::before {
+  display: none;
+}
+
+/* جهتِ بصری: قبلی به سمت قبل، بعدی به سمت بعد. */
+.pager__btn--next .pager__chev {
+  order: -1;
+}
+
+.pager__chev {
+  flex: none;
+  width: 1rem;
+  height: 1rem;
+  color: var(--ink-faint);
+  transition: color var(--dur-fast) ease;
+}
+
+.pager__btn:hover {
+  color: var(--ink);
+  background: var(--accent-soft);
+  border-color: var(--accent);
+}
+
+.pager__btn:hover .pager__chev {
+  color: var(--accent);
+}
+
+.pager__btn:active {
+  transform: scale(0.99);
+}
+
+.pager__btn:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: var(--radius-md);
+}
+
+.pager__text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  min-width: 0;
+}
+
+.pager__btn--next .pager__text {
+  align-items: flex-end;
+}
+
 .pager__dir {
-  font-size: 10.5px;
-  letter-spacing: 0.08em;
+  font-size: 10px;
+  letter-spacing: 0.06em;
   color: var(--ink-faint);
 }
 
 .pager__name {
+  max-width: 100%;
+  overflow: hidden;
   font-size: 0.86em;
   font-weight: 600;
+  line-height: 1.5;
   color: var(--ink);
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 /* ---------- نوار پیشرفت ---------- */
@@ -1200,8 +1265,33 @@ body.is-zen .zen-exit:not([hidden]) {
   }
 
   .pager {
-    grid-template-columns: 1fr;
+    gap: 0.5rem;
     padding: 0 1.15rem 1.8rem;
+  }
+
+  .pager__btn {
+    flex: 1 1 0;
+    min-width: 0;
+    max-width: none;
+  }
+
+  /* در موبایل خطِ وسط جایی ندارد؛ دکمه‌ها تمام عرض را می‌گیرند. */
+  .pager::before {
+    display: none;
+  }
+
+  .pager__btn {
+    gap: 0.4rem;
+    padding: 0.5rem 0.55rem;
+  }
+
+  .pager__chev {
+    width: 0.85rem;
+    height: 0.85rem;
+  }
+
+  .pager__name {
+    font-size: 0.74em;
   }
 
   .doc__body {

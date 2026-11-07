@@ -22,6 +22,7 @@ import {
   pageNumber,
   pageTitle,
   runningHead,
+  stepLabel,
   tocView,
 } from "./views.js";
 
@@ -212,12 +213,21 @@ function renderChrome() {
 
   if (prevButton) {
     prevButton.hidden = !previous;
-    setText("#prevLabel", previous ? pageTitle(book, previous) : "");
+    setText("#prevLabel", stepLabel(book, previous));
+    // دکمه متن را از صفحه‌خوان دریافت کند، نه از تکه‌های پراکنده.
+    prevButton.setAttribute(
+      "aria-label",
+      previous ? `قبلی: ${pageTitle(book, previous)}` : "قبلی",
+    );
   }
 
   if (nextButton) {
     nextButton.hidden = !next;
-    setText("#nextLabel", next ? pageTitle(book, next) : "");
+    setText("#nextLabel", stepLabel(book, next));
+    nextButton.setAttribute(
+      "aria-label",
+      next ? `بعدی: ${pageTitle(book, next)}` : "بعدی",
+    );
   }
 
   const progress = $("#progressBar");
