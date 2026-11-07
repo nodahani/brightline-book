@@ -2156,3 +2156,104 @@ body.is-zen .zen-exit:not([hidden]) {
   display: inline-block;
   margin-inline-start: 0.55em;
 }
+
+/* ---------- صفحهٔ ۴۰۴ ---------- */
+
+/*
+ * این صفحه از موتور کتاب جدا است: هیچ فهرست کناری، هیچ جست‌وجو، هیچ ورق‌زدنی.
+ * فقط یک برگه و یک راه برگشت. پس نوار بالا و برگه در همان قالب کتاب می‌مانند
+ * ولی چیدمانشان ساده است.
+ */
+.topbar--standalone {
+  position: sticky;
+  inset-block-start: 0;
+  z-index: 20;
+  display: flex;
+  flex-direction: row-reverse;
+  gap: 0.8em;
+  justify-content: flex-start;
+  padding: 0.6em clamp(1em, 4vw, 2.5em);
+  background: var(--bg);
+  border-bottom: 1px solid var(--rule);
+}
+
+.topbar--standalone .topbar__title {
+  margin-inline-end: auto;
+  font-weight: 700;
+  color: var(--ink-soft);
+}
+
+.doc-scroll--standalone {
+  min-height: calc(100dvh - 3.5rem);
+  padding: clamp(1.5em, 6vh, 4em) clamp(1em, 4vw, 2.5em);
+  background: var(--bg);
+}
+
+.doc-scroll--standalone .doc-sheet {
+  max-width: 44rem;
+  margin-inline: auto;
+  padding: clamp(1.6em, 4vw, 3em);
+  background: var(--paper);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-md);
+}
+
+.doc--standalone .doc__eyebrow {
+  letter-spacing: 0.18em;
+}
+
+.doc--standalone .doc__body p {
+  max-width: 34em;
+}
+
+/* راه برگشت، آشکار و بزرگ — این تنها کاری است که این صفحه از خواننده می‌خواهد. */
+/* .doc__body a رنگ accent می‌گذارد؛ این دکمه باید متنِ روشن روی زمینهٔ تیره
+   داشته باشد، پس با اولویت بالاتر صریح گفته می‌شود. */
+.doc__body a.btn-return,
+.btn-return {
+  display: inline-block;
+  margin-block: 0.4em 0.6em;
+  margin-inline-end: 0.6em;
+  padding: 0.6em 1.3em;
+  font-weight: 600;
+  color: var(--paper);
+  background: var(--accent);
+  border-radius: var(--radius-md);
+  text-decoration: none;
+}
+
+.doc__body a.btn-return:hover,
+.btn-return:hover {
+  color: var(--paper);
+  background: var(--ink);
+  text-decoration-color: transparent;
+}
+
+.doc__body a.btn-return--quiet,
+.btn-return--quiet {
+  color: var(--accent);
+  background: none;
+  border: 1px solid var(--rule);
+}
+
+.doc__body a.btn-return--quiet:hover,
+.btn-return--quiet:hover {
+  color: var(--paper);
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.doc__note {
+  margin-block-start: 1.4em;
+  font-size: 0.88em;
+  color: var(--ink-faint);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .btn-return {
+    transition:
+      background-color 0.15s ease,
+      color 0.15s ease,
+      border-color 0.15s ease;
+  }
+}

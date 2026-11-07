@@ -7,10 +7,10 @@
       content="width=device-width, initial-scale=1, viewport-fit=cover"
     />
     <meta name="theme-color" content="#e6e9ef" />
-    <title>خط روشن</title>
+    <title>صفحه پیدا نشد — خط روشن</title>
     <meta
       name="description"
-      content="کتابی شخصی روی وب: نوشته‌هایی روشن، با ترتیبی روشن."
+      content="راهنمای عملی امنیت و حریم خصوصی دیجیتال"
     />
 
     <link
@@ -24,6 +24,8 @@
     <link rel="stylesheet" href="assets/css/ui.css" />
   </head>
   <body>
+    <a class="skip-link" href="#content">پرش به متن</a>
+
     <!-- اسپرایت آیکون‌ها: یک‌بار تعریف می‌شوند و همه‌جا استفاده می‌شوند -->
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -50,42 +52,6 @@
       >
         <circle cx="11" cy="11" r="7" />
         <path d="m20 20-3.5-3.5" />
-      </symbol>
-      <symbol
-        id="i-moon"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="1.8"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-      >
-        <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z" />
-      </symbol>
-      <symbol
-        id="i-sun"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="1.8"
-        stroke-linecap="round"
-      >
-        <circle cx="12" cy="12" r="4" />
-        <path
-          d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"
-        />
-      </symbol>
-      <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-              stroke-width="1.8" stroke-linecap="round">
-        <circle cx="12" cy="12" r="4" />
-        <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" />
-      </symbol>
-
-      <symbol id="i-leaf" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-              stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M6 3h8l4 4v14H6z" />
-        <path d="M14 3v4h4" />
-        <path d="M9 11h6M9 15h6" />
       </symbol>
       <symbol
         id="i-expand"
@@ -155,6 +121,29 @@
         <path d="M4 20c6 0 10-4 12-10l1.5-4.5L13 7C7 9 4 13 4 20z" />
         <path d="M4 20 12 12" />
       </symbol>
+      <symbol id="i-mark" viewBox="0 0 72 72" fill="none">
+        <circle
+          cx="36"
+          cy="36"
+          r="25.5"
+          stroke="currentColor"
+          stroke-opacity=".34"
+          stroke-width="1.5"
+        />
+        <path
+          d="M36 29.4c-3.1-3.4-10.4-4-15.4-2.4v18.6c5-1.6 12.3-1 15.4 2.4 3.1-3.4 10.4-4 15.4-2.4V27c-5-1.6-12.3-1-15.4 2.4Z"
+          stroke="currentColor"
+          stroke-width="2.3"
+          stroke-linejoin="round"
+        />
+        <path
+          d="M36 29.4v18.6"
+          stroke="currentColor"
+          stroke-width="2.6"
+          stroke-linecap="round"
+          opacity=".7"
+        />
+      </symbol>
       <symbol
         id="i-arrow-start"
         viewBox="0 0 24 24"
@@ -165,6 +154,43 @@
         stroke-linejoin="round"
       >
         <path d="M19 12H5M11 18l-6-6 6-6" />
+      </symbol>
+      <symbol
+        id="i-key"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.8"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <circle cx="8" cy="15" r="4" />
+        <path d="m10.8 12.2 8.2-8.2M17 6l2.5 2.5M14.5 8.5 17 11" />
+      </symbol>
+      <symbol
+        id="i-hdd"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.8"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <rect x="3" y="5" width="18" height="6" rx="2" />
+        <rect x="3" y="13" width="18" height="6" rx="2" />
+        <path d="M7 8h.01M7 16h.01" />
+      </symbol>
+      <symbol
+        id="i-shield"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.8"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <path d="M12 3 4 6v6c0 5 3.6 8.9 8 10 4.4-1.1 8-5 8-10V6l-8-3z" />
+        <path d="m9 12 2 2 4-4" />
       </symbol>
       <symbol
         id="i-check"
@@ -179,153 +205,131 @@
       </symbol>
     </svg>
 
-    <main class="book-stage">
-      <header class="book-toolbar">
-        <div class="book-toolbar__group">
-          <span class="book-toolbar__title" id="toolbarTitle"></span>
-        </div>
-        <div class="book-toolbar__group">
-          <button class="tool-btn" id="btnToc" title="فهرست">
-            <svg><use href="#i-list" /></svg
-            ><span class="tool-btn__text">فهرست</span>
-          </button>
-          <button class="tool-btn" id="btnSearch" title="جست‌وجو (Ctrl+K)">
-            <svg><use href="#i-search" /></svg
-            ><span class="tool-btn__text">جست‌وجو</span>
-          </button>
-          <button class="tool-btn" id="btnPalette" title="تغییر پالت رنگ (P)">
-            <svg><use href="#i-leaf" /></svg
-            ><span class="tool-btn__text">رنگ</span>
-          </button>
-          <button
-            class="tool-btn tool-btn--icon"
-            id="btnTheme"
-            title="تم روشن/تاریک (T)"
-          >
-            <svg><use href="#i-moon" id="themeIcon" /></svg>
-          </button>
-          <button
-            class="tool-btn tool-btn--icon"
-            id="btnZen"
-            title="حالت مطالعه (Z)"
-            aria-pressed="false"
-          >
-            <svg><use href="#i-expand" /></svg>
-          </button>
-        </div>
-      </header>
+    <!-- آیکون همبرگر -->
+    <svg xmlns="http://www.w3.org/2000/svg" style="display: none" aria-hidden="true">
+            <!-- آیکون‌های چهار پالت — هر کدام نشان خودش، تا با دکمهٔ تمرکز قاطی نشوند -->
+      <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              stroke-width="1.8" stroke-linecap="round">
+        <circle cx="12" cy="12" r="4" />
+        <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" />
+      </symbol>
 
-      <div class="book" id="book">
-        <div class="book__spine" aria-hidden="true"></div>
+      <symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z" />
+      </symbol>
 
-        <!-- صفحهٔ چپ: فهرست -->
-        <section class="page page--left" aria-label="فهرست">
-          <div class="page__running-head">
-            <span id="leftRunning">فهرست</span>
-            <span id="leftTitle"></span>
-          </div>
-          <div class="page__scroller">
-            <div class="page__content" id="tocContent"></div>
-          </div>
-          <div class="page__foot">
-            <span class="page__num">۲</span>
-            <a class="nav-btn" href="#/about">
-              <svg><use href="#i-info" /></svg>
-              <span class="nav-btn__label">دربارهٔ کتاب</span>
-            </a>
-          </div>
-        </section>
+      <!-- کاغذ: صفحهٔ تا‌خورده -->
+      <symbol id="i-leaf" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M6 3h8l4 4v14H6z" />
+        <path d="M14 3v4h4" />
+        <path d="M9 11h6M9 15h6" />
+      </symbol>
 
-        <!-- صفحهٔ راست: متن -->
-        <section class="page page--right" aria-label="متن کتاب">
-          <div class="page__running-head">
-            <span id="rightRunning"></span>
-            <span id="rightPart"></span>
-          </div>
-          <div class="page__scroller" id="scroller">
-            <div class="page__content" id="content"></div>
-          </div>
-          <div class="page__foot">
-            <button class="nav-btn" id="btnPrev">
-              <svg><use href="#i-chev-right" /></svg>
-              <span class="nav-btn__label" id="prevLabel">قبلی</span>
-            </button>
-            <span class="page__num" id="pageNum">۱</span>
-            <button class="nav-btn" id="btnNext">
-              <span class="nav-btn__label" id="nextLabel">بعدی</span>
-              <svg><use href="#i-chev-left" /></svg>
-            </button>
-          </div>
-        </section>
+      <!-- زغال: سه تکهٔ بی‌قاعده -->
+      <symbol id="i-coal" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M7.5 4.5 13 6l-1.5 5L5 10z" />
+        <path d="M14.5 12 20 13.5l-1 4.5-5.5-1.2z" />
+        <path d="M4 15.5 8 17l-1 3.5-3.6-1z" />
+      </symbol>
 
-        <div
-          class="progress"
-          role="progressbar"
-          aria-valuemin="0"
-          aria-valuemax="100"
-          aria-valuenow="0"
-        >
-          <div class="progress__bar" id="progressBar"></div>
-        </div>
+      <symbol id="i-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              stroke-width="1.9" stroke-linecap="round">
+        <path d="M3 6h18M3 12h18M3 18h18" />
+      </symbol>
+      <symbol id="i-prev" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M9 18l6-6-6-6" />
+      </symbol>
+      <symbol id="i-next" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M15 18l-6-6 6-6" />
+      </symbol>
+    </svg>
+  <body class="is-404">
+    <!-- همان نوار بالای کتاب، بدون دکمه‌هایی که این صفحه نمی‌تواند اجرا کند -->
+    <header class="topbar topbar--standalone">
+      <a class="top-btn" href="index.html#/cover" title="برگشت به جلد">
+        <svg><use href="#i-chev-right" /></svg>
+        <span>جلد</span>
+      </a>
+      <span class="topbar__title">خط روشن</span>
+      <button class="top-btn" id="btnTheme" title="پوستهٔ بعدی (P)">
+        <svg><use href="#i-sun" id="themeIcon" /></svg>
+        <span>رنگ</span>
+      </button>
+    </header>
+
+    <main class="doc-scroll doc-scroll--standalone" id="docScroll">
+      <div class="doc-sheet">
+        <article class="doc doc--standalone">
+          <header class="doc__head">
+            <p class="doc__eyebrow">۴۰۴</p>
+            <h1 class="doc__title">این نشانی در کتاب نیست</h1>
+          </header>
+          <div class="doc__body">
+            <p>
+              نشانی‌ای که باز کردی به هیچ صفحه‌ای نمی‌رسد — شاید یک حرفش جا افتاده یا
+              صفحه‌اش جابه‌جا شده باشد. کتاب سالم است؛ فقط این آدرس غلط است.
+            </p>
+            <p>
+              <a class="btn-return" href="index.html#/cover">برگشت به جلد</a>
+              <a class="btn-return btn-return--quiet" href="index.html#/start">رفتن به نقشهٔ مسیر</a>
+            </p>
+            <p class="doc__note">
+              اگر از داخل خود کتاب به این صفحه رسیدی، آن پیوند اشکال دارد — خوب است
+              خبرش را بدهی.
+            </p>
+          </div>
+        </article>
       </div>
     </main>
 
-    <!-- مودال جست‌وجو -->
-    <div
-      class="modal"
-      id="searchModal"
-      role="dialog"
-      aria-modal="true"
-      aria-label="جست‌وجو در کتاب"
-    >
-      <div class="modal__panel">
-        <div class="modal__head">
-          <span class="modal__title"
-            ><svg><use href="#i-search" /></svg> جست‌وجو در کتاب</span
-          >
-          <button class="modal__close" data-close title="بستن">
-            <svg><use href="#i-close" /></svg>
-          </button>
-        </div>
-        <div class="search-field">
-          <svg><use href="#i-search" /></svg>
-          <input
-            type="search"
-            id="searchInput"
-            placeholder="چیزی بنویس… مثلاً روشن"
-            autocomplete="off"
-          />
-        </div>
-        <div class="modal__body" id="searchResults"></div>
-      </div>
-    </div>
+    <script type="module">
+      // فقط پوسته را جلو می‌برد؛ این صفحه به موتور کتاب وابسته نیست.
+      import { initTheme, cycleSkin, applyPalette, paletteLabel } from "./assets/js/ui.js";
 
-    <!-- مودال فهرست (موبایل) -->
-    <div
-      class="modal"
-      id="tocModal"
-      role="dialog"
-      aria-modal="true"
-      aria-label="فهرست کتاب"
-    >
-      <div class="modal__panel">
-        <div class="modal__head">
-          <span class="modal__title"
-            ><svg><use href="#i-list" /></svg> فهرست کتاب</span
-          >
-          <button class="modal__close" data-close title="بستن">
-            <svg><use href="#i-close" /></svg>
-          </button>
-        </div>
-        <div class="modal__body" id="tocModalBody"></div>
-      </div>
-    </div>
+      initTheme("sepia");
 
-    <div class="toast" id="toast">
-      <svg><use href="#i-check" /></svg>
-      <span id="toastText"></span>
-    </div>
+      const button = document.getElementById("btnTheme");
+      const icon = document.getElementById("themeIcon");
 
-    <script type="module" src="assets/js/app.js"></script>
+      const sync = (theme, palette) => {
+        if (icon) icon.setAttribute("href", palette.icon);
+        if (button) {
+          button.title = `${paletteLabel(palette.id)}، ${
+            theme === "dark" ? "تاریک" : "روشن"
+          }${palette.hint ? ` — ${palette.hint}` : ""} · دکمهٔ بعدی (P)`;
+        }
+      };
+
+      const current = () => ({
+        theme: document.documentElement.dataset.theme || "light",
+        palette: {
+          id: document.documentElement.dataset.palette || "sepia",
+          icon: icon?.getAttribute("href") || "#i-sun",
+          hint: "",
+        },
+      });
+
+      const { theme, palette } = current();
+      sync(theme, palette);
+
+      button?.addEventListener("click", () => {
+        const next = cycleSkin();
+        sync(next.theme, next.palette);
+      });
+
+      // کلید P هم مثل بقیهٔ کتاب کار کند
+      addEventListener("keydown", (event) => {
+        if (event.key.toLowerCase() !== "p") return;
+        const tag = document.activeElement?.tagName;
+        if (/^(INPUT|TEXTAREA|SELECT)$/.test(tag || "")) return;
+        const next = cycleSkin();
+        sync(next.theme, next.palette);
+      });
+    </script>
   </body>
 </html>
