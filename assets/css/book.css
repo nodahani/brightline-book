@@ -450,10 +450,126 @@ body.is-zen .shell .topbar {
   background: var(--paper);
 }
 
-/* برگهٔ عنوان کمی تنگ‌تر از برگهٔ متن است تا جلد در یک نگاه جا شود. */
+/* روی جلد، برگهٔ کاغذی لازم نیست: خودِ جلد یک صفحهٔ کامل است.
+   حاشیهٔ برگه صفر می‌شود تا جلدِ تیره تا لبه‌ها برود، و بالای آن هم چیزی
+   نمی‌ماند — جز نوار نازکی که دکمه‌های جست‌وجو و فهرست رویش می‌نشینند. */
 .doc-sheet:has(> .is-title-page) {
-  padding-top: 2rem;
-  padding-bottom: 2.2rem;
+  max-width: none;
+  padding: 0;
+  background: var(--cover-bg);
+}
+
+/* جلد تمام‌قد: ارتفاع ستون سند را پر می‌کند، نه اینکه به اندازهٔ محتوا بایستد. */
+.doc-sheet:has(> .is-title-page) > .is-title-page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+
+.doc-sheet:has(> .is-title-page) > .is-title-page > .cover {
+  flex: 1 1 auto;
+}
+
+/* لپ‌تاپ‌های کوتاه: فاصله‌های عمودی جمع می‌شوند تا دکمهٔ «شروع خواندن»
+   بی‌آنکه اسکرول لازم شود دیده شود. */
+@media (min-width: 980px) and (max-height: 760px) {
+  .cover {
+    padding-block: 1.4rem;
+  }
+
+  .cover__mark {
+    width: 48px;
+    height: 48px;
+    margin-bottom: 0.6rem;
+  }
+
+  .cover__title {
+    font-size: clamp(2.4rem, 6vw, 3.4rem);
+  }
+
+  .cover__subtitle {
+    margin-top: 0.5rem;
+    line-height: 1.7;
+  }
+
+  .cover__subtitle::after {
+    margin-top: 0.75rem;
+  }
+
+  .cover__reasons {
+    gap: 0.1rem;
+    margin-top: 0.7rem;
+  }
+
+  .cover__reasons li {
+    line-height: 1.7;
+  }
+
+  .cover__start {
+    margin-top: 1.1rem;
+  }
+
+  .cover__roadmap {
+    margin-top: 1.3rem;
+  }
+
+  .cover__author {
+    margin-top: 1.1rem;
+  }
+}
+
+/* نوار بالا روی جلد هم از رنگ جلد می‌شود؛ یک نوارِ کرم بالای صفحهٔ سیاه،
+   جلد را نصف می‌کند. دکمه‌ها می‌مانند، فقط رنگشان برمی‌گردد. */
+body:has(.is-title-page) .topbar {
+  background: var(--cover-bg);
+  border-bottom-color: var(--cover-rule);
+}
+
+body:has(.is-title-page) .top-btn,
+body:has(.is-title-page) .topbar__title {
+  color: var(--cover-muted);
+  border-color: var(--cover-rule);
+}
+
+body:has(.is-title-page) .top-btn:hover {
+  color: var(--cover-ink);
+  border-color: var(--cover-accent);
+}
+
+body:has(.is-title-page) .top-btn:focus-visible {
+  outline-color: var(--cover-accent);
+}
+
+/* نوار کنارِ فهرست هم روی جلد تیره می‌شود؛ ستونِ کرم در کنارِ صفحهٔ سیاه
+   مثل دو کتابِ جدا از هم دیده می‌شود. */
+body:has(.is-title-page) .sidebar {
+  background: color-mix(in srgb, var(--cover-bg) 88%, #ffffff);
+  border-inline-end-color: var(--cover-rule);
+}
+
+body:has(.is-title-page) .sidebar__head,
+body:has(.is-title-page) .sb__group {
+  border-color: var(--cover-rule);
+}
+
+body:has(.is-title-page) .sidebar a,
+body:has(.is-title-page) .sb__link,
+body:has(.is-title-page) .sb__group-title {
+  color: var(--cover-muted);
+}
+
+body:has(.is-title-page) .sidebar a:hover,
+body:has(.is-title-page) .sb__link:hover {
+  color: var(--cover-ink);
+}
+
+body:has(.is-title-page) .sidebar a.is-active,
+body:has(.is-title-page) .sb__link.is-active {
+  color: var(--cover-accent);
+}
+
+body:has(.is-title-page) .sidebar .icon-btn {
+  color: var(--cover-muted);
 }
 
 /* روی جلد، نوار قبلی/بعدی لازم نیست: خودِ جلد دکمهٔ «شروع خواندن» دارد و
@@ -468,28 +584,52 @@ body.is-zen .shell .topbar {
   position: relative;
   display: flex;
   justify-content: center;
-  max-width: 34rem;
-  margin: 0 auto;
-  padding: clamp(0.3rem, 1.6vh, 1rem) 0;
+  width: 100%;
+  min-height: 100%;
+  padding: clamp(2rem, 6vh, 4.5rem) clamp(1.1rem, 4vw, 3rem);
+  background:
+    radial-gradient(1100px 520px at 50% -10%, var(--cover-accent-glow), transparent 62%),
+    radial-gradient(820px 460px at 50% 112%, var(--cover-blue-glow), transparent 60%),
+    var(--cover-bg);
+  color: var(--cover-ink);
 }
 
-/* --- قاب جلد: دو خط نازک هم‌مرکز، مثل صفحهٔ عنوان کتاب --- */
-
+/* قاب نازک، همان چیزی که صفحه را «جلد» می‌کند نه «مقاله». */
 .cover__frame {
   position: absolute;
-  inset: 0;
-  border: 1px solid var(--rule);
-  border-radius: var(--radius-sm);
+  inset: clamp(9px, 1.6vw, 20px);
+  border: 1px solid var(--cover-rule);
+  border-radius: 16px;
   pointer-events: none;
 }
 
+/* دو گوشهٔ طلایی، فقط بالا-راست و پایین-چپ: مثل نشانِ نشر روی جلد. */
+.cover__frame::before,
 .cover__frame::after {
   content: "";
   position: absolute;
-  inset: 5px;
-  border: 1px solid var(--rule);
-  border-radius: 3px;
-  opacity: 0.55;
+  width: 32px;
+  height: 32px;
+  border-color: var(--cover-accent);
+  border-style: solid;
+  border-width: 0;
+  opacity: 0.6;
+}
+
+.cover__frame::before {
+  top: -1px;
+  right: -1px;
+  border-top-width: 1px;
+  border-right-width: 1px;
+  border-top-right-radius: 16px;
+}
+
+.cover__frame::after {
+  bottom: -1px;
+  left: -1px;
+  border-bottom-width: 1px;
+  border-left-width: 1px;
+  border-bottom-left-radius: 16px;
 }
 
 .cover__inner {
@@ -497,8 +637,9 @@ body.is-zen .shell .topbar {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 100%;
-  padding: clamp(1.5rem, 4vh, 2.4rem) clamp(1.2rem, 5vw, 2.6rem);
+  justify-content: center;
+  width: min(40rem, 100%);
+  padding: 0 clamp(0.4rem, 2vw, 1.6rem);
   text-align: center;
 }
 
@@ -508,10 +649,11 @@ body.is-zen .shell .topbar {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 84px;
-  height: 84px;
-  margin-bottom: 1.05rem;
-  color: var(--accent);
+  width: clamp(56px, 8vw, 70px);
+  height: clamp(56px, 8vw, 70px);
+  margin-bottom: 1.15rem;
+  color: var(--cover-ink);
+  filter: drop-shadow(0 0 18px var(--cover-accent-glow));
 }
 
 .cover__mark svg {
@@ -523,11 +665,11 @@ body.is-zen .shell .topbar {
 
 .cover__series {
   margin: 0;
-  font-size: 0.68rem;
+  font-size: 0.72rem;
   font-weight: 500;
-  letter-spacing: 0.08em;
-  line-height: 1.8;
-  color: var(--ink-faint);
+  letter-spacing: 0.06em;
+  line-height: 1.9;
+  color: var(--cover-muted);
 }
 
 /* --- عنوان --- */
@@ -536,71 +678,64 @@ body.is-zen .shell .topbar {
   position: relative;
   isolation: isolate;
   width: 100%;
-  margin-top: 0.7rem;
-}
-
-/* هالهٔ نرم پشت عنوان — بدون تصویر خارجی. */
-.cover__head::before {
-  content: "";
-  position: absolute;
-  z-index: -1;
-  inset: -2.5rem -1rem auto;
-  height: 12rem;
-  background: radial-gradient(ellipse 50% 50% at 50% 50%, var(--accent-soft), transparent 100%);
-  pointer-events: none;
+  margin-top: 0.75rem;
 }
 
 .cover__title {
   margin: 0;
-  font-size: clamp(2.6rem, 7.5vw, 3.5rem);
-  font-weight: 700;
-  line-height: 1.15;
-  letter-spacing: -0.03em;
-  color: var(--ink);
-}
-
-.cover__subtitle {
-  max-width: 22em;
-  margin: 0.75em auto 0;
-  font-size: 0.94rem;
-  font-weight: 500;
-  line-height: 1.8;
-  color: var(--ink-soft);
+  font-size: clamp(2.9rem, 8.6vw, 5.1rem);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--cover-ink);
   text-wrap: balance;
 }
 
-/* --- پرسش جلد --- */
+/* --- خطِ طلایی زیرِ زیرعنوان --- */
+.cover__subtitle {
+  position: relative;
+  max-width: 34ch;
+  margin: 0.85rem auto 0;
+  font-size: clamp(0.96rem, 2.1vw, 1.1rem);
+  line-height: 1.95;
+  color: var(--cover-muted);
+  text-wrap: balance;
+}
+
+.cover__subtitle::after {
+  content: "";
+  display: block;
+  width: 92px;
+  height: 2px;
+  margin: 1.35rem auto 0;
+  border-radius: 999px;
+  background: linear-gradient(90deg, transparent, var(--cover-accent), transparent);
+  box-shadow: 0 0 16px var(--cover-accent-glow);
+}
+
+/* --- پرسش --- */
 
 .cover__kicker {
-  position: relative;
-  max-width: 24em;
-  margin: 1.9rem 0 0;
-  padding-top: 1.5rem;
-  font-size: clamp(1rem, 2.3vw, 1.1rem);
-  font-weight: 600;
+  max-width: 36ch;
+  margin: 0;
+  font-size: clamp(1.02rem, 2.5vw, 1.24rem);
+  font-weight: 700;
   line-height: 1.9;
-  color: var(--ink);
+  color: var(--cover-ink);
   text-wrap: balance;
 }
 
-/* خط کوتاه بالای پرسش — جداکنندهٔ نرم، نه خط سراسری */
-.cover__kicker::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 50%;
-  width: 2.2rem;
-  height: 1px;
-  background: var(--accent);
-  opacity: 0.55;
-  transform: translateX(-50%);
-}
+/* --- چهار بند --- */
 
+/* چهار بند، از یک خط شروع می‌شوند — نه وسط‌چینِ نامنظم.
+   عرضشان هم اندازهٔ بلندترین جمله است، نه ۴۸۰ پیکسل ثابت. */
 .cover__reasons {
-  display: grid;
+  display: flex;
+  flex-direction: column;
   gap: 0.3rem;
-  width: 100%;
-  max-width: 24rem;
+  align-self: center;
+  width: fit-content;
+  max-width: min(30rem, 100%);
   margin: 1.15rem 0 0;
   padding: 0;
   list-style: none;
@@ -608,23 +743,24 @@ body.is-zen .shell .topbar {
 }
 
 .cover__reasons li {
-  position: relative;
-  padding-inline-start: 1.1rem;
-  font-size: 0.92rem;
-  line-height: 1.85;
-  color: var(--ink-soft);
+  font-size: 0.93rem;
+  line-height: 1.95;
+  color: var(--cover-muted);
+  text-align: start;
 }
 
+/* خطِ کوتاهِ طلایی، چسبیده به شروعِ خودِ جمله.
+   (قبلاً نقطه با position:absolute به لبهٔ چپِ جعبه می‌چسبید و در جمله‌های
+   کوتاه تا ۲۷۴ پیکسل از متن فاصله می‌گرفت.) */
 .cover__reasons li::before {
   content: "";
-  position: absolute;
-  inset-inline-start: 0.15rem;
-  top: 0.75em;
-  width: 4px;
-  height: 4px;
-  background: var(--accent);
-  border-radius: 50%;
-  opacity: 0.5;
+  display: inline-block;
+  width: 14px;
+  height: 1px;
+  margin-inline-end: 0.6rem;
+  vertical-align: 0.3em;
+  background: var(--cover-accent);
+  opacity: 0.85;
 }
 
 /* --- دکمه --- */
@@ -633,26 +769,31 @@ body.is-zen .shell .topbar {
   display: inline-flex;
   align-items: center;
   gap: 0.55em;
-  margin-top: 1.9rem;
-  padding: 0.8em 1.9em;
+  margin-top: 1.7rem;
+  padding: 0.82em 1.9em;
   font-size: 0.95em;
-  font-weight: 600;
-  color: var(--paper);
+  font-weight: 700;
+  color: var(--cover-btn-ink);
   text-decoration: none;
-  background: var(--accent);
+  background: var(--cover-accent);
   border-radius: var(--radius-pill);
+  box-shadow: 0 10px 28px -10px var(--cover-accent-glow);
   transition:
     transform var(--dur-fast) ease,
     filter var(--dur-fast) ease;
 }
 
 .cover__start:hover {
-  filter: brightness(1.08);
+  filter: brightness(1.06);
   transform: translateY(-1px);
 }
 
+.cover__start:active {
+  transform: translateY(0);
+}
+
 .cover__start:focus-visible {
-  outline: 2px solid var(--accent);
+  outline: 2px solid var(--cover-ink);
   outline-offset: 3px;
 }
 
@@ -663,62 +804,109 @@ body.is-zen .shell .topbar {
 
 /* پیوند آرام به نقشهٔ مسیر — زیر دکمهٔ اصلی، بی‌آنکه رقابت کند */
 .cover__extras {
-  margin-top: 0.95rem;
+  margin-top: 1.05rem;
   font-size: 0.82rem;
-  color: var(--ink-faint);
-  text-decoration-color: var(--rule);
+  color: var(--cover-muted);
+  text-decoration-color: var(--cover-rule);
+  text-decoration-thickness: 1px;
   text-underline-offset: 4px;
+  transition: color var(--dur-fast) ease;
 }
 
 .cover__extras:hover {
-  color: var(--accent);
-  text-decoration-color: currentColor;
+  color: var(--cover-ink);
+  text-decoration-color: var(--cover-accent);
+}
+
+.cover__extras:focus-visible {
+  outline: 2px solid var(--cover-accent);
+  outline-offset: 4px;
+  border-radius: 2px;
 }
 
 /* --- نقشهٔ راه --- */
 
 .cover__roadmap {
+  position: relative;
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  width: 100%;
-  margin: 2rem 0 0;
-  padding: 1rem 0 0;
+  gap: 0.4rem;
+  width: min(32rem, 100%);
+  margin: 2.1rem 0 0;
+  padding: 0;
   list-style: none;
-  border-top: 1px solid var(--rule);
+}
+
+/* خطِ نازکی که چهار قدم را به هم می‌دوزد — از پشتِ ردیفِ شماره‌ها رد
+   می‌شود و اسم‌ها بالای آن می‌مانند. */
+.cover__roadmap::before {
+  content: "";
+  position: absolute;
+  inset-inline: 12%;
+  top: 13px;
+  height: 1px;
+  background: var(--cover-rule);
 }
 
 .cover__step {
+  position: relative;
   display: flex;
   flex-direction: column;
-  gap: 0.22rem;
-  padding: 0 0.3rem;
-}
-
-.cover__step + .cover__step {
-  border-inline-start: 1px solid var(--rule);
-}
-
-.cover__step-name {
-  font-size: 0.74rem;
-  font-weight: 600;
-  line-height: 1.5;
-  color: var(--ink);
+  align-items: center;
+  gap: 0.42rem;
+  min-width: 0;
 }
 
 .cover__step-num {
-  font-size: 0.68rem;
-  color: var(--ink-faint);
+  order: 1;
+}
+
+.cover__step-name {
+  order: 2;
+}
+
+.cover__step-num {
+  display: grid;
+  place-items: center;
+  min-width: 27px;
+  height: 27px;
+  padding-inline: 7px;
+  font-size: 0.76rem;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--cover-accent);
+  background: var(--cover-bg);
+  border: 1px solid var(--cover-rule);
+  border-radius: 999px;
   font-variant-numeric: tabular-nums;
+}
+
+.cover__step-name {
+  font-size: clamp(0.7rem, 1.7vw, 0.8rem);
+  font-weight: 500;
+  line-height: 1.6;
+  color: var(--cover-faint);
+  white-space: nowrap;
 }
 
 /* --- نویسنده --- */
 
 .cover__author {
-  margin: 1.7rem 0 0;
-  font-size: 0.8rem;
+  margin: 2rem 0 0;
+  font-size: 0.88rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--cover-muted);
+}
+
+.cover__author::before {
+  content: "نویسنده";
+  display: block;
+  margin-bottom: 0.25rem;
+  font-size: 0.68rem;
   font-weight: 500;
-  letter-spacing: 0.04em;
-  color: var(--ink-faint);
+  letter-spacing: 0.08em;
+  color: var(--cover-faint);
 }
 
 /* ---------- فصل ---------- */
@@ -1909,41 +2097,44 @@ body.is-zen .zen-exit:not([hidden]) {
   }
 
   .cover {
-    padding: 0;
+    padding: 1.8rem 1.1rem 2.2rem;
   }
 
   .cover__inner {
-    padding: 1.6rem 1rem 1.8rem;
+    padding: 0;
   }
 
   .cover__mark {
-    width: 66px;
-    height: 66px;
+    width: 58px;
+    height: 58px;
     margin-bottom: 0.85rem;
   }
 
   .cover__title {
-    font-size: 2.4rem;
+    font-size: clamp(2.5rem, 11vw, 3.2rem);
   }
 
-  .cover__kicker {
-    margin-top: 1.5rem;
-    padding-top: 1.3rem;
-    font-size: 0.98rem;
-  }
-
+  /* در موبایل چهار قدم زیرِ هم می‌روند؛ خطِ افقی و ستون‌بندی معنا ندارد
+     و اسم‌ها روی هم می‌افتند. */
   .cover__roadmap {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    row-gap: 0.85rem;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.5rem;
+    margin-top: 1.7rem;
+    text-align: start;
   }
 
-  .cover__step:nth-child(3) {
-    border-inline-start: 0;
+  .cover__roadmap::before {
+    display: none;
   }
 
-  .cover__step:nth-child(n + 3) {
-    padding-top: 0.85rem;
-    border-top: 1px solid var(--rule);
+  .cover__step {
+    flex-direction: row-reverse;
+    justify-content: flex-start;
+    gap: 0.6rem;
+  }
+
+  .cover__step-name {
+    white-space: normal;
   }
 
   /* در موبایل نام کارها می‌شکند؛ نوار فقط شلوغی می‌شود، عدد بماند. */
@@ -2050,6 +2241,61 @@ body.is-zen .zen-exit:not([hidden]) {
 }
 
 @media print {
+  /* جلد در چاپ سیاه‌وسفید می‌شود؛ گرادیان و درخشش طلایی روی کاغذ لکه می‌زند. */
+  .cover {
+    min-height: 0;
+    padding: 2rem 1rem;
+    background: #fff;
+    color: #000;
+  }
+
+  .cover__frame {
+    border-color: rgb(0 0 0 / 30%);
+  }
+
+  .cover__frame::before,
+  .cover__frame::after {
+    border-color: #000;
+  }
+
+  .cover__mark,
+  .cover__title,
+  .cover__kicker,
+  .cover__author {
+    color: #000;
+    filter: none;
+  }
+
+  .cover__series,
+  .cover__subtitle,
+  .cover__reasons li,
+  .cover__extras,
+  .cover__step-name,
+  .cover__author::before {
+    color: #333;
+  }
+
+  .cover__step-num {
+    color: #000;
+    background: #fff;
+    border-color: rgb(0 0 0 / 30%);
+  }
+
+  .cover__subtitle::after {
+    background: #999;
+    box-shadow: none;
+  }
+
+  .cover__start {
+    color: #fff;
+    background: #000;
+    box-shadow: none;
+  }
+
+  .cover__roadmap::before {
+    background: rgb(0 0 0 / 25%);
+  }
+
   .sidebar,
   .topbar,
   .pager,

@@ -82,8 +82,21 @@
    زغال: حالت شب مینیمال با متن کرمِ گرم
    ========================================================================== */
 
+/* ===== جلد =====
+   جلد از تم و پالت کتاب پیروی می‌کند: روشنِ گرم، تیرهٔ گرم.
+   طلایی در همهٔ پالت‌ها می‌ماند تا جلد هویت ثابت داشته باشد. */
+
 /* ===== پالت ۱ — سپیا (پیش‌فرض) ===== */
 html[data-palette="sepia"] {
+  --cover-bg: #f7f2e7;
+  --cover-ink: #241a11;
+  --cover-muted: #5f5240;
+  --cover-faint: #6f6250;
+  --cover-accent: #8a6019;
+  --cover-accent-glow: rgb(157 111 34 / 18%);
+  --cover-blue-glow: rgb(157 111 34 / 7%);
+  --cover-rule: rgb(36 26 17 / 14%);
+  --cover-btn-ink: #fffdf8;
   --bg: #f7f1e6;
   --bg-deep: #efe7d8;
   --paper: #fffcf5;
@@ -106,6 +119,15 @@ html[data-palette="sepia"] {
 }
 
 html[data-palette="sepia"][data-theme="dark"] {
+  --cover-bg: #0d0a07;
+  --cover-ink: #f7efe2;
+  --cover-muted: #a2937c;
+  --cover-faint: #98866c;
+  --cover-accent: #e3b85f;
+  --cover-accent-glow: rgb(227 184 95 / 24%);
+  --cover-blue-glow: rgb(122 162 255 / 6%);
+  --cover-rule: rgb(247 239 226 / 12%);
+  --cover-btn-ink: #14100a;
   --bg: #1c1712;
   --bg-deep: #14100c;
   --paper: #2a231b;
@@ -129,6 +151,15 @@ html[data-palette="sepia"][data-theme="dark"] {
 
 /* ===== پالت ۲ — مهتاب (خاکستری‌سرد) ===== */
 html[data-palette="moon"] {
+  --cover-bg: #f2f5f9;
+  --cover-ink: #12161c;
+  --cover-muted: #55606e;
+  --cover-faint: #5c656f;
+  --cover-accent: #8a6420;
+  --cover-accent-glow: rgb(138 100 32 / 16%);
+  --cover-blue-glow: rgb(80 120 190 / 7%);
+  --cover-rule: rgb(18 22 28 / 13%);
+  --cover-btn-ink: #fffdf8;
   --bg: #e4e5e7;
   --bg-deep: #d9dadd;
   --paper: #f7f7f6;
@@ -151,6 +182,15 @@ html[data-palette="moon"] {
 }
 
 html[data-palette="moon"][data-theme="dark"] {
+  --cover-bg: #0a0e14;
+  --cover-ink: #eef2f7;
+  --cover-muted: #98a4b3;
+  --cover-faint: #8592a0;
+  --cover-accent: #e3b85f;
+  --cover-accent-glow: rgb(227 184 95 / 22%);
+  --cover-blue-glow: rgb(143 176 232 / 7%);
+  --cover-rule: rgb(238 242 247 / 12%);
+  --cover-btn-ink: #14100a;
   --bg: #131417;
   --bg-deep: #0c0d0f;
   --paper: #1d1f23;
@@ -174,6 +214,15 @@ html[data-palette="moon"][data-theme="dark"] {
 
 /* ===== پالت ۳ — کاغذ (روشن و بی‌رنگ) ===== */
 html[data-palette="paper"] {
+  --cover-bg: #faf9f6;
+  --cover-ink: #15181c;
+  --cover-muted: #5a626c;
+  --cover-faint: #5f666f;
+  --cover-accent: #8f6823;
+  --cover-accent-glow: rgb(143 104 35 / 16%);
+  --cover-blue-glow: rgb(90 110 150 / 6%);
+  --cover-rule: rgb(21 24 28 / 12%);
+  --cover-btn-ink: #fffdf8;
   --bg: #eceae6;
   --bg-deep: #e1dfda;
   --paper: #fdfdfc;
@@ -196,6 +245,15 @@ html[data-palette="paper"] {
 }
 
 html[data-palette="paper"][data-theme="dark"] {
+  --cover-bg: #0b0d10;
+  --cover-ink: #f2f5f8;
+  --cover-muted: #9ea7b2;
+  --cover-faint: #8b949e;
+  --cover-accent: #e3b85f;
+  --cover-accent-glow: rgb(227 184 95 / 20%);
+  --cover-blue-glow: rgb(255 255 255 / 5%);
+  --cover-rule: rgb(242 245 248 / 12%);
+  --cover-btn-ink: #14100a;
   --bg: #121110;
   --bg-deep: #0a0a09;
   --paper: #1b1a18;
@@ -219,6 +277,15 @@ html[data-palette="paper"][data-theme="dark"] {
 
 /* ===== پالت ۴ — زغال (شب عمیق) ===== */
 html[data-palette="charcoal"] {
+  --cover-bg: #f3f4f6;
+  --cover-ink: #111316;
+  --cover-muted: #555b63;
+  --cover-faint: #5c626a;
+  --cover-accent: #8a6420;
+  --cover-accent-glow: rgb(138 100 32 / 15%);
+  --cover-blue-glow: rgb(90 100 120 / 6%);
+  --cover-rule: rgb(17 19 22 / 12%);
+  --cover-btn-ink: #fffdf8;
   --bg: #e9e8e6;
   --bg-deep: #dddcda;
   --paper: #fcfbfa;
@@ -241,6 +308,15 @@ html[data-palette="charcoal"] {
 }
 
 html[data-palette="charcoal"][data-theme="dark"] {
+  --cover-bg: #08090b;
+  --cover-ink: #edeff2;
+  --cover-muted: #939aa3;
+  --cover-faint: #858c95;
+  --cover-accent: #e3b85f;
+  --cover-accent-glow: rgb(227 184 95 / 18%);
+  --cover-blue-glow: rgb(255 255 255 / 4%);
+  --cover-rule: rgb(237 239 242 / 11%);
+  --cover-btn-ink: #14100a;
   --bg: #0a0a0a;
   --bg-deep: #050505;
   --paper: #121212;
