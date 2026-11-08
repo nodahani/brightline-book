@@ -70,7 +70,7 @@ function coverSeries(meta) {
   return line ? `<p class="cover__series">${escapeHtml(line)}</p>` : "";
 }
 
-/** نشان جلد: کتابِ باز در حلقهٔ نازک. */
+/** نشان جلد: خطِ روشن از میان حلقه (نشان برند «خط روشن»). */
 const coverMark = () => `
   <div class="cover__mark">
     <svg viewBox="0 0 72 72" aria-hidden="true">
