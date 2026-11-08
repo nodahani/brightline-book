@@ -201,7 +201,7 @@ const START_PLAN = [
         why: "بخش بزرگی از بدافزارها از تبلیغ‌های آلوده می‌آیند.",
         minutes: 10,
         chapter: "03-morur",
-        heading: "۴.۱",
+        heading: "۴.۴",
       },
     ],
   },
